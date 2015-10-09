@@ -17,10 +17,10 @@ class UserProfile(models.Model):
     #avatar = models.ImageField(upload_to=_path_to_avatar, blank=True, default='', max_length=257)
     followers = models.ManyToManyField('self', through='FollowShip',
                                 through_fields=('followee', 'follower'),
-                                related_name='following')
+                                related_name='following', symmetrical=False)
 
 
 class FollowShip(models.Model):
-    follower = models.ForeignKey(UserProfile)
-    followee = models.ForeignKey(UserProfile)
+    follower = models.ForeignKey(UserProfile, related_name='follower')
+    followee = models.ForeignKey(UserProfile, related_name='followee')
     time = models.DateTimeField(auto_now=True)
