@@ -1,4 +1,4 @@
-from django.contrib.auth import login, logout
+
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.admin.forms import AdminAuthenticationForm
 from django.views.generic import FormView, View, CreateView, DetailView, UpdateView, DeleteView, TemplateView, ListView
@@ -10,6 +10,8 @@ from django.utils.decorators import method_decorator
 from . import forms
 from apps.categories.models import Category
 from apps.books.models import Book
+from apps.requestbooks.models import RequestedBook
+from apps.users.models import UserProfile
 
 class BaseView(View):
     """docstring for BaseView"""
@@ -193,7 +195,44 @@ class BookDeleteView(BaseView, DeleteView):
 
     def get_success_url(self):
         return reverse('admin:list_book')
-        
+
+############################################################################
+############################################################################
+############################################################################
+# Requested Book
+
+class RequestedBookView(BaseView, ListView):
+    """docstring for RequestedBookView"""
+    context_object_name = 'list_requested_book'
+    template_name = 'admin/requested_book_index.html'
+
+    def get_queryset(self):
+        return RequestedBook.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(RequestedBookView, self).get_context_data(**kwargs)
+        info = {
+            'title': 'Requested - Book Review System',
+            'sidebar': ['requested_book']
+        }
+        context['info'] = info
+        return context
+
+class RequestedBookDeleteView(BaseView, DeleteView):
+    """docstring for RequestedBookDeleteView"""
+    model = User
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('admin:list_requested_book')
+
+class RequestedBookDetailView(BaseView, DetailView):
+    """docstring for RequestedBookDetailView"""
+    def __init__(self, arg):
+        super(RequestedBookDetailView, self).__init__()
+        self.arg = arg
 
 ############################################################################
 ############################################################################

@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'apps.categories',
     'apps.comments',
     'apps.users',
+    'apps.requestbooks'
 )
 
 MIDDLEWARE_CLASSES = (
