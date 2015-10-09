@@ -1,0 +1,107 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>{{ info.title }}</title>
+    <!-- Mobile Devices Viewport Resset-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- <meta name="viewport" content="initial-scale=1.0, user-scalable=1" /> -->
+    <!--[if lt IE 9]>
+    <script src="html5shiv.js"></script>
+    <![endif]-->
+    <!-- <link rel='stylesheet' id='pexeto-style-switcher-css-css' href="css/style-switcher.css" type='text/css' media='all' /> -->
+    <!-- <link rel='stylesheet' id='pexeto-colorpicker-css-css' href="css/colorpicker.css" type='text/css' media='all' /> -->
+    <!-- <link rel='stylesheet' id='woocommerce-layout-css' href="css/woocommerce-layout.css" type='text/css' media='all' />
+    <link rel='stylesheet' id='woocommerce-smallscreen-css' href="css/woocommerce-smallscreen.css" type='text/css' media='only screen and (max-width: 768px)' /> -->
+    <!-- <link rel='stylesheet' id='pexeto-woocommerce-css' href="css/woocommerce.css" type='text/css' media='all' /> -->
+    
+    <link rel='stylesheet' href="{% static 'user/css/frontend.css' %}" type='text/css' media='all' />
+    <link rel='stylesheet' href="{% static 'user/css/pagenavi-css.css' %}" type='text/css' media='all' />
+    <link rel='stylesheet' href="{% static 'user/css/prettyPhoto.css' %}" type='text/css' media='all' />
+    <link rel='stylesheet' href="{% static 'user/css/style.css' %}" type='text/css' media='all' />
+
+    <link media="all" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans%3A400%2C300%2C400italic%2C700&ver=4.3" rel="stylesheet" />
+    <link media="all" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat%3A400%2C700&ver=4.3" rel="stylesheet" />
+    <link media="all" type="text/css" href="http://fonts.googleapis.com/css?family=Abril+Fatface&ver=4.3" rel="stylesheet" />
+    <link media="all" type="text/css" href="http://fonts.googleapis.com/css?family=Lato%3A100%2C300&ver=4.3" rel="stylesheet" />
+    <link media="all" type="text/css" href="http://fonts.googleapis.com/css?family=Oswald&ver=4.3" rel="stylesheet" />
+    <link media="all" type="text/css" href="http://fonts.googleapis.com/css?family=Old+Standard+TT%3A400%2C700&ver=4.3" rel="stylesheet" />
+    
+    <!--[if lte IE 8]>
+    <link rel='stylesheet' id='pexeto-ie8-css'  href="css/style_ie8.css"  type='text/css' media='all' />
+    <![endif]-->
+
+    {% block 'css' %}
+    {% endblock %}    
+</head>
+
+<body class="page page-template fixed-header contains-posts no-slider icons-style-light parallax-header fixed-header-scroll">
+    <div id="main-container">
+        <div class="page-wrapper">
+            {% include 'layout/header.html' %}            
+
+            <div id="content-container" class="content-boxed layout-right blog-twocolumn blog-twocolumn-sidebar">
+                <div id="content" class="content">
+                    {% block 'content' %}
+                    {% endblock %}
+                </div>
+                                
+                {% include 'layout/sidebar.html' %}
+                
+                <div class="clear"></div>
+            </div>
+        </div>
+        
+        {% include 'layout/footer.html' %}
+    </div>
+
+    <script type='text/javascript' src="{% static 'user/js/jquery-1.11.3.min.js' %}"></script>
+    <script type='text/javascript' src="{% static 'user/js/jquery-migrate.min.js?ver=1.2.1.js' %}"></script>
+    <script type='text/javascript' src="{% static 'user/js/jquery.cookie.min.js' %}"></script>
+    <script type='text/javascript' src="{% static 'user/js/masonry.js' %}"></script>
+    <script type='text/javascript' src="{% static 'user/js/main.js' %}"></script>
+    <script type="text/javascript ">
+        var PEXETO = PEXETO || {};
+
+        PEXETO.disableRightClick = false;
+        PEXETO.stickyHeader = true;
+        jQuery(document).ready(function($) {
+            PEXETO.init.initSite();
+            // PEXETO.woocommerce.init(true);
+            PEXETO.init.blogMasonry(3);
+            // PEXETO.init.nivoSlider($("#post-gallery-206 "), {
+            //     "interval ": 3000,
+            //     "speed ": 400,
+            //     "autoplay ": true,
+            //     "pauseOnHover ": true,
+            //     "buttons ": true,
+            //     "arrows ": true
+            // });
+            // $(".pexeto-contact-form ").each(function() {
+            //     $(this).pexetoContactForm({
+            //         "wrongCaptchaText ": "The text you have entered did not match the text on the image. Please try again. ",
+            //         "failText ": "An error occurred. Message not sent. ",
+            //         "validationErrorText ": "Please complete all the fields correctly ",
+            //         "messageSentText ": "Message sent ",
+            //         "captcha ": true
+            //     });
+            // });
+        });
+    </script>
+    <!--
+    <script type="text/javascript " src="conversion.js "> </script>-->
+    <noscript>
+        <div style="display:inline; ">
+            <img height="1 " width="1 " style="border-style:none; " alt=" " src="imgs/274463805.gif" />
+        </div>
+    </noscript>
+
+    {% block 'js' %}
+    {% endblock %}
+</body>
+
+</html>
