@@ -1,4 +1,15 @@
+{% load staticfiles %}
+
 <div id="sidebar" class="sidebar">
+    <aside class="sidebar-box">
+        <h4 class="title">Categories</h4>
+        <ul class="tags">
+            {% for category in list_category %}
+                <li><a href="#">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </aside>
+
     <aside class="sidebar-box widget_search" id="search-3">
         <h4 class="title">Search</h4>
         <div class="search-wrapper">
@@ -8,145 +19,42 @@
             </form>
         </div>
     </aside>
+   
     <aside class="sidebar-box widget_categories" id="categories-3">
-        <h4 class="title">Truyện đọc nhiều</h4>
-        <!--<ul>
-            <li class="cat-item cat-item-13">
-                <a href="#category/featured/">Featured</a><span class="cat-number">
-                    (3)
-                </span>
-            </li>
-            <li class="cat-item cat-item-12">
-                <a href="#category/general/">General</a><span class="cat-number">
-                    (5)
-                </span>
-            </li>
-            <li class="cat-item cat-item-76">
-                <a href="#category/photography/">Photography</a><span class="cat-number">
-                    (1)
-                </span>
-            </li>
-            <li class="cat-item cat-item-18">
-                <a href="#category/productivity/">Productivity</a><span class="cat-number">
-                    (4)
-                </span>
-            </li>
-            <li class="cat-item cat-item-16">
-                <a href="#category/videos/">Videos</a><span class="cat-number">
-                    (2)
-                </span>
-            </li>
-        </ul>-->
+        <h4 class="title">Recommendations Book</h4>
         <div class="sidebar-latest-posts">
-            <div class="lp-wrapper">
-                <a href="#how-to-have-the-best-vacation/">
-                    <img src="uploads/miengdocthanhdoiI8Dam9thHn.jpg" alt="" class="alignleft img-frame" width="55">
-                </a>
-                <div class="lp-info-wrapper">
-                    <span class="lp-title"><a href="#">Miệng độc thành đôi</a> <small style="display:block;">Chương 99: abc xyz</small></span>
-                    <span class="lp-post-info">Sep 11th, 2015 </span>
+            {% for book in list_book_recommendations %}
+                <div class="lp-wrapper">
+                    <a href="/{{ book.id }}-{{ book.slug }}">
+                        <img src="{% static "upload/miengdocthanhdoiI8Dam9thHn.jpg" %}" alt="" class="alignleft img-frame" width="55">
+                    </a>
+                    <div class="lp-info-wrapper">
+                        <span class="lp-title"><a href="/{{ book.id }}-{{ book.slug }}">{{ book.title }}</a> <small style="display:block;">Author: {{ book.author }}</small></span>
+                        <span class="lp-post-info">{{ book.publish_date }} </span>
+                        <div class="clear"></div>
+                    </div>
                     <div class="clear"></div>
                 </div>
-                <div class="clear"></div>
-            </div>
-            <div class="lp-wrapper">
-                <a href="#how-to-have-the-best-vacation/">
-                    <img src="uploads/thienbangtunghoanh5lHy7E4IeQ.jpg" alt="" class="alignleft img-frame" width="55">
-                </a>
-                <div class="lp-info-wrapper">
-                    <span class="lp-title"><a href="#">Thiên Bằng Tung Hoành</a> <small style="display:block;">Chương 99: abc xyz</small></span>
-                    <span class="lp-post-info">July 10th, 2015 </span>
-                    <div class="clear"></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <div class="lp-wrapper">
-                <a href="#how-to-have-the-best-vacation/">
-                    <img src="uploads/tiennghichVPnaC8NICo.png" alt="" class="alignleft img-frame" width="55">
-                </a>
-                <div class="lp-info-wrapper">
-                    <span class="lp-title"><a href="#">Tiên Nghịch</a> <small style="display:block;">Chương 60: abc xyz</small></span>
-                    <span class="lp-post-info">Aug 2th, 2015 </span>
-                    <div class="clear"></div>
-                </div>
-                <div class="clear"></div>
-            </div>
+            {% endfor %}
         </div>
     </aside>
-    <!--<aside class="sidebar-box widget_story_portfolio_items" id="story_portfolio_items-2">
-        <h4 class="title">Latest Projects</h4>
-        <ul class="portfolio-items-widget">
-            <li>
-                <a href="#portfolio/video-item/"><img src="imgs/nab-nv-small-90x90.jpg" class="img-frame" alt="Video Item"></a>
-            </li>
-            <li>
-                <a href="#portfolio/sound-essential/"><img src="imgs/shutterstock_168848894-tall-90x90.jpg" class="img-frame" alt="Sound Essential "></a>
-            </li>
-            <li>
-                <a href="#portfolio/street-photography/"><img src="imgs/smile-tall-90x90.jpg" class="img-frame" alt="Street Photography"></a>
-            </li>
-            <li>
-                <a href="#portfolio/on-the-street/"><img src="imgs/2947294095_992a7fd836_o-copy1-90x90.jpg" class="img-frame" alt="On The Street"></a>
-            </li>
-            <li>
-                <a href="#portfolio/blue-folder-design/"><img src="imgs/Branding-Identity-nvl-90x90.jpg" class="img-frame" alt="Blue Folder Design"></a>
-            </li>
-            <li>
-                <a href="#portfolio/branding-identity/"><img src="imgs/Branding-Identity-nv-90x90.jpg" class="img-frame" alt="Branding Identity"></a>
-            </li>
-            <li>
-                <a href="#portfolio/embroidered-branding/"><img src="imgs/Embroidered-Logo-nv-90x90.jpg" class="img-frame" alt="Embroidered Branding"></a>
-            </li>
-            <li>
-                <a href="#portfolio/business-cards-design/"><img src="imgs/Business-Card-nv-90x90.jpg" class="img-frame" alt="Business Cards Design"></a>
-            </li>
-        </ul>
-    </aside>-->
+   
     <aside class="sidebar-box widget_text" id="text-2">
-        <h4 class="title">Truyện được đề cử</h4>
+        <h4 class="title">Top Review</h4>
         <div class="sidebar-latest-posts">
-            <div class="lp-wrapper">
-                <a href="#how-to-have-the-best-vacation/">
-                    <img src="uploads/miengdocthanhdoiI8Dam9thHn.jpg" alt="" class="alignleft img-frame" width="55">
-                </a>
-                <div class="lp-info-wrapper">
-                    <span class="lp-title"><a href="#">Miệng độc thành đôi</a> <small style="display:block;">Chương 99: abc xyz</small></span>
-                    <span class="lp-post-info">Sep 11th, 2015 </span>
+            {% for book in list_top_review %}
+                <div class="lp-wrapper">
+                    <a href="/{{ book.id }}-{{ book.slug }}">
+                        <img src="{% static "upload/miengdocthanhdoiI8Dam9thHn.jpg" %}" alt="" class="alignleft img-frame" width="55">
+                    </a>
+                    <div class="lp-info-wrapper">
+                        <span class="lp-title"><a href="#">{{ book.title }}</a> <small style="display:block;">Author: {{ book.author }}</small></span>
+                        <span class="lp-post-info">{{ book.publish_date }} </span>
+                        <div class="clear"></div>
+                    </div>
                     <div class="clear"></div>
                 </div>
-                <div class="clear"></div>
-            </div>
-            <div class="lp-wrapper">
-                <a href="#how-to-have-the-best-vacation/">
-                    <img src="uploads/thienbangtunghoanh5lHy7E4IeQ.jpg" alt="" class="alignleft img-frame" width="55">
-                </a>
-                <div class="lp-info-wrapper">
-                    <span class="lp-title"><a href="#">Thiên Bằng Tung Hoành</a> <small style="display:block;">Chương 99: abc xyz</small></span>
-                    <span class="lp-post-info">July 10th, 2015 </span>
-                    <div class="clear"></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <div class="lp-wrapper">
-                <a href="#how-to-have-the-best-vacation/">
-                    <img src="uploads/tiennghichVPnaC8NICo.png" alt="" class="alignleft img-frame" width="55">
-                </a>
-                <div class="lp-info-wrapper">
-                    <span class="lp-title"><a href="#">Tiên Nghịch</a> <small style="display:block;">Chương 60: abc xyz</small></span>
-                    <span class="lp-post-info">Aug 2th, 2015 </span>
-                    <div class="clear"></div>
-                </div>
-                <div class="clear"></div>
-            </div>
+            {% endfor %}
         </div>
-    </aside>
-    <aside class="sidebar-box">
-        <h4 class="title">Tags</h4>
-        <ul class="tags">
-            <li><a href="#">Tiên Nghịch</a></li>
-            <li><a href="#">Bàn Long</a></li>
-            <li><a href="#">Tinh Thần Biến</a></li>
-            <li><a href="#">Đấu phá thương khung</a></li>
-        </ul>
-    </aside>
+    </aside>    
 </div>
