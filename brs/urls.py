@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^admin/', include('apps.admin.urls', namespace='admin')),
     url(r'^users/', include('apps.users.urls', namespace='users')),
     url(r'^books/', include('apps.books.urls', namespace='books')),
+    url(r'^request/', include('apps.requestbooks.urls', namespace='request')),
 ]

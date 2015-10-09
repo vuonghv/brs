@@ -42,7 +42,15 @@ class LoginUser(FormView):
         else:
             return super().get(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['next'] = self.request.GET.get('next', False)
+        return context
+
     def get_success_url(self):
+        nextlink = self.request.POST.get('next', False)
+        if nextlink:
+            return nextlink
         return reverse_lazy('books:index')
 
     def form_valid(self, form):

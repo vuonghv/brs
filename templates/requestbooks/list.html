@@ -1,0 +1,15 @@
+{% extends 'layout/base.html' %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}
+    {% for request in object_list %}
+        {# TODO #}
+    {% empty %}
+        <p>You have no request books.</p>
+    {% endfor %}
+{% endblock %}
+
+{% block 'js' %}
+{% endblock %}
