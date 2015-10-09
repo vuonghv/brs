@@ -4,11 +4,19 @@
 {% endblock %}
 
 {% block 'content' %}
-    {% for request in object_list %}
-        {# TODO #}
-    {% empty %}
-        <p>You have no request books.</p>
-    {% endfor %}
+    {% if object_list %}
+        <table>
+        {% for request in object_list %}
+            <tr>
+                <td><a href="#">{{ request.title }}</a></td>
+                <td><a href="#">Update</a></td>
+                <td><a href="#">Delete</a></td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+    <p>You have no request books.</p>
+    {% endif %}
 {% endblock %}
 
 {% block 'js' %}
