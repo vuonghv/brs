@@ -1,0 +1,47 @@
+{% load staticfiles %}
+
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="{% static "backend/dist/img/avatar5.png" %}" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>Framgia</p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+            <li class="header">MAIN NAVIGATION</li>
+            <li class="{% if 'dashboard' in info.sidebar %} active {% endif %}">
+                <a href="/admin">
+                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="{% if 'category' in info.sidebar %} active {% endif %}">
+                <a href="/admin/category">
+                <i class="fa fa-list"></i> <span>Category</span>
+                </a>
+            </li>
+            <li class="{% if 'book' in info.sidebar %} active {% endif %}">
+                <a href="/admin/book">
+                <i class="fa fa-lightbulb-o"></i> <span>Book</span>
+                </a>
+            </li>
+            <li class="{% if 'request' in info.sidebar %} active {% endif %}">
+                <a href="/admin/request">
+                <i class="fa fa-tag"></i> <span>Request Buy Book</span>
+                </a>
+            </li>
+            <li class="{% if 'user' in info.sidebar %} active {% endif %}">
+                <a href="/admin/user">
+                <i class="fa fa-user"></i> <span>User</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

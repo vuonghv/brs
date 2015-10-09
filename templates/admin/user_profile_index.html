@@ -1,0 +1,65 @@
+{% extends 'admin/layout/base.html' %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            User
+            <small>List</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Task</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-danger">
+                    
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Date Join</th>
+                                <th>Last Login</th>
+                                <th class="text-center" style="width: 140px">Action</th>
+                            </tr>
+                            {% for item in list_user %}
+                                <tr>
+                                    <td>{{ item.user.id }}.</td>
+                                    <td>
+                                        <a href="/admin/user/detail?id={{ item.user.id }}">
+                                            <span>{{ item.user.username }}</span>
+                                        </a>
+                                    </td>
+                                    <td>{{ item.user.email }}</td>
+                                    <td>{{ item.user.date_joined|date:'d/m/Y' }}</td>
+                                    <td>{{ item.user.last_login|date:'d/m/Y H:M:s' }}</td>
+                                    <td class="text-center">
+                                        <a href="#" data-href="/admin/user/delete/{{ item.user.id }}" data-toggle="modal" data-target="#confirm-delete">
+                                            <span class="badge bg-red">Delete</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block 'js' %}
+{% endblock %}
