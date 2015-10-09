@@ -39,8 +39,12 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # Project's apps
-    'admin',
-    'debug_toolbar',
+    'apps.admin',
+    'apps.books',
+    'apps.reviews',
+    'apps.categories',
+    'apps.comments',
+    'apps.users',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -80,8 +84,12 @@ WSGI_APPLICATION = 'brs.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'book_review_system',
+        'HOST': '127.0.0.1',
+        'USER': 'root',
+        'PASSWORD': 'abc!@#ABC',
+        'PORT': '3306',
     }
 }
 
@@ -108,5 +116,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static'),
 )
-
-LOGIN_URL = '/admin/login/'
