@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.views.generic import ListView, TemplateView
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.views.generic import ListView, DetailView
 from django.views.generic.detail import ContextMixin
 
 from apps.core.views import BaseView
@@ -20,5 +20,18 @@ class HomePageView(BaseView, ListView):
             }
         }
         context.update(info)
-        return context     
+        return context
+
+class DetaiView(BaseView, DetailView):
+    """docstring for DetaiView"""
+    model = Book
+    template_name = 'books/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        info = {
+            'title': 'Book Review System'
+        }
+        context.update(info)
+        return context
 
