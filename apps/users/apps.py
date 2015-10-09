@@ -2,8 +2,8 @@ from django.apps import AppConfig
 
 
 class UsersAppConfig(AppConfig):
-    name = 'users'
+    name = 'apps.users'
     verbose_name = "User's Profile"
 
     def ready(self):
-        from . import signals
+        from apps.users import signals

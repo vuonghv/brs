@@ -4,7 +4,7 @@ from django.contrib.auth.forms import (
         UserCreationForm,
         AuthenticationForm,
 )
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, FormView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.core.urlresolvers import reverse_lazy, reverse
@@ -19,7 +19,7 @@ from django.contrib import messages
 
 class SignupUser(CreateView):
     model = django_apps.get_model(settings.AUTH_USER_MODEL)
-    form_class = UserCreateForm
+    form_class = UserCreationForm
     template_name = 'users/signup.html'
 
     def get_success_url(self):

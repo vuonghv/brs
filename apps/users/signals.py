@@ -1,13 +1,13 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_delete, post_save
 from django.contrib.auth.signals import user_logged_in
-from django.conf import Settings
+from django.conf import settings
 from django.apps import apps
 
-from users.models import UserProfile
+from apps.users.models import UserProfile
 
 
-@receiver(post_save, sender=apps.get_model(Settings.AUTH_USER_MODEL))
+@receiver(post_save, sender=apps.get_model(settings.AUTH_USER_MODEL))
 def create_user_profile(sender, instance, created, **kwargs):
     if not created:
         return
