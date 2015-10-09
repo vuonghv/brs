@@ -1,4 +1,3 @@
-
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.admin.forms import AdminAuthenticationForm
 from django.views.generic import FormView, View, CreateView, DetailView, UpdateView, DeleteView, TemplateView, ListView
