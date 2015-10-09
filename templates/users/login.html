@@ -1,0 +1,25 @@
+{% extends 'layout/base.html' %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}
+    {% if messages %}
+        <div class="row">
+            <div class="col-md-6 col-md-offset-2">
+                {% for msg in messages %}
+                    <div class="{{ msg.tags|default:'' }}">{{ msg }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <form action="{% url 'users:login' %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Log in" />
+    </form>
+{% endblock %}
+
+{% block 'js' %}
+{% endblock %}

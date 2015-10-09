@@ -1,0 +1,15 @@
+{% extends 'layout/base.html' %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}
+    <form action="{% url 'users:signup' %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Sign up" class="btn btn-success" />
+    </form>
+{% endblock %}
+
+{% block 'js' %}
+{% endblock %}
