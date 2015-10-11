@@ -4,7 +4,7 @@
     <header id="header">
         <div class="section-boxed section-header">
             <div id="logo-container">
-                <a href="#"><img src="{% static 'user/imgs/logo@2x.png' %}" alt="Book Review System"></a>
+                <a href="/"><img src="{% static 'user/imgs/logo@2x.png' %}" alt="Book Review System"></a>
             </div>
             <div class="mobile-nav">
                 <span class="mob-nav-btn">Menu</span>
@@ -19,7 +19,7 @@
                             <a href="#">Categories<span class="drop-arrow"></span></a>
                             <ul class="sub-menu mega-columns-4">
                                 {% for category in list_category %}
-                                    <li class="menu-item"><a href="#">{{ category.name }}</a></li>
+                                    <li class="menu-item"><a href="/categories/{{ category.id }}">{{ category.name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </li>

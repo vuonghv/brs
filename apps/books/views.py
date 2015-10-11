@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.detail import ContextMixin
 
 from apps.core.views import BaseView
@@ -22,15 +22,17 @@ class HomePageView(BaseView, ListView):
         context.update(info)
         return context
 
-class DetaiView(BaseView, DetailView):
+class DetaiBookView(BaseView, DetailView):
     """docstring for DetaiView"""
     model = Book
     template_name = 'books/detail.html'
 
     def get_context_data(self, **kwargs):
-        context = super(DetailView, self).get_context_data(**kwargs)
+        context = super(DetaiBookView, self).get_context_data(**kwargs)
         info = {
-            'title': 'Book Review System'
+            'info': {
+                'title': self.object.title
+            }
         }
         context.update(info)
         return context
