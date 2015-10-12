@@ -1,11 +1,16 @@
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.views.generic import ListView, DetailView, TemplateView, FormView
+from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView, UpdateView
 from django.db.models import Q
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
+from apps.books.forms import *
 from apps.core.views import BaseView
-from apps.books.models import Book   
+from apps.books.models import Book, UserProfileBook
 from apps.reviews.views import CreateReviewView
 from apps.reviews.models import Review
+
 
 class HomePageView(BaseView, ListView):
     """docstring for HomePageView"""
@@ -39,6 +44,14 @@ class DetaiBookView(BaseView, DetailView):
         context['reviews'] = Review.objects.filter(
                                 book=self.object
                                 ).order_by('-updated_time')
+        if self.request.user.is_authenticated():
+            try:
+                context['status_read'] = UserProfileBook.objects.get(
+                                    book=self.object,
+                                    user_profile=self.request.user.profile)
+            except UserProfileBook.DoesNotExist:
+                context['status_read'] = None
+
         return context
 
     def get(self, request, *args, **kwargs):
@@ -67,7 +80,6 @@ class RecommendationsBookView(BaseView, ListView):
         context.update(info)
         return context
         
-
 class SearchBookView(BaseView, ListView):
     """docstring for SearchBookView"""
     model = Book
@@ -94,10 +106,40 @@ class FavoriteBookView(BaseView, FormView):
         super(FavoriteBookView, self).__init__()
         self.arg = arg
         
+class UpdateReadBookView(BaseView, UpdateView):
+    """docstring for UpdateReadBookView"""
+    model = UserProfileBook
+    form_class = UserProfileBookForm
+        
+    def get_success_url(self):
+        id = self.request.POST.get('book', None)
+        slug = self.request.POST.get('slug', None)
+        return reverse('books:detail', kwargs={'pk': id, 'slug': slug})
 
-class ReadBookView(BaseView):
+class ReadBookView(BaseView, CreateView):
     """docstring for ReadBookView"""
-    def __init__(self, arg):
-        super(ReadBookView, self).__init__()
-        self.arg = arg
+    model = UserProfileBook
+    form_class = UserProfileBookForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ReadBookView, self).dispatch(request, *args, **kwargs)
+
+    # def post(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     if UserProfileBook.filter(book__id=self.request.POST.get('book', None),
+    #                                 user_profile=request.user.profile).exists():
+    #         super(UpdateReadBookView, self).post(request)
+
+    # def form_valid(self, form):
+    #     self.object = form.save(commit=False)
+    #     self.object.course = self.course
+    #     self.object.save()
+    #     return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        id = self.request.POST.get('book', None)
+        slug = self.request.POST.get('slug', None)
+        return reverse('books:detail', kwargs={'pk': id, 'slug': slug})
+    
         

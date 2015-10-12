@@ -14,6 +14,7 @@ class Book(models.Model):
     description = models.TextField(blank=True, default='')
     categories = models.ManyToManyField(Category, db_table='category_book', related_name='books')
     favourites = models.ManyToManyField(UserProfile, db_table='favourites', related_name='liked_books')
+    user_profile = models.ManyToManyField(UserProfile, through='UserProfileBook', related_name='book')
 
     class Meta:
         db_table = 'book'
@@ -27,7 +28,6 @@ class Book(models.Model):
         for review in reviews:
             rating += review.rating
         return round(rating / total)
-
 
 class UserProfileBook(models.Model):
     READING = 1

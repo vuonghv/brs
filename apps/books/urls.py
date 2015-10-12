@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)-(?P<slug>[\w-]+)/$', views.DetaiBookView.as_view(), name='detail'),
     url(r'^search/$', views.SearchBookView.as_view(), name='search'),
     url(r'^recommendations/$', views.RecommendationsBookView.as_view(), name='recommendations'),
+    url(r'^read/$', views.ReadBookView.as_view(), name='read'),
 ]

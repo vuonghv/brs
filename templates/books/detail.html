@@ -14,12 +14,18 @@
                 <h1 itemprop="name" class="product_title entry-title">{{ object.title }}</h1>
                 <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                     <p>
-                        <span>Read: </span>
-                        <select class="mark-read">
-                            <option>Want to read</option>
-                            <option>Read</option>
-                            <option>Reading</option>
-                        </select>
+                        <form method="POST" action="{% url 'books:read' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="slug" value="{{ object.slug }}">
+                            <input type="hidden" name="user_profile" value="{{ request.user.id }}">
+                            <input type="hidden" name="book" value="{{ object.id }}">
+                            <span>Read: </span>
+                            <select name="status" id="read" class="mark-read">
+                                <option>Want to read</option>
+                                <option {% if status_read and status_read.status == 1 %} selected {% endif %} value="1">Reading</option>
+                                <option {% if status_read and status_read.status == 2 %} selected {% endif %} value="2">Read</option>
+                            </select>
+                        </form>
                     </p>
                     <p>
                         {% if object.favourites.all|length > 0 %}
@@ -74,6 +80,7 @@
                                 {% endfor %}
                             </ol>
                         </div>
+                        {% if request.user.is_authenticated %}
                         <div id="review_form_wrapper">
                             <div id="review_form">
                                 <div id="respond" class="comment-respond">
@@ -110,6 +117,7 @@
                                 <!-- #respond -->
                             </div>
                         </div>
+                        {% endif %}
                         <div class="clear"></div>
                     </div>
                 </div>
@@ -128,4 +136,11 @@
 {% endblock %}
 
 {% block 'js' %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#read').on('change', function() {
+                this.form.submit();
+            });
+        });
+    </script>
 {% endblock %}
