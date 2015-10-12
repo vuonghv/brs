@@ -9,7 +9,7 @@ from . import models
 class ListCategoryView(BaseView, ListView):
     """docstring for ListCategoryView"""
     model = Book
-    template_name = 'categories/index.html'
+    template_name = 'books/index.html'
     context_object_name = 'list_book'
 
     def get_queryset(self):

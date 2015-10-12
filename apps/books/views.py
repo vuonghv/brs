@@ -36,10 +36,30 @@ class DetaiBookView(BaseView, DetailView):
         context.update(info)
         return context
 
+class RecommendationsBookView(BaseView, ListView):
+    """docstring for RecommendationsBookView"""
+    model = Book
+    context_object_name = 'list_book'
+    template_name = 'books/index.html'
+
+    def get_queryset(self):
+        return Book.objects.order_by('-id', 'favourites')
+
+    def get_context_data(self, **kwargs):
+        context = super(RecommendationsBookView, self).get_context_data(**kwargs)
+        info = {
+            'info': {
+                'title': "Recommendations - Book Review"
+            }
+        }
+        context.update(info)
+        return context
+        
+
 class SearchBookView(BaseView, ListView):
     """docstring for SearchBookView"""
     model = Book
-    template_name = 'books/search.html'
+    template_name = 'books/index.html'
     context_object_name = 'list_book'
 
     def get_queryset(self):
