@@ -19,8 +19,10 @@ class Book(models.Model):
         db_table = 'book'
 
     def get_rating(self):
-        reviews = Review.objects.filter(book=self)
+        reviews = Review.objects.filter(book=self)        
         total = reviews.count()
+        if total == 0:
+            return 0
         rating = 0
         for review in reviews:
             rating += review.rating
