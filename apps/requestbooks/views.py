@@ -55,7 +55,7 @@ class DetailRequestView(LoginRequiredMixin, DetailView):
         return context
 
 
-class CancelRequestView(SingleObjectMixin, TemplateView):
+class CancelRequestView(LoginRequiredMixin, SingleObjectMixin, TemplateView):
     model = RequestedBook
     template_name = 'requestbooks/cancel.html'
 
@@ -82,7 +82,7 @@ class CancelRequestView(SingleObjectMixin, TemplateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class UpdateRequestView(UpdateView):
+class UpdateRequestView(LoginRequiredMixin, UpdateView):
     model = RequestedBook
     template_name = 'requestbooks/update.html'
     fields = ['title', 'description', 'categories']

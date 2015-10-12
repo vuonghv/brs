@@ -220,7 +220,7 @@ class RequestedBookView(BaseView, ListView):
 
 class RequestedBookDeleteView(BaseView, DeleteView):
     """docstring for RequestedBookDeleteView"""
-    model = User
+    model = RequestedBook
 
     def get(self, request, *args, **kwargs):
         return self.delete(request, *args, **kwargs)

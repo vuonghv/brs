@@ -35,7 +35,7 @@ urlpatterns = [
     # Url requested book
     url(r'^request/$', views.RequestedBookView.as_view(), name='list_requested_book'),
     url(r'^request/update/(?P<pk>[0-9]+)/$', views.RequestedBookView.as_view(), name='update_requested_book'),
-    url(r'^request/delete/(?P<pk>[0-9]+)/$', views.RequestedBookView.as_view(), name='delete_requested_book'),
+    url(r'^request/delete/(?P<pk>[0-9]+)/$', views.RequestedBookDeleteView.as_view(), name='delete_requested_book'),
 
     #############################################################
     #############################################################
