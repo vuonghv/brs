@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView, TemplateView, FormView
 from django.db.models import Q
 
 from apps.core.views import BaseView
@@ -87,3 +87,17 @@ class SearchBookView(BaseView, ListView):
         }
         context.update(info)
         return context
+
+class FavoriteBookView(BaseView, FormView):
+    """docstring for FavoriteBookView"""
+    def __init__(self, arg):
+        super(FavoriteBookView, self).__init__()
+        self.arg = arg
+        
+
+class ReadBookView(BaseView):
+    """docstring for ReadBookView"""
+    def __init__(self, arg):
+        super(ReadBookView, self).__init__()
+        self.arg = arg
+        

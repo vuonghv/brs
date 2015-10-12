@@ -13,20 +13,36 @@
             <div class="summary entry-summary">
                 <h1 itemprop="name" class="product_title entry-title">{{ object.title }}</h1>
                 <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                    <p>
+                        <span>Read: </span>
+                        <select class="mark-read">
+                            <option>Want to read</option>
+                            <option>Read</option>
+                            <option>Reading</option>
+                        </select>
+                    </p>
+                    <p>
+                        {% if object.favourites.all|length > 0 %}
+                            <span>Favorite:</span> <a href=""><i class="fa fa-heart"></i></a>
+                        {% else %}
+                            <span>Favorite:</span> <i class="fa fa-heart-o"></i>
+                        {% endif %}                        
+                    </p>
+                    
                     <p class="price"><span class="amount">Author:</span> {{ object.author }}</p>
 
                     <div class="star-rating" title="Rated 5.00 out of 5">
-                        <span style="width:100%"><strong class="rating">{{ object.get_rating }}</strong> out of 5</span>
+                        <span style="width:100%">My Favorite: <strong class="rating">{{ object.get_rating }}</strong> out of 5</span>
                     </div>
                 </div>
                 <div class="product_meta">
                     <p><span>Publish: {{ object.publish_date }}</span></p>
                     <span class="posted_in">Category:
                         {% for cate in object.categories.all %}
-                            <a href="/categories/{{ cate.id }}" rel="tag">{{ cate.name }}</a>
+                            <a href="/categories/{{ cate.id }}" rel="tag">{{ cate.name }},</a>
                         {% endfor %}
                     </span>
-                    <p><span>Pages: {{ object.pages }}</span></p>
+                    <p><span>Pages: {{ object.pages }}</span></p>                    
                 </div>
             </div>
             <!-- .summary -->
@@ -35,8 +51,6 @@
                     <h2>Description</h2>
                     <p>{{ object.description|safe }}</p>
                 </div>
-
-                
 
                 <div style="display: block;" class="panel entry-content wc-tab" id="tab-reviews">
                     <div id="reviews">
@@ -56,7 +70,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </li>                           
+                                </li>                    
                                 {% endfor %}
                             </ol>
                         </div>
