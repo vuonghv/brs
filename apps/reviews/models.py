@@ -5,6 +5,7 @@ from apps.books.models import Book
 
 
 class Review(models.Model):
+    MAX_STARS = 5
     RATING_STARS = (
             (1, 'One star'),
             (2, 'Two stars'),

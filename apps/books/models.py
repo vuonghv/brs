@@ -1,7 +1,10 @@
+import math
+
 from django.db import models
 
 from apps.categories.models import Category
 from apps.users.models import UserProfile
+from apps.reviews.models import Review
 
 
 class Book(models.Model):
@@ -16,6 +19,13 @@ class Book(models.Model):
 
     class Meta:
         db_table = 'book'
+
+    def get_rating(self):
+        reviews = Review.objects.filter(book=self)
+        rating = 0
+        for review in reviews:
+            rating += review.rating
+        return round(rating / Review.MAX_STARS)
 
 
 class UserProfileBook(models.Model):

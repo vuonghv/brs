@@ -75,4 +75,3 @@ class SearchBookView(BaseView, ListView):
         }
         context.update(info)
         return context
-        
