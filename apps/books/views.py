@@ -1,5 +1,6 @@
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView
+from django.db.models import Q
 
 from apps.core.views import BaseView
 from apps.books.models import Book   
@@ -35,3 +36,23 @@ class DetaiBookView(BaseView, DetailView):
         context.update(info)
         return context
 
+class SearchBookView(BaseView, ListView):
+    """docstring for SearchBookView"""
+    model = Book
+    template_name = 'books/search.html'
+    context_object_name = 'list_book'
+
+    def get_queryset(self):
+        string_search = self.request.GET.get('s', None)
+        return Book.objects.filter(Q(title__icontains=string_search) | Q(categories__name__icontains=string_search)).order_by('-id')
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchBookView, self).get_context_data(**kwargs)
+        info = {
+            'info': {
+                'title': 'Search Books - Book Review'
+            }
+        }
+        context.update(info)
+        return context
+        

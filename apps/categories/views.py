@@ -13,7 +13,7 @@ class ListCategoryView(BaseView, ListView):
     context_object_name = 'list_book'
 
     def get_queryset(self):
-        return Book.objects.filter(categories__id=self.kwargs['pk'])
+        return Book.objects.filter(categories__id=self.kwargs['pk']).order_by('-id')
 
     def get_context_data(self, **kwargs):
         context = super(ListCategoryView, self).get_context_data(**kwargs)

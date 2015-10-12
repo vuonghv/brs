@@ -58,9 +58,9 @@
                 <div class="header-buttons">
                     <div class="header-search">
                         <div class="search-wrapper" style="display: none; opacity: 0;">
-                            <form role="search" method="get" class="searchform" action="">
+                            <form role="search" method="GET" class="searchform" action="{% url 'books:search' %}">
                                 <input type="text" name="s" class="search-input placeholder" placeholder="Search">
-                                <input type="submit" value="" class="search-button">
+                                <input type="submit" class="search-button">
                             </form>
                         </div>
                         <a href="#" class="header-search-btn">Search</a>

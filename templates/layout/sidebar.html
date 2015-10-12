@@ -13,9 +13,9 @@
     <aside class="sidebar-box widget_search" id="search-3">
         <h4 class="title">Search</h4>
         <div class="search-wrapper">
-            <form role="search" method="get" class="searchform" action="">
+            <form role="search" method="GET" class="searchform" action="{% url 'books:search' %}">
                 <input type="text" name="s" class="search-input placeholder" placeholder="Search">
-                <input type="submit" value="" class="search-button">
+                <input type="submit" class="search-button">
             </form>
         </div>
     </aside>
