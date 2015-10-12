@@ -20,10 +20,11 @@ class Book(models.Model):
 
     def get_rating(self):
         reviews = Review.objects.filter(book=self)
+        total = reviews.count()
         rating = 0
         for review in reviews:
             rating += review.rating
-        return round(rating / Review.MAX_STARS)
+        return round(rating / total)
 
 
 class UserProfileBook(models.Model):
