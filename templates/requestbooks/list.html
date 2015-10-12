@@ -5,12 +5,30 @@
 
 {% block 'content' %}
     {% if object_list %}
+        <a href="{% url 'requests:create' %}">Request a new book</a>
+        <h4>List of your requested books</h4>
         <table>
-        {% for request in object_list %}
             <tr>
-                <td><a href="#">{{ request.title }}</a></td>
-                <td><a href="#">Update</a></td>
-                <td><a href="#">Delete</a></td>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th></th>
+                <th></th>
+            </tr>
+        {% for req in object_list %}
+            <tr>
+                <td><a href="{% url 'requests:detail' req.pk %}">{{ req.title }}</a></td>
+                <td>{{ req.description|truncatewords:20 }}</td>
+                <td>{{ req.get_status_display }}</td>
+                <td>
+                    {% if req.is_waiting or req.is_canceled %}
+                    <a href="{% url 'requests:update' req.pk %}" class="button" >Update</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if req.is_waiting %}
+                        <a href="{% url 'requests:cancel' req.pk %}" class="button" >Cancel</a></td>
+                    {% endif %}
             </tr>
         {% endfor %}
         </table>

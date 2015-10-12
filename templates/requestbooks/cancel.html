@@ -1,0 +1,16 @@
+{% extends 'layout/base.html' %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}
+    <form action="{% url 'requests:cancel' object.pk %}" method="POST">
+        {% csrf_token %}
+        <p>Are you sure that you want to cancel "{{ object.title }}" request?</p>
+        <a href="{% url 'requests:detail' object.pk %}">Turn Back</a> 
+        <button type="submit">Confirm</button>
+    </form>
+{% endblock %}
+
+{% block 'js' %}
+{% endblock %}

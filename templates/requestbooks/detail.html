@@ -1,0 +1,19 @@
+{% extends 'layout/base.html' %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}
+    <p><a href="{% url 'requests:index' %}">&lt; turn back</a></p>
+    <p>Request ID: {{ object.id }}</p>
+    <p>Title: {{ object.title }}</p>
+    <p>Description: {{ object.description }}</p>
+    <p>Categories:
+        {% for category in categories %}
+            <a href="#">{{ category.name }}</a>,
+        {% endfor %}
+    </p>
+{% endblock %}
+
+{% block 'js' %}
+{% endblock %}

@@ -7,3 +7,6 @@ class Category(models.Model):
 
     class Meta:
         db_table = 'category'
+    
+    def __str__(self):
+        return self.name
