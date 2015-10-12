@@ -32,8 +32,9 @@
                                 <th style="width: 10px">#</th>
                                 <th>Title</th>
                                 <th>Author</th>
-                                <th>Num Of Page</th>
+                                <th>Number Of Pages</th>
                                 <th>Publish Date</th>
+                                <th>Rating</th>
                                 <th class="text-center" style="width: 200px">Action</th>
                             </tr>
                             {% for item in list_book %}
@@ -43,6 +44,7 @@
                                     <td>{{ item.author }}</td>
                                     <td>{{ item.pages }}</td>
                                     <td>{{ item.publish_date }}</td>
+                                    <td>{{ item.get_rating }}</td>
                                     <td class="text-center">                                        
                                         <a href="/admin/book/update/{{ item.id }}">
                                             <span class="badge">Update</span>
