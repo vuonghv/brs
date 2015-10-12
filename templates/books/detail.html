@@ -13,20 +13,36 @@
             <div class="summary entry-summary">
                 <h1 itemprop="name" class="product_title entry-title">{{ object.title }}</h1>
                 <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                    <p>
+                        <span>Read: </span>
+                        <select class="mark-read">
+                            <option>Want to read</option>
+                            <option>Read</option>
+                            <option>Reading</option>
+                        </select>
+                    </p>
+                    <p>
+                        {% if object.favourites.all|length > 0 %}
+                            <span>Favorite:</span> <a href=""><i class="fa fa-heart"></i></a>
+                        {% else %}
+                            <span>Favorite:</span> <i class="fa fa-heart-o"></i>
+                        {% endif %}                        
+                    </p>
+                    
                     <p class="price"><span class="amount">Author:</span> {{ object.author }}</p>
 
                     <div class="star-rating" title="Rated 5.00 out of 5">
-                        <span style="width:100%"><strong class="rating">{{ object.get_rating }}</strong> out of 5</span>
+                        <span style="width:100%">My Favorite: <strong class="rating">{{ object.get_rating }}</strong> out of 5</span>
                     </div>
                 </div>
                 <div class="product_meta">
                     <p><span>Publish: {{ object.publish_date }}</span></p>
                     <span class="posted_in">Category:
                         {% for cate in object.categories.all %}
-                            <a href="/categories/{{ cate.id }}" rel="tag">{{ cate.name }}</a>
+                            <a href="/categories/{{ cate.id }}" rel="tag">{{ cate.name }},</a>
                         {% endfor %}
                     </span>
-                    <p><span>Pages: {{ object.pages }}</span></p>
+                    <p><span>Pages: {{ object.pages }}</span></p>                    
                 </div>
             </div>
             <!-- .summary -->
@@ -35,8 +51,6 @@
                     <h2>Description</h2>
                     <p>{{ object.description|safe }}</p>
                 </div>
-
-                
 
                 <div style="display: block;" class="panel entry-content wc-tab" id="tab-reviews">
                     <div id="reviews">
@@ -55,7 +69,23 @@
                                             </div>
                                         </div>
                                     </div>
-                                </li>                           
+                                </li>
+
+                                <li itemprop="review" itemscope="" itemtype="http://schema.org/Review" class="comment even thread-even depth-1">
+                                    <div class="comment_container">
+                                        <img alt="" src="http://1.gravatar.com/avatar/dcd1ef25e108ae391338cb43b56ba8e6?s=60&amp;d=mm&amp;r=g" srcset="http://1.gravatar.com/avatar/dcd1ef25e108ae391338cb43b56ba8e6?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" height="60" width="60" style="float: left; margin-right: 10px;">
+                                        <div class="comment-text">
+                                            <p class="meta">
+                                                <strong itemprop="author">Dan</strong> – <time itemprop="datePublished" datetime="2013-06-07T12:39:04+00:00">June 7, 2013</time>:
+                                            </p>
+                                            <div itemprop="description" class="description">
+                                                <p>I thought I was buying a man holding a poster, but when it arrived it was just the poster. Cool poster though, so I’ll give it 3 stars!</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+
                             </ol>
                         </div>
                         <div id="review_form_wrapper">
