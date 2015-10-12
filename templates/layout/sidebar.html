@@ -25,11 +25,11 @@
         <div class="sidebar-latest-posts">
             {% for book in list_book_recommendations %}
                 <div class="lp-wrapper">
-                    <a href="/{{ book.id }}-{{ book.slug }}">
+                    <a href="/books/{{ book.id }}-{{ book.slug }}">
                         <img src="{% static "upload/miengdocthanhdoiI8Dam9thHn.jpg" %}" alt="" class="alignleft img-frame" width="55">
                     </a>
                     <div class="lp-info-wrapper">
-                        <span class="lp-title"><a href="/{{ book.id }}-{{ book.slug }}">{{ book.title }}</a> <small style="display:block;">Author: {{ book.author }}</small></span>
+                        <span class="lp-title"><a href="/books/{{ book.id }}-{{ book.slug }}">{{ book.title }}</a> <small style="display:block;">Author: {{ book.author }}</small></span>
                         <span class="lp-post-info">{{ book.publish_date }} </span>
                         <div class="clear"></div>
                     </div>
@@ -44,11 +44,11 @@
         <div class="sidebar-latest-posts">
             {% for book in list_top_review %}
                 <div class="lp-wrapper">
-                    <a href="/{{ book.id }}-{{ book.slug }}">
+                    <a href="/books/{{ book.id }}-{{ book.slug }}">
                         <img src="{% static "upload/miengdocthanhdoiI8Dam9thHn.jpg" %}" alt="" class="alignleft img-frame" width="55">
                     </a>
                     <div class="lp-info-wrapper">
-                        <span class="lp-title"><a href="#">{{ book.title }}</a> <small style="display:block;">Author: {{ book.author }}</small></span>
+                        <span class="lp-title"><a href="/books/{{ book.id }}-{{ book.slug }}">{{ book.title }}</a> <small style="display:block;">Author: {{ book.author }}</small></span>
                         <span class="lp-post-info">{{ book.publish_date }} </span>
                         <div class="clear"></div>
                     </div>
