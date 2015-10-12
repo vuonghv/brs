@@ -4,6 +4,8 @@ from django.db.models import Q
 
 from apps.core.views import BaseView
 from apps.books.models import Book   
+from apps.reviews.views import CreateReviewView
+from apps.reviews.models import Review
 
 class HomePageView(BaseView, ListView):
     """docstring for HomePageView"""
@@ -34,7 +36,17 @@ class DetaiBookView(BaseView, DetailView):
             }
         }
         context.update(info)
+        context['reviews'] = Review.objects.filter(
+                                book=self.object
+                                ).order_by('-updated_time')
         return context
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = CreateReviewView.as_view()
+        return view(request, *args, **kwargs)
 
 class RecommendationsBookView(BaseView, ListView):
     """docstring for RecommendationsBookView"""
