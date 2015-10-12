@@ -23,8 +23,36 @@
                                 {% endfor %}
                             </ul>
                         </li>
-                        <li class="menu-item "><a href="#">My Books</a></li>
                         <li class="menu-item "><a href="#">Recommendations</a></li>
+
+                        {% if request.user.is_authenticated %}
+                            <li class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-1342">
+                                <a href="/users/login">{{ request.user.username }}<span class="drop-arrow"></span></a>
+                                <ul style="left: 0px; display: none; opacity: 1;" class="sub-menu">
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
+                                        <a href="/users/login">My Books</a>
+                                    </li>
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
+                                        <a href="/request">Request</a>
+                                    </li>
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
+                                        <a href="/users/logout">Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-1342">
+                                <a href="/users/login">Login<span class="drop-arrow"></span></a>
+                                <ul style="left: 0px; display: none; opacity: 1;" class="sub-menu">
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
+                                        <a href="/users/login">Login</a>
+                                    </li>
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
+                                        <a href="/users/signup">Signup</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="header-buttons">

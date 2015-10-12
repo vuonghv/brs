@@ -9159,3 +9159,29 @@ div.pp_default .pp_close {
 }
 
 button, .button , input[type=\"submit\"], input[type=\"button\"], #submit, .left-arrow:hover,.right-arrow:hover, .ps-left-arrow:hover, .ps-right-arrow:hover, .cs-arrows:hover,.nivo-nextNav:hover, .nivo-prevNav:hover,.scroll-to-top:hover, .services-icon .img-container, .services-thumbnail h3:after,.pg-pagination a.current, .pg-pagination a:hover, #content-container .wp-pagenavi span.current, #content-container .wp-pagenavi a:hover, #blog-pagination a:hover,.pg-item h2:after, .pc-item h2:after, .ps-icon, .ps-left-arrow:hover, .ps-right-arrow:hover,.pc-next:hover, .pc-prev:hover, .pc-wrapper .icon-circle, .pg-item .icon-circle, .qg-img .icon-circle,.ts-arrow:hover, .section-light .section-title:before, .section-light2 .section-title:after,.section-light-bg .section-title:after, .section-dark .section-title:after,.woocommerce .widget_price_filter .ui-slider .ui-slider-range,.woocommerce-page .widget_price_filter .ui-slider .ui-slider-range, .controlArrow.prev:hover,.controlArrow.next:hover, .pex-woo-cart-num,.woocommerce span.onsale, .woocommerce-page span.onsale.woocommerce nav.woocommerce-pagination ul li span.current, .woocommerce-page nav.woocommerce-pagination ul li span.current,.woocommerce #content nav.woocommerce-pagination ul li span.current, .woocommerce-page #content nav.woocommerce-pagination ul li span.current,.woocommerce #content nav.woocommerce-pagination ul li span.current, .woocommerce-page #content nav.woocommerce-pagination ul li span.current,.woocommerce nav.woocommerce-pagination ul li a:hover, .woocommerce-page nav.woocommerce-pagination ul li a:hover,.woocommerce #content nav.woocommerce-pagination ul li a:hover, .woocommerce-page #content nav.woocommerce-pagination ul li a:hover,.woocommerce nav.woocommerce-pagination ul li a:focus, .woocommerce-page nav.woocommerce-pagination ul li a:focus,.woocommerce #content nav.woocommerce-pagination ul li a:focus, .woocommerce-page #content nav.woocommerce-pagination ul li a:focus,.pt-highlight .pt-title{background-color:#60bcdb;} a, a:hover, .post-info a:hover, .read-more, .footer-widgets a:hover, .comment-info .reply,.comment-info .reply a, .comment-info, .post-title a:hover, .post-tags a, .format-aside aside a:hover,.testimonials-details a, .lp-title a:hover, .woocommerce .star-rating, .woocommerce-page .star-rating,.woocommerce .star-rating:before, .woocommerce-page .star-rating:before, .tabs .current a,#wp-calendar tbody td a, .widget_nav_menu li.current-menu-item > a, .archive-page a:hover{color:#60bcdb;} .accordion-title.current, .read-more, .bypostauthor, .sticky, .pg-cat-filter a.current{border-color:#60bcdb;}
+
+/*Contact Form*/
+.pexeto-contact-form .error-box,
+.pexeto-contact-form .info-box {
+  display: none;
+}
+.pexeto-contact-form input[type="text"],
+.pexeto-contact-form input[type="password"],
+.pexeto-contact-form textarea,
+.pexeto-contact-form input[type="search"] {
+  margin-bottom: 8px;
+  padding: 12px 0;
+  max-width: 100%;
+  width: 100%;
+  text-indent: 8px;
+}
+#content .pexeto-contact-form textarea {
+  min-height: 170px;
+}
+.pexeto-contact-form .button {
+  margin-top: 10px;
+}
+
+#logo-container img {
+    width: 100px;
+}

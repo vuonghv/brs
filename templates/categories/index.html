@@ -1,0 +1,42 @@
+{% extends 'layout/base.html' %}
+{% load staticfiles %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}
+    <div id="blog-masonry" class="page-masonry">
+        {% for book in list_book %}
+            <article id="book-{{ book.id }}" class="blog-non-single-post theme-post-entry post type-post status-publish format-standard has-post-thumbnail hentry category-general tag-tips tag-vacation">
+                <div class="blog-post-img img-loading">
+                    <a href="/books/{{ book.id }}-{{ book.slug }}">
+                        <img src="{% static "upload/aiseomemkhithayembuonz1FYYcqAwx.jpg" %}" alt="{{ book.title }}" />
+                    </a>
+                </div>
+                <div class="post-content">
+                    <div class="post-info top">
+                        <span class="post-date"> {{ book.publish_date }} </span>
+                    </div>
+                    <div class="post-title-wrapper">
+                        <h2 class="post-title">
+                            <a href="/books/{{ book.id }}-{{ book.slug }}">{{ book.title }}</a>
+                        </h2>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="post-content-content">
+                        <div class="clear"></div>
+                        <a href="/books/{{ book.id }}-{{ book.slug }}" class="read-more"> {# Full #}</a>
+                        <div class="post-info bottom">
+                            <span class="no-caps">by {{ book.author }}</span>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </article>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block 'js' %}
+{% endblock %}

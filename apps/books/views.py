@@ -1,9 +1,7 @@
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView
-from django.views.generic.detail import ContextMixin
 
 from apps.core.views import BaseView
-from apps.categories.models import Category
 from apps.books.models import Book   
 
 class HomePageView(BaseView, ListView):
