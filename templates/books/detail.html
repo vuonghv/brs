@@ -31,17 +31,73 @@
             </div>
             <!-- .summary -->
             <div class="woocommerce-tabs wc-tabs-wrapper">
-
-                <div class="panel entry-content wc-tab" id="tab-description">
+                <div class="panel entry-content wc-tab">
                     <h2>Description</h2>
                     <p>{{ object.description|safe }}</p>
                 </div>
-                <div class="panel entry-content wc-tab" id="tab-description">
-                    <h2>Reviews:</h2>
-                    <div class="cols-wrapper cols-2">
-                        
+
+                
+
+                <div style="display: block;" class="panel entry-content wc-tab" id="tab-reviews">
+                    <div id="reviews">
+                        <div id="comments">
+                            <h2>2 Reviews</h2>
+                            <ol class="commentlist" style="list-style: outside none none;">
+                                <li itemprop="review" itemscope="" itemtype="http://schema.org/Review" class="comment even thread-even depth-1">
+                                    <div class="comment_container">
+                                        <img alt="" src="http://1.gravatar.com/avatar/dcd1ef25e108ae391338cb43b56ba8e6?s=60&amp;d=mm&amp;r=g" srcset="http://1.gravatar.com/avatar/dcd1ef25e108ae391338cb43b56ba8e6?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" height="60" width="60" style="float: left; margin-right: 10px;">
+                                        <div class="comment-text">
+                                            <p class="meta">
+                                                <strong itemprop="author">Dan</strong> – <time itemprop="datePublished" datetime="2013-06-07T12:39:04+00:00">June 7, 2013</time>:
+                                            </p>
+                                            <div itemprop="description" class="description">
+                                                <p>I thought I was buying a man holding a poster, but when it arrived it was just the poster. Cool poster though, so I’ll give it 3 stars!</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>                           
+                            </ol>
+                        </div>
+                        <div id="review_form_wrapper">
+                            <div id="review_form">
+                                <div id="respond" class="comment-respond">
+                                    <h3 id="reply-title" class="comment-reply-title">Add a review <small><a rel="nofollow" id="cancel-comment-reply-link" href="/demos/story_wp/product/premium-quality-2/#respond" style="display:none;">Cancel reply</a></small></h3>
+                                    <form action="http://pexetothemes.com/demos/story_wp/wp-comments-post.php" method="post" id="commentform" class="comment-form">                                        
+                                        <p class="comment-form-rating">
+                                            <label for="rating">Your Rating</label>
+                                            <p class="stars">
+                                                <span class="starRating">
+                                                    <input id="rating5" type="radio" name="rating" value="5">
+                                                    <label for="rating5">5</label>
+                                                    <input id="rating4" type="radio" name="rating" value="4">
+                                                    <label for="rating4">4</label>
+                                                    <input id="rating3" type="radio" name="rating" value="3" checked>
+                                                    <label for="rating3">3</label>
+                                                    <input id="rating2" type="radio" name="rating" value="2">
+                                                    <label for="rating2">2</label>
+                                                    <input id="rating1" type="radio" name="rating" value="1">
+                                                    <label for="rating1">1</label>
+                                                </span>
+                                            </p>
+                                        </p>
+                                        <p class="comment-form-comment">
+                                            <label for="comment">Your Review</label>
+                                            <textarea name="comment" cols="45" rows="8" aria-required="true"></textarea>
+                                        </p>
+                                        
+                                        <p class="form-submit">
+                                            <input name="submit" id="submit" class="submit" value="Submit" type="submit">                                             
+                                        </p>                                        
+                                    </form>
+                                </div>
+                                <!-- #respond -->
+                            </div>
+                        </div>
+                        <div class="clear"></div>
                     </div>
                 </div>
+
+
                 <!-- <div class="wp-pagenavi">
                     <span class="pages">Page 1 of 2</span>
                     <span class="current">1</span>
