@@ -1,7 +1,6 @@
 from django.db import models
 
 from apps.users.models import UserProfile
-from apps.books.models import Book
 
 
 class Review(models.Model):
@@ -14,7 +13,7 @@ class Review(models.Model):
             (5, 'Five stars'),
     )
     user_profile = models.ForeignKey(UserProfile)
-    book = models.ForeignKey(Book)
+    book = models.ForeignKey('books.Book')
     content = models.TextField(blank=True, default='')
     updated_time = models.DateTimeField(auto_now=True)
     rating = models.IntegerField(choices=RATING_STARS, default=4)
