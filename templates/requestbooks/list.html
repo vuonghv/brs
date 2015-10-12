@@ -4,37 +4,43 @@
 {% endblock %}
 
 {% block 'content' %}
-    <a href="{% url 'requests:create' %}">Request a new book</a>
-    {% if object_list %}
-        <h4>List of your requested books</h4>
-        <table>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th></th>
-                <th></th>
-            </tr>
-        {% for req in object_list %}
-            <tr>
-                <td><a href="{% url 'requests:detail' req.pk %}">{{ req.title }}</a></td>
-                <td>{{ req.description|truncatewords:20 }}</td>
-                <td>{{ req.get_status_display }}</td>
-                <td>
-                    {% if req.is_waiting or req.is_canceled %}
-                    <a href="{% url 'requests:update' req.pk %}" class="button" >Update</a>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if req.is_waiting %}
-                        <a href="{% url 'requests:cancel' req.pk %}" class="button" >Cancel</a></td>
-                    {% endif %}
-            </tr>
-        {% endfor %}
-        </table>
-    {% else %}
-    <p>You have no request books.</p>
-    {% endif %}
+    <div class="content-box">
+        <h2 class="page-heading">
+            List Your Request Book
+            <span style="float: right;">
+                <a class="pull-right" href="{% url 'requests:create' %}">+</a>   
+            </span>
+        </h2>        
+
+        {% if object_list %}
+            <table>
+                <tr>
+                    <th style="width: 220px;">Title</th>
+                    <th style="width: 220px;">Description</th>
+                    <th style="width: 60px;">Status</th>
+                    <th style="text-align: center;">Choose</th>
+                </tr>
+            {% for req in object_list %}
+                <tr>
+                    <td>{{ req.title }}</td>
+                    <td>{{ req.description|truncatewords:20 }}</td>
+                    <td>{{ req.get_status_display }}</td>
+                    <td style="text-align: center;">
+                        {% if req.is_waiting or req.is_canceled %}
+                            <a href="{% url 'requests:update' req.pk %}" class="btn" >Update</a>
+                        {% endif %}
+
+                        {% if req.is_waiting %}
+                            - <a href="{% url 'requests:cancel' req.pk %}" class="btn" >Cancel</a></td>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        {% else %}
+        <p>You have no request books.</p>
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block 'js' %}

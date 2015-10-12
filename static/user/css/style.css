@@ -1913,13 +1913,13 @@ textarea.invalid {
   color: #333332;
 }
 .sidebar-box .title:after {
-  /*	content:"";
-	display: block;
-	width: 57px;
-	height: 1px;
-	background-color: @color;
-	margin-top: 4px;
-	opacity: 0.1;*/
+  /*  content:"";
+  display: block;
+  width: 57px;
+  height: 1px;
+  background-color: @color;
+  margin-top: 4px;
+  opacity: 0.1;*/
 
 }
 /* Sidebar Widgets */
@@ -2345,6 +2345,7 @@ table td {
   line-height: 17px;
   letter-spacing: 2px;
   color: #b3b3b1;
+  font-size: 10px;
 }
 .post-info a {
   color: #b3b3b1;
@@ -2538,7 +2539,7 @@ table td {
   padding: 0;
   padding-bottom: 0;
   margin-bottom: 5px;
-  font-size: 24px;
+  font-size: 16px;
   line-height: 1.3;
 }
 .page-masonry .post-info {
@@ -8711,7 +8712,7 @@ body {
   margin-top: 18px;
 }
 /*.mob-nav-menu{
-	margin-top: 4px;
+  margin-top: 4px;
 }*/
 .cs-prev-arrow .cs-thumbnail {
   top: 0;
@@ -8938,7 +8939,7 @@ div.pp_default .pp_close {
     top: 0;
 }
 /*.mobile.fixed-header .header-wrapper {
-	padding-top: 0 !important;
+  padding-top: 0 !important;
 }*/
 
 .mobile.fixed-header.boxed-layout #header {
@@ -8969,7 +8970,7 @@ div.pp_default .pp_close {
   background-repeat: no-repeat;
   background-size: contain;
 }
-/*	Related posts element */
+/*  Related posts element */
 .tnc-related-posts {
   margin: 0;
   padding-top: 10px;
@@ -9184,4 +9185,7 @@ button, .button , input[type=\"submit\"], input[type=\"button\"], #submit, .left
 
 #logo-container img {
     width: 100px;
+}
+.btn {
+  
 }

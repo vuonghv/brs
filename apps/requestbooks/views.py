@@ -13,9 +13,9 @@ from django.conf import settings
 
 from apps.requestbooks.models import RequestedBook
 from apps.categories.models import Category
+from apps.core.views import BaseView
 
-
-class LoginRequiredMixin(object):
+class LoginRequiredMixin(BaseView):
     
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -31,14 +31,35 @@ class ListRequestsView(LoginRequiredMixin, ListView):
                             user_profile=self.request.user.profile
                             ).order_by('-requested_time')
 
+    def get_context_data(self, **kwargs):
+        context = super(ListRequestsView, self).get_context_data(**kwargs)
+        info = {
+            'info': {
+                'title': "List Request New Book - Book Review"
+            }
+        }
+        context.update(info)
+        return context
+
 
 class CreateRequestView(LoginRequiredMixin, CreateView):
     model = RequestedBook
     template_name = 'requestbooks/new.html'
     fields = ['title', 'description', 'categories']
 
+    def get_context_data(self, **kwargs):
+        context = super(CreateRequestView, self).get_context_data(**kwargs)
+        info = {
+            'info': {
+                'title': "Create Request New Book - Book Review"
+            }
+        }
+        context.update(info)
+        return context
+
     def get_success_url(self):
-        return reverse_lazy('requests:detail', kwargs={'pk': self.object.pk})
+        # return reverse_lazy('requests:detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('requests:index')
 
     def form_valid(self, form):
         form.instance.user_profile = self.request.user.profile
@@ -52,6 +73,12 @@ class DetailRequestView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = self.object.categories.all()
+        info = {
+            'info': {
+                'title': "Detail Request New Book - Book Review"
+            }
+        }
+        context.update(info)
         return context
 
 
@@ -60,7 +87,8 @@ class CancelRequestView(LoginRequiredMixin, SingleObjectMixin, TemplateView):
     template_name = 'requestbooks/cancel.html'
 
     def get_success_url(self):
-        return reverse_lazy('requests:detail', kwargs={'pk': self.object.pk})
+        # return reverse_lazy('requests:detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('requests:index')
 
     def handle_owner_permission(self):
         self.object = self.get_object()
@@ -88,12 +116,23 @@ class UpdateRequestView(LoginRequiredMixin, UpdateView):
     fields = ['title', 'description', 'categories']
 
     def get_success_url(self):
-        return reverse_lazy('requests:detail', kwargs={'pk': self.object.pk})
+        # return reverse_lazy('requests:detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('requests:index')
 
     def handle_owner_permission(self):
         self.object = self.get_object()
         if self.object.user_profile != self.request.user.profile:
             raise PermissionDenied
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        info = {
+            'info': {
+                'title': "Update Request New Book - Book Review"
+            }
+        }
+        context.update(info)
+        return context
 
     def get(self, request, *args, **kwargs):
         self.handle_owner_permission()

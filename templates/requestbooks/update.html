@@ -4,11 +4,52 @@
 {% endblock %}
 
 {% block 'content' %}
-    <form action="{% url 'requests:update' object.pk %}" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
+	<div class="content-box">
+		<h2 class="page-heading">Update Request New Book</h2>
+
+	    <form method="post" id="submit-form" class="pexeto-contact-form" action="{% url 'requests:update' object.pk %}">
+	        {% csrf_token %}
+
+	        <div class="error-box error-message">{{ form.errors }}</div>
+	        <div class="info-box sent-message"></div>
+	        
+	        <div class="contact-form-input contact-input-wrapper {% if form.categories.errors %} invalid {% endif %}">
+	            <label class="contact-label">
+	            Categories            <span class="mandatory">*</span>
+	            </label>
+	            <select class="" name="{{ form.categories.name }}" multiple="multiple" data-placeholder="Select category" style="width: 100%;">
+	                {% for category in list_category %}
+	                    <option {% if category.id in form.categories.value %} selected="selected" {% endif %} value="{{ category.id }}">{{ category.name }}</option>
+	                    }
+	                {% endfor %}
+	            </select>
+	            <span class="help-block">{{ form.categories.errors }}</span>
+	        </div>
+
+	        <div class="contact-form-input contact-input-wrapper {% if form.title.errors %} invalid {% endif %}">
+	            <label class="contact-label">
+	            Title            <span class="mandatory">*</span>
+	            </label>
+	            <input name="title" value="{{ form.title.value|default_if_none:'' }}" class="required" type="text" placeholder="Enter title">
+	            <span class="help-block">{{ form.title.errors }}</span>
+	        </div>
+
+	        <div class="contact-form-textarea contact-input-wrapper {% if form.description.errors %} invalid {% endif %}">
+	            <label class="contact-label">Description</label>
+	            <textarea name="description">{{ form.description.value }}</textarea>
+	            <span class="help-block">{{ form.description.errors }}</span>
+	        </div>
+	        
+	        <button class="button send-button" type="submit">
+	            <span>Save</span>
+	        </button>
+
+	        <a href="/requests" class="button">Cancel</a>
+	        
+	        <div class="contact-loader"></div>
+	        <div class="clear"></div>
+	    </form>
+    </div>
 {% endblock %}
 
 {% block 'js' %}

@@ -5,6 +5,8 @@
 
 {% block 'content' %}
     <div class="content-box">
+        <h2 class="page-heading">Signup</h2>
+
         <form method="post" id="submit-form" class="pexeto-contact-form" action="{% url 'users:signup' %}">
             {% csrf_token %}
 
