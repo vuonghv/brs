@@ -1,6 +1,10 @@
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.admin.forms import AdminAuthenticationForm
-from django.views.generic import FormView, View, CreateView, DetailView, UpdateView, DeleteView, TemplateView, ListView
+from django.views.generic import (
+        FormView, View, CreateView, DetailView,
+        UpdateView, DeleteView, TemplateView, ListView,
+)
+from django.views.generic.detail import SingleObjectMixin
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
@@ -228,11 +232,26 @@ class RequestedBookDeleteView(BaseView, DeleteView):
     def get_success_url(self):
         return reverse('admin:list_requested_book')
 
-class RequestedBookDetailView(BaseView, DetailView):
+class RequestedBookUpdateView(BaseView, UpdateView):
     """docstring for RequestedBookDetailView"""
-    def __init__(self, arg):
-        super(RequestedBookDetailView, self).__init__()
-        self.arg = arg
+    model = RequestedBook
+    template_name = 'admin/requested_book_update.html'
+    fields = ['title', 'description', 'status', 'categories']
+    
+    def get_success_url(self):
+        return reverse_lazy('admin:list_requested_book')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        info = {
+            'title': 'Update Requested Book',
+            'sidebar': ['requested_book',],
+            'list_category': Category.objects.all(), 
+            'list_status': RequestedBook.STATUS_CHOICES,
+        }
+        context.update(info)
+        return context
+
 
 ############################################################################
 ############################################################################

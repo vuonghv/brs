@@ -30,6 +30,7 @@
                                 <th>Title</th>
                                 <th>Description</th>
                                 <th>Time Request</th>
+                                <th>Status</th>
                                 <th class="text-center" style="width: 140px">Action</th>
                             </tr>
                             {% for item in list_requested_book %}
@@ -39,7 +40,9 @@
                                     <td>{{ item.title }}</td>
                                     <td>{{ item.description }}</td>
                                     <td>{{ item.requested_time|date:'d/m/Y H:M:s' }}</td>
+                                    <td>{{ item.get_status_display }}</td>
                                     <td class="text-center">
+                                        <a class="btn btn-default" href="{% url 'admin:update_requested_book' item.pk %}">Update</a>
                                         <a href="#" data-href="/admin/request/delete/{{ item.id }}" data-toggle="modal" data-target="#confirm-delete">
                                             <span class="badge bg-red">Delete</span>
                                         </a>
