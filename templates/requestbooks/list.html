@@ -4,8 +4,8 @@
 {% endblock %}
 
 {% block 'content' %}
+    <a href="{% url 'requests:create' %}">Request a new book</a>
     {% if object_list %}
-        <a href="{% url 'requests:create' %}">Request a new book</a>
         <h4>List of your requested books</h4>
         <table>
             <tr>
