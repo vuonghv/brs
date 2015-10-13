@@ -84,17 +84,22 @@ def logout_user(request):
 
 @login_required
 def follow_user(request, pk):
+    url = reverse_lazy('books:index')
     if request.method == 'POST':
         followee = get_object_or_404(UserProfile, pk=pk)
         follower = request.user.profile
-        FollowShip.objects.update_or_create(follower=follower, followee=followee)
+        FollowShip.objects.get_or_create(follower=follower, followee=followee)
 
-    return HttpResponseRedirect(reverse('books:index'))
+    return HttpResponseRedirect(url)
 
 @login_required
 def unfollow_user(request, pk):
+    url = reverse_lazy('books:index')
     if request.method == 'POST':
         followee = get_object_or_404(UserProfile, pk=pk)
         follower = request.user.profile
+        relation = get_object_or_404(FollowShip,
+                        follower=follower, followee=followee)
+        relation.delete()
     
-    return HttpResponseRedirect(reverse('books:index'))
+    return HttpResponseRedirect(url)

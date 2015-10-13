@@ -1,10 +1,12 @@
 from django.conf.urls import url
 
-from apps.users import views
+from . import views
 
 
 urlpatterns = [
         url(r'^signup/$', views.SignupUserView.as_view(), name='signup'),
         url(r'^login/$', views.LoginUserView.as_view(), name='login'),
         url(r'^logout/$', views.logout_user, name='logout'),
+        url(r'^follow/(?P<pk>[0-9]+)/$', views.follow_user, name='follow'),
+        url(r'^unfollow/(?P<pk>[0-9]+)/$', views.unfollow_user, name='unfollow'),
 ]
