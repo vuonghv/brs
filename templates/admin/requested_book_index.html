@@ -42,7 +42,9 @@
                                     <td>{{ item.requested_time|date:'d/m/Y H:M:s' }}</td>
                                     <td>{{ item.get_status_display }}</td>
                                     <td class="text-center">
-                                        <a class="btn btn-default" href="{% url 'admin:update_requested_book' item.pk %}">Update</a>
+                                        <a href="{% url 'admin:update_requested_book' item.pk %}">
+                                            <span class="badge">Update</span>
+                                        </a>
                                         <a href="#" data-href="/admin/request/delete/{{ item.id }}" data-toggle="modal" data-target="#confirm-delete">
                                             <span class="badge bg-red">Delete</span>
                                         </a>
