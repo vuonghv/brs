@@ -122,3 +122,9 @@ STATICFILES_DIRS = (
 )
 
 LOGIN_URL = reverse_lazy('users:login')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
+
+BOOK_DIR = 'books'

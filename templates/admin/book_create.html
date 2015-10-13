@@ -22,7 +22,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <form action="" method="POST">
+                <form action="" method="POST" enctype="multipart/form-data">
                     <div class="box box-danger">
                         <div class="box-header with-border">
                             <div class="pull-left">
@@ -66,6 +66,12 @@
                                 <label>Pages</label>
                                 <input name="{{ form.pages.name }}" type="number" class="form-control" value="{{ form.pages.value|default_if_none:"" }}" placeholder="Enter number of page">
                                 <span class="help-block">{{ form.pages.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.cover.errors %} has-error {% endif %}">
+                                <label>Cover image</label>
+                                <input name="{{ form.cover.name }}" type="file" class="form-control"/>
+                                <span class="help-block">{{ form.cover.errors }}</span>
                             </div>
 
                             <div class="form-group {% if form.publish_date.errors %} has-error {% endif %}">

@@ -20,5 +20,5 @@ class BookForm(forms.ModelForm):
     """docstring for BookForm"""
     class Meta:
         model = Book
-        fields = '__all__'
-        exclude = ['favourites']
+        fields = ('title', 'description', 'slug', 'categories',
+                    'pages', 'author', 'publish_date', 'cover')

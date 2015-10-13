@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 from apps.categories.models import Category
 from apps.users.models import UserProfile
@@ -15,6 +16,7 @@ class Book(models.Model):
     categories = models.ManyToManyField(Category, db_table='category_book', related_name='books')
     favourites = models.ManyToManyField(UserProfile, db_table='favourites', related_name='liked_books')
     user_profile = models.ManyToManyField(UserProfile, through='UserProfileBook', related_name='book')
+    cover = models.ImageField(upload_to=settings.BOOK_DIR, max_length=255, default='', blank=True)
 
     class Meta:
         db_table = 'book'
