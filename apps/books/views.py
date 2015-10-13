@@ -12,6 +12,7 @@ from apps.core.views import BaseView
 from apps.books.models import Book, UserProfileBook
 from apps.reviews.views import CreateReviewView
 from apps.reviews.models import Review
+from apps.users.models import FollowShip, UserProfile
 
 
 class HomePageView(BaseView, ListView):
@@ -51,8 +52,12 @@ class DetaiBookView(BaseView, DetailView):
                 context['status_read'] = UserProfileBook.objects.get(
                                     book=self.object,
                                     user_profile=self.request.user.profile)
+                context['status_review'] = Review.objects.filter(
+                                    book=self.object,
+                                    user_profile=self.request.user.profile).exists()
             except UserProfileBook.DoesNotExist:
                 context['status_read'] = None
+                context['status_review'] = False
 
         return context
 
@@ -90,7 +95,9 @@ class SearchBookView(BaseView, ListView):
 
     def get_queryset(self):
         string_search = self.request.GET.get('s', None)
-        return Book.objects.filter(Q(title__icontains=string_search) | Q(categories__name__icontains=string_search)).order_by('-id')
+        return Book.objects.filter(
+            Q(title__icontains=string_search) | 
+            Q(categories__name__icontains=string_search)).distinct().order_by('-id')
 
     def get_context_data(self, **kwargs):
         context = super(SearchBookView, self).get_context_data(**kwargs)
@@ -102,16 +109,9 @@ class SearchBookView(BaseView, ListView):
         context.update(info)
         return context
 
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super(FavoriteBookView, self).dispatch(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-
 class ListHistoryBookView(BaseView, ListView):
     """docstring for ListHistoryBookView"""
-    model = Book
+    model = User
     template_name = 'books/history.html'
 
     @method_decorator(login_required)
@@ -121,7 +121,13 @@ class ListHistoryBookView(BaseView, ListView):
     def get_context_data(self, **kwargs):
         context = super(ListHistoryBookView, self).get_context_data(**kwargs)
         info = {
-            'list_user_profile_book': UserProfileBook.objects.order_by('-id'),
+            'list_user_profile_book': UserProfileBook.objects.filter(
+                user_profile__user__username=self.kwargs['username']).order_by('-id'),
+            'history_user': User.objects.get(username=self.kwargs['username']),
+            'is_followed': FollowShip.objects.filter(
+                        follower=self.request.user.profile,
+                        followee__user__username=self.kwargs['username']).exists(),
+
             'info': {
                 'title': 'History Book Review'
             }
