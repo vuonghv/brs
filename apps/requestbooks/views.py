@@ -13,16 +13,10 @@ from django.conf import settings
 
 from apps.requestbooks.models import RequestedBook
 from apps.categories.models import Category
-from apps.core.views import BaseView
-
-class LoginRequiredMixin(BaseView):
-    
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+from apps.core.views import BaseView, LoginRequiredMixin
 
 
-class ListRequestsView(LoginRequiredMixin, ListView):
+class ListRequestsView(LoginRequiredMixin, BaseView, ListView):
     model = RequestedBook
     template_name = 'requestbooks/list.html'
 
@@ -42,7 +36,7 @@ class ListRequestsView(LoginRequiredMixin, ListView):
         return context
 
 
-class CreateRequestView(LoginRequiredMixin, CreateView):
+class CreateRequestView(LoginRequiredMixin, BaseView, CreateView):
     model = RequestedBook
     template_name = 'requestbooks/new.html'
     fields = ['title', 'description', 'categories']
@@ -66,7 +60,7 @@ class CreateRequestView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class DetailRequestView(LoginRequiredMixin, DetailView):
+class DetailRequestView(LoginRequiredMixin, BaseView, DetailView):
     model = RequestedBook
     template_name = 'requestbooks/detail.html'
 
@@ -82,7 +76,8 @@ class DetailRequestView(LoginRequiredMixin, DetailView):
         return context
 
 
-class CancelRequestView(LoginRequiredMixin, SingleObjectMixin, TemplateView):
+class CancelRequestView(LoginRequiredMixin, BaseView,
+                        SingleObjectMixin, TemplateView):
     model = RequestedBook
     template_name = 'requestbooks/cancel.html'
 
@@ -110,14 +105,13 @@ class CancelRequestView(LoginRequiredMixin, SingleObjectMixin, TemplateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class UpdateRequestView(LoginRequiredMixin, UpdateView):
+class UpdateRequestView(LoginRequiredMixin, BaseView, UpdateView):
     model = RequestedBook
     template_name = 'requestbooks/update.html'
     fields = ['title', 'description', 'categories']
 
     def get_success_url(self):
-        # return reverse_lazy('requests:detail', kwargs={'pk': self.object.pk})
-        return reverse_lazy('requests:index')
+        return reverse_lazy('requests:detail', kwargs={'pk': self.object.pk})
 
     def handle_owner_permission(self):
         self.object = self.get_object()
