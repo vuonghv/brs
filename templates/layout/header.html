@@ -30,6 +30,12 @@
                                 <a href="/users/login">{{ request.user.username }}<span class="drop-arrow"></span></a>
                                 <ul style="left: 0px; display: none; opacity: 1;" class="sub-menu">
                                     <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
+                                        <a href="{% url 'users:followers' user.pk %}">Followers</a>
+                                    </li>
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
+                                        <a href="{% url 'users:following' user.pk %}">Following</a>
+                                    </li>
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
                                         <a href="/books/history">My Books</a>
                                     </li>
                                     <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">

@@ -1,0 +1,40 @@
+{% extends 'layout/base.html' %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}
+    <div class="content-box">
+        <h2 class="page-heading">
+            List of Followees
+        </h2>        
+
+        {% if object_list %}
+            <table>
+                <tr>
+                    <th style="width: 220px;">Username</th>
+                    <th style="width: 220px;">Fullname</th>
+                    <th style="width: 60px;">Date</th>
+                    <th style="text-align: center;"></th>
+                </tr>
+            {% for followee in object_list %}
+                <tr>
+                    <td><a href="#">{{ followee.user.username }}</a></td>
+                    <td>{{ followee.user.get_full_name }}</td>
+                    <td></td>
+                    <td style="text-align: center;">
+                        <div>
+                            <form method="POST" action="{% url 'users:unfollow' followee.pk %}">
+                                {% csrf_token %}
+                                <button type="submit">Unfollow</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        {% else %}
+        <p>You have not followed anyone.</p>
+        {% endif %}
+    </div>
+{% endblock %}

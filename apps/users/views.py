@@ -17,7 +17,7 @@ from django.apps import apps as django_apps
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 
-from apps.core.views import BaseView
+from apps.core.views import BaseView, LoginRequiredMixin
 from apps.users.models import FollowShip, UserProfile
 
 
@@ -84,17 +84,19 @@ def logout_user(request):
 
 @login_required
 def follow_user(request, pk):
-    url = reverse_lazy('books:index')
+    url = reverse_lazy('users:following', kwargs={'pk': request.user.pk})
     if request.method == 'POST':
         followee = get_object_or_404(UserProfile, pk=pk)
         follower = request.user.profile
+        if followee == follower:
+            return HttpResponseRedirect(url)
         FollowShip.objects.get_or_create(follower=follower, followee=followee)
 
     return HttpResponseRedirect(url)
 
 @login_required
 def unfollow_user(request, pk):
-    url = reverse_lazy('books:index')
+    url = reverse_lazy('users:following', kwargs={'pk': request.user.pk})
     if request.method == 'POST':
         followee = get_object_or_404(UserProfile, pk=pk)
         follower = request.user.profile
@@ -103,3 +105,25 @@ def unfollow_user(request, pk):
         relation.delete()
     
     return HttpResponseRedirect(url)
+
+
+class ListFollowersView(LoginRequiredMixin, SingleObjectMixin, BaseView, ListView):
+    template_name = 'users/followers.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=UserProfile.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return self.object.followers.select_related('user').all()
+
+
+class ListFollowingView(LoginRequiredMixin, SingleObjectMixin, BaseView, ListView):
+    template_name = 'users/following.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=UserProfile.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return self.object.following.select_related('user').all()
