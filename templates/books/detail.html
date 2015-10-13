@@ -128,7 +128,7 @@
 
                                         {% if user.is_authenticated %}
                                         <div class="comment-review" id="comment-review-{{ review.pk }}" style="display: none;">
-                                            <form method="POST" id="form-comment" action="{% url 'comments:create' review.pk %}">
+                                            <form method="POST" id="form-comment-{{ review.pk }}" action="{% url 'comments:create' review.pk %}">
                                                 {% csrf_token %}
                                                 <textarea id="editor-comment-{{ review.pk }}" name="content" rows="2" columns="20"></textarea>
                                                 <input type="submit" value="submit"/>
@@ -211,7 +211,7 @@
         function edit_comment (id_review, id) {
             comment = $('#description-' + id).text();
             $('#editor-comment-' + id_review).val(comment);
-            $('#form-comment').attr('action', '/comments/' + id + '/edit/');
+            $('#form-comment-' + id_review).attr('action', '/comments/' + id + '/edit/');
 
             $('#comment-review-' + id_review).css('display', 'block');
             $('#show-hide-' + id_review).text(' hide comment');
