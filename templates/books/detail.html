@@ -88,7 +88,9 @@
                                         <img alt="" src="http://1.gravatar.com/avatar/dcd1ef25e108ae391338cb43b56ba8e6?s=60&amp;d=mm&amp;r=g" srcset="http://1.gravatar.com/avatar/dcd1ef25e108ae391338cb43b56ba8e6?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" height="60" width="60" style="float: left; margin-right: 10px;">
                                         <div class="comment-text">
                                             <p class="meta">
-                                            <strong itemprop="author">{{ review.user_profile.user.username }}</strong> – <time itemprop="datePublished" datetime="2013-06-07T12:39:04+00:00">{{ review.updated_time }}</time>
+                                            <strong itemprop="author">
+                                                <a href="{% url 'books:history' review.user_profile.user.username %}">{{ review.user_profile.user.username }}</a>
+                                            </strong> – <time itemprop="datePublished" datetime="2013-06-07T12:39:04+00:00">{{ review.updated_time }}</time>
                                             <a href="#" id="show-hide-{{ review.pk }}" onclick="show_comment({{ review.pk }}); return false;">  comment</a>
                                             </p>
                                             <div itemprop="description" class="description">
@@ -106,7 +108,9 @@
                                                     <img alt="" src="http://1.gravatar.com/avatar/dcd1ef25e108ae391338cb43b56ba8e6?s=60&amp;d=mm&amp;r=g" srcset="http://1.gravatar.com/avatar/dcd1ef25e108ae391338cb43b56ba8e6?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" height="60" width="60" style="float: left; margin-right: 10px;">
                                                     <div class="comment-text">
                                                         <p class="meta">
-                                                            <strong itemprop="author">{{ cm.user_profile.user.username }}</strong> – <time itemprop="datePublished" datetime="2013-06-07T12:39:04+00:00">{{ cm.updated_time }}</time>                                      
+                                                            <strong itemprop="author">
+                                                                <a href="{% url 'books:history' cm.user_profile.user.username %}">{{ cm.user_profile.user.username }}</a>
+                                                            </strong> – <time itemprop="datePublished" datetime="2013-06-07T12:39:04+00:00">{{ cm.updated_time }}</time>                                      
                                                             {% if cm.user_profile.user == request.user %}
                                                                 <span style="float: right;">
                                                                     <a href="#" onclick="edit_comment({{ review.id }}, {{ cm.id }}); return false;">Edit</a> - <a href="#" onclick="document.forms['delete-comment-{{ cm.id }}'].submit(); return false;">Delete</a>

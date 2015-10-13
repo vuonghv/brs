@@ -5,7 +5,29 @@
 {% endblock %}
 
 {% block 'content' %}
-    <h2 class="page-heading">My History Book</h2>
+
+    <h2 class="page-heading">        
+        {% if request.user.username != history_user.username %}
+            History Book - {{ history_user.username }}
+            {% if is_followed %}
+                <span style="float: right;">
+                    <a style="color: green;" class="pull-right" href="#" onclick="document.forms['form-follow'].submit(); return false;">Unfollow me</a>
+                    <form id="form-follow" method="POST" action="{% url 'users:unfollow' history_user.id %}">
+                        {% csrf_token %}
+                    </form>
+                </span>
+            {% else %}
+                <span style="float: right;">
+                    <a style="color: green;" class="pull-right" href="#" onclick="document.forms['form-follow'].submit(); return false;">Follow me</a>
+                    <form id="form-follow" method="POST" action="{% url 'users:follow' history_user.id %}">
+                        {% csrf_token %}
+                    </form>
+                </span>
+            {% endif %}
+        {% else %}
+            My History Book
+        {% endif %}
+    </h2>
           
     <div id="blog-masonry" class="page-masonry">
         {% for user_profile_book in list_user_profile_book %}

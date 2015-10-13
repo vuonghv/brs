@@ -30,7 +30,7 @@
                                 <a href="/users/login">{{ request.user.username }}<span class="drop-arrow"></span></a>
                                 <ul style="left: 0px; display: none; opacity: 1;" class="sub-menu">
                                     <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
-                                        <a href="/books/history">My Books</a>
+                                        <a href="/books/history/{{ request.user.username }}">My Books</a>
                                     </li>
                                     <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
                                         <a href="{% url 'requests:index' %}">Request</a>
