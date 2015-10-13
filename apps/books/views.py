@@ -19,11 +19,14 @@ class HomePageView(BaseView, ListView):
     """docstring for HomePageView"""
     template_name = 'books/index.html'
     model = Book
+    context_object_name = 'list_book'
+
+    def get_queryset(self):
+        return Book.objects.order_by('-id')
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
         info = {
-            'list_book': Book.objects.order_by('-id'),
             'info': {
                 'title': 'Book Review System'
             }
@@ -113,16 +116,19 @@ class ListHistoryBookView(BaseView, ListView):
     """docstring for ListHistoryBookView"""
     model = User
     template_name = 'books/history.html'
+    context_object_name = 'list_user_profile_book'
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(ListHistoryBookView, self).dispatch(request, *args, **kwargs)
         
+    def get_queryset(self):
+        return UserProfileBook.objects.filter(
+                user_profile__user__username=self.kwargs['username']).order_by('-id')
+
     def get_context_data(self, **kwargs):
         context = super(ListHistoryBookView, self).get_context_data(**kwargs)
         info = {
-            'list_user_profile_book': UserProfileBook.objects.filter(
-                user_profile__user__username=self.kwargs['username']).order_by('-id'),
             'history_user': User.objects.get(username=self.kwargs['username']),
             'is_followed': FollowShip.objects.filter(
                         follower=self.request.user.profile,
