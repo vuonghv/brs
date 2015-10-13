@@ -19,6 +19,10 @@ class UserProfile(models.Model):
                                 through_fields=('followee', 'follower'),
                                 related_name='following', symmetrical=False)
 
+    # def delete(self, *args, **kwargs):
+    #     self.user.delete()
+    #     return super(self.__class__, self).delete(*args, **kwargs)
+
 
 class FollowShip(models.Model):
     follower = models.ForeignKey(UserProfile, related_name='follower')

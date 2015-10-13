@@ -47,7 +47,7 @@ urlpatterns = [
     #############################################################
     #############################################################
     # Url user
-    url(r'^user/', views.UserProfileView.as_view(), name='list_user'),
+    url(r'^user/$', views.UserProfileView.as_view(), name='list_user'),
 
     url(r'^user/delete/(?P<pk>[0-9]+)/$',
         views.UserProfileDeleteView.as_view(),
