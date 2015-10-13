@@ -114,8 +114,19 @@ class ListFollowersView(LoginRequiredMixin, SingleObjectMixin, BaseView, ListVie
         self.object = self.get_object(queryset=UserProfile.objects.all())
         return super().get(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        info = {
+            'info': {
+                'title': 'List of Followers'
+            }
+        }
+        context.update(info)
+        return context
+
     def get_queryset(self):
-        return self.object.followers.select_related('user').all()
+        queryset = FollowShip.objects.filter(followee=self.object)
+        return queryset
 
 
 class ListFollowingView(LoginRequiredMixin, SingleObjectMixin, BaseView, ListView):
@@ -125,5 +136,16 @@ class ListFollowingView(LoginRequiredMixin, SingleObjectMixin, BaseView, ListVie
         self.object = self.get_object(queryset=UserProfile.objects.all())
         return super().get(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        info = {
+            'info': {
+                'title': 'List of Following'
+            }
+        }
+        context.update(info)
+        return context
+
     def get_queryset(self):
-        return self.object.following.select_related('user').all()
+        queryset = FollowShip.objects.filter(follower=self.object)
+        return queryset

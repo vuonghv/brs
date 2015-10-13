@@ -14,14 +14,15 @@
                 <tr>
                     <th style="width: 220px;">Username</th>
                     <th style="width: 220px;">Fullname</th>
-                    <th style="width: 60px;">Date</th>
+                    <th style="width: 360px;">Date</th>
                     <th style="text-align: center;"></th>
                 </tr>
-            {% for followee in object_list %}
+            {% for obj in object_list %}
+                {% with followee=obj.followee %}
                 <tr>
                     <td><a href="#">{{ followee.user.username }}</a></td>
                     <td>{{ followee.user.get_full_name }}</td>
-                    <td></td>
+                    <td>{{ obj.time }}</td>
                     <td style="text-align: center;">
                         <div>
                             <form method="POST" action="{% url 'users:unfollow' followee.pk %}">
@@ -31,6 +32,7 @@
                         </div>
                     </td>
                 </tr>
+                {% endwith %}
             {% endfor %}
             </table>
         {% else %}
