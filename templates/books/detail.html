@@ -14,31 +14,50 @@
                 <h1 itemprop="name" class="product_title entry-title">{{ object.title }}</h1>
                 <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                     <p>
-                        <form method="POST" action="{% url 'books:read' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="slug" value="{{ object.slug }}">
-                            <input type="hidden" name="user_profile" value="{{ request.user.id }}">
-                            <input type="hidden" name="book" value="{{ object.id }}">
-                            <span>Read: </span>
-                            <select name="status" id="read" class="mark-read">
-                                <option>Want to read</option>
-                                <option {% if status_read and status_read.status == 1 %} selected {% endif %} value="1">Reading</option>
-                                <option {% if status_read and status_read.status == 2 %} selected {% endif %} value="2">Read</option>
-                            </select>
-                        </form>
+                        {% if status_read %}
+                            <form id='read_form' method="POST" action="{% url 'books:update-read' status_read.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_profile" value="{{ request.user.id }}">
+                                <input type="hidden" name="book" value="{{ object.id }}">
+                                <span>Read: </span>
+                                <select name="status" id="read" class="mark-read">
+                                    <option>Want to read</option>
+                                    <option {% if status_read and status_read.status == 1 %} selected {% endif %} value="1">Reading</option>
+                                    <option {% if status_read and status_read.status == 2 %} selected {% endif %} value="2">Read</option>
+                                </select>
+                            </form>
+                        {% else %}
+                            <form id='read_form' method="POST" action="{% url 'books:read' %}">
+                                {% csrf_token %}                                
+                                <input type="hidden" name="user_profile" value="{{ request.user.id }}">
+                                <input type="hidden" name="book" value="{{ object.id }}">
+                                <span>Read: </span>
+                                <select name="status" id="read" class="mark-read">
+                                    <option>Want to read</option>
+                                    <option {% if status_read and status_read.status == 1 %} selected {% endif %} value="1">Reading</option>
+                                    <option {% if status_read and status_read.status == 2 %} selected {% endif %} value="2">Read</option>
+                                </select>
+                            </form>
+                        {% endif %}
                     </p>
                     <p>
-                        {% if object.favourites.all|length > 0 %}
-                            <span>Favorite:</span> <a href=""><i class="fa fa-heart"></i></a>
+                        {% if object.favourites.all|length > 0 %}                            
+                            <form id='favorite_form' method="POST" action="{% url 'books:remove-favorite' object.id %}">
+                                {% csrf_token %}
+                                <span>Favorite:</span> <i class="fa fa-heart"></i>
+                            </form>
                         {% else %}
-                            <span>Favorite:</span> <i class="fa fa-heart-o"></i>
+                            <form id='favorite_form' method="POST" action="{% url 'books:favorite' object.id %}">
+                                {% csrf_token %}
+                                <span>Favorite:</span> <i class="fa fa-heart-o"></i>
+                            </form>
                         {% endif %}                        
                     </p>
                     
                     <p class="price"><span class="amount">Author:</span> {{ object.author }}</p>
 
                     <div class="star-rating" title="Rated 5.00 out of 5">
-                        <span style="width:100%">My Favorite: <strong class="rating">{{ object.get_rating }}</strong> out of 5</span>
+                        <span style="width:100%">Favorite: <strong class="rating">{{ object.get_rating }}</strong> out of 5</span>
                     </div>
                 </div>
                 <div class="product_meta">
@@ -139,7 +158,10 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#read').on('change', function() {
-                this.form.submit();
+                $('#read_form').submit();
+            });
+            $('#favorite_form').on('click', function() {
+                $('#favorite_form').submit();
             });
         });
     </script>

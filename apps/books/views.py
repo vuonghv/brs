@@ -1,9 +1,11 @@
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView, UpdateView, View
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
+from django.views.generic.detail import SingleObjectMixin
 
 from apps.books.forms import *
 from apps.core.views import BaseView
@@ -100,23 +102,66 @@ class SearchBookView(BaseView, ListView):
         context.update(info)
         return context
 
-class FavoriteBookView(BaseView, FormView):
-    """docstring for FavoriteBookView"""
-    def __init__(self, arg):
-        super(FavoriteBookView, self).__init__()
-        self.arg = arg
-        
-class UpdateReadBookView(BaseView, UpdateView):
-    """docstring for UpdateReadBookView"""
-    model = UserProfileBook
-    form_class = UserProfileBookForm
-        
-    def get_success_url(self):
-        id = self.request.POST.get('book', None)
-        slug = self.request.POST.get('slug', None)
-        return reverse('books:detail', kwargs={'pk': id, 'slug': slug})
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(FavoriteBookView, self).dispatch(request, *args, **kwargs)
 
-class ReadBookView(BaseView, CreateView):
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+class ListHistoryBookView(BaseView, ListView):
+    """docstring for ListHistoryBookView"""
+    model = Book
+    template_name = 'books/history.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ListHistoryBookView, self).dispatch(request, *args, **kwargs)
+        
+    def get_context_data(self, **kwargs):
+        context = super(ListHistoryBookView, self).get_context_data(**kwargs)
+        info = {
+            'list_user_profile_book': UserProfileBook.objects.order_by('-id'),
+            'info': {
+                'title': 'History Book Review'
+            }
+        }
+        context.update(info)
+        return context
+
+class FavoriteBookView(View, SingleObjectMixin):
+    model = Book
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(FavoriteBookView, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.favourites.add(request.user.profile)
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy('books:detail', kwargs={'pk': self.object.id, 'slug': self.object.slug})
+
+class RemoveFavoriteBookView(View, SingleObjectMixin):
+    model = Book
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(RemoveFavoriteBookView, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.favourites.remove(request.user.profile)
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy('books:detail', kwargs={'pk': self.object.id, 'slug': self.object.slug})
+
+class ReadBookView(CreateView):
     """docstring for ReadBookView"""
     model = UserProfileBook
     form_class = UserProfileBookForm
@@ -125,21 +170,17 @@ class ReadBookView(BaseView, CreateView):
     def dispatch(self, request, *args, **kwargs):
         return super(ReadBookView, self).dispatch(request, *args, **kwargs)
 
-    # def post(self, request, *args, **kwargs):
-    #     self.object = self.get_object()
-    #     if UserProfileBook.filter(book__id=self.request.POST.get('book', None),
-    #                                 user_profile=request.user.profile).exists():
-    #         super(UpdateReadBookView, self).post(request)
-
-    # def form_valid(self, form):
-    #     self.object = form.save(commit=False)
-    #     self.object.course = self.course
-    #     self.object.save()
-    #     return HttpResponseRedirect(self.get_success_url())
+    def get_success_url(self):
+        return reverse_lazy('books:detail', kwargs={'pk': self.object.book.id, 'slug': self.object.book.slug})
+    
+class UpdateReadBookView(UpdateView):
+    """docstring for UpdateReadBookView"""
+    model = UserProfileBook
+    form_class = UserProfileBookForm
+            
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(UpdateReadBookView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        id = self.request.POST.get('book', None)
-        slug = self.request.POST.get('slug', None)
-        return reverse('books:detail', kwargs={'pk': id, 'slug': slug})
-    
-        
+        return reverse_lazy('books:detail', kwargs={'pk': self.object.book.id, 'slug': self.object.book.slug})

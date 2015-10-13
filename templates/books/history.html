@@ -1,0 +1,44 @@
+{% extends 'layout/base.html' %}
+{% load staticfiles %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}
+    <h2 class="page-heading">My History Book</h2>
+          
+    <div id="blog-masonry" class="page-masonry">
+        {% for user_profile_book in list_user_profile_book %}
+            <article id="book-{{ user_profile_book.book.id }}" class="blog-non-single-post theme-post-entry post type-post status-publish format-standard has-post-thumbnail hentry category-general tag-tips tag-vacation">
+                <div class="blog-post-img img-loading">
+                    <a href="/books/{{ user_profile_book.book.id }}-{{ user_profile_book.book.slug }}">
+                        <img src="{% static "upload/aiseomemkhithayembuonz1FYYcqAwx.jpg" %}" alt="{{ user_profile_book.book.title }}" />
+                    </a>
+                </div>
+                <div class="post-content">
+                    <div class="post-info top">
+                        <span class="post-date"> {{ user_profile_book.book.publish_date }} </span>
+                    </div>
+                    <div class="post-title-wrapper">
+                        <h2 class="post-title">
+                            <a href="/books/{{ user_profile_book.book.id }}-{{ user_profile_book.book.slug }}">{{ user_profile_book.book.title }}</a>
+                        </h2>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="post-content-content">
+                        <div class="clear"></div>
+                        <a href="/books/{{ user_profile_book.book.id }}-{{ user_profile_book.book.slug }}" class="read-more"> {# Full #}</a>
+                        <div class="post-info bottom">
+                            <span class="no-caps">by {{ user_profile_book.book.author }}</span>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </article>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block 'js' %}
+{% endblock %}
