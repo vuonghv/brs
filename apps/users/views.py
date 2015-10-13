@@ -15,8 +15,10 @@ from django.utils.decorators import method_decorator
 from django.conf import settings
 from django.apps import apps as django_apps
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
 
 from apps.core.views import BaseView
+from apps.users.models import FollowShip, UserProfile
 
 
 class SignupUserView(BaseView, CreateView):
@@ -79,3 +81,20 @@ class LoginUserView(BaseView, FormView):
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy('books:index'))
+
+@login_required
+def follow_user(request, pk):
+    if request.method == 'POST':
+        followee = get_object_or_404(UserProfile, pk=pk)
+        follower = request.user.profile
+        FollowShip.objects.update_or_create(follower=follower, followee=followee)
+
+    return HttpResponseRedirect(reverse('books:index'))
+
+@login_required
+def unfollow_user(request, pk):
+    if request.method == 'POST':
+        followee = get_object_or_404(UserProfile, pk=pk)
+        follower = request.user.profile
+    
+    return HttpResponseRedirect(reverse('books:index'))

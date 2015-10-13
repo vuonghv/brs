@@ -43,7 +43,7 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
             raise PermissionDenied('You do NOT own this comment')
         return super().delete(request, *args, **kwargs)
 
-    def get_success_url():
+    def get_success_url(self):
         return reverse_lazy('books:detail',
                 kwargs={'pk': self.object.review.book.pk,
                         'slug': self.object.review.book.slug})
@@ -52,3 +52,15 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
 class CommentUpdateView(LoginRequiredMixin, UpdateView):
     model = Comment
     template_name = 'comments/update.html'
+    fields = ['content',]
+
+    def get_success_url(self):
+        return reverse_lazy('books:detail',
+                kwargs={'pk': self.object.review.book.pk,
+                        'slug': self.object.review.book.slug})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.user_profile != request.user.profile:
+            raise PermissionDenied('You do NOT own this comment')
+        return super().post(request, *args, **kwargs)
