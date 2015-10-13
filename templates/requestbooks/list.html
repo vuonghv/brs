@@ -22,7 +22,7 @@
                 </tr>
             {% for req in object_list %}
                 <tr>
-                    <td>{{ req.title }}</td>
+                    <td><a href="{% url 'requests:detail' req.pk %}">{{ req.title }}</a></td>
                     <td>{{ req.description|truncatewords:20 }}</td>
                     <td>{{ req.get_status_display }}</td>
                     <td style="text-align: center;">
