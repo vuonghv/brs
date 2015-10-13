@@ -488,6 +488,35 @@ input[type="button"],
   -webkit-appearance: none;
   border: 0px;
 }
+
+input[type="reset"],
+#reset {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 2px 0;
+  padding: 12px 25px;
+  background: none;
+  background-image: none;
+  background-color: #878D88;
+  /* button color */
+
+  color: #ffffff;
+  vertical-align: middle;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: normal;
+  font-size: 13px;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;/*Montserrat, */
+  line-height: 20px;
+  cursor: pointer;
+  -webkit-appearance: none;
+  border: 0px;
+}
+
+
 /*#main-container button,#main-container  .button ,#main-container input[type="submit"],#main-container input[type="button"],#main-container #submit { color: @color-white;}*/
 button:hover,
 .button:hover,
@@ -522,6 +551,7 @@ a.btn-alt {
   color: #ffffff;
 }
 input[type="submit"],
+input[type="reset"],
 input[type="button"] {
   margin-top: -1px;
   border-style: none;
@@ -9223,4 +9253,15 @@ button, .button , input[type=\"submit\"], input[type=\"button\"], #submit, .left
 .starRating:not(old) > label:hover ~ label:before,
 .starRating:not(:hover) > :checked ~ label:before{
   opacity : 1;
+}
+
+.comment-review {
+  margin-left: 80px;
+}
+
+.comment-content-review {
+ margin-left: 80px; 
+}
+.description {
+ margin-left: 80px;  
 }

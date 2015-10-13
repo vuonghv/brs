@@ -51,8 +51,12 @@ class DetaiBookView(BaseView, DetailView):
                 context['status_read'] = UserProfileBook.objects.get(
                                     book=self.object,
                                     user_profile=self.request.user.profile)
+                context['status_review'] = Review.objects.filter(
+                                    book=self.object,
+                                    user_profile=self.request.user.profile).exists()
             except UserProfileBook.DoesNotExist:
                 context['status_read'] = None
+                context['status_review'] = False
 
         return context
 
