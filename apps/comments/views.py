@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse, HttpResponseRedirect
 
 from apps.reviews.models import Review
 from apps.comments.models import Comment
@@ -21,6 +22,10 @@ class CommentReviewView(LoginRequiredMixin, SingleObjectMixin, FormView):
         return reverse_lazy('books:detail',
                     kwargs={'pk': self.object.book.pk,
                             'slug': self.object.book.slug})
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return HttpResponseRedirect(self.get_success_url())
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -32,6 +37,9 @@ class CommentReviewView(LoginRequiredMixin, SingleObjectMixin, FormView):
         form.instance.review = self.object
         form.save()
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class CommentDeleteView(LoginRequiredMixin, DeleteView):
@@ -47,6 +55,9 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
         return reverse_lazy('books:detail',
                 kwargs={'pk': self.object.review.book.pk,
                         'slug': self.object.review.book.slug})
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class CommentUpdateView(LoginRequiredMixin, UpdateView):
