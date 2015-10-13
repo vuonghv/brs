@@ -76,6 +76,29 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    {# For comments of Review #}
+                                    <div>
+                                        {% with comments=review.comment_set.all %}
+                                            {% for cm in comments %}
+                                            <div>
+                                                <h4>{{ cm.user_profile.user.username }}</h4>
+                                                <p>{{ cm.content }}</p>
+                                            </div>
+                                            {% endfor %}
+                                        {% endwith %}
+
+                                        {% if user.is_authenticated %}
+                                        <div>
+                                            <form method="POST" action="{% url 'comments:create' review.pk %}">
+                                                {% csrf_token %}
+                                                <textarea name="content" rows="2" columns="20"></textarea>
+                                                <input type="submit" value="submit"/>
+                                            </form>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {# End of comments #}
                                 </li>                    
                                 {% endfor %}
                             </ol>
