@@ -22,8 +22,8 @@
                                 <span>Read: </span>
                                 <select name="status" id="read" class="mark-read">
                                     <option>Want to read</option>
-                                    <option {% if status_read and status_read.status == 1 %} selected {% endif %} value="1">Reading</option>
-                                    <option {% if status_read and status_read.status == 2 %} selected {% endif %} value="2">Read</option>
+                                    <option {% if status_read.status == 1 %} selected {% endif %} value="1">Reading</option>
+                                    <option {% if status_read.status == 2 %} selected {% endif %} value="2">Read</option>
                                 </select>
                             </form>
                         {% else %}
@@ -34,8 +34,8 @@
                                 <span>Read: </span>
                                 <select name="status" id="read" class="mark-read">
                                     <option>Want to read</option>
-                                    <option {% if status_read and status_read.status == 1 %} selected {% endif %} value="1">Reading</option>
-                                    <option {% if status_read and status_read.status == 2 %} selected {% endif %} value="2">Read</option>
+                                    <option value="1">Reading</option>
+                                    <option value="2">Read</option>
                                 </select>
                             </form>
                         {% endif %}
@@ -87,13 +87,27 @@
                                     <div class="comment_container">
                                         <img alt="" src="http://1.gravatar.com/avatar/dcd1ef25e108ae391338cb43b56ba8e6?s=60&amp;d=mm&amp;r=g" srcset="http://1.gravatar.com/avatar/dcd1ef25e108ae391338cb43b56ba8e6?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" height="60" width="60" style="float: left; margin-right: 10px;">
                                         <div class="comment-text">
-                                            <p class="meta">
-                                            <strong itemprop="author">
-                                                <a href="{% url 'books:history' review.user_profile.user.username %}">{{ review.user_profile.user.username }}</a>
-                                            </strong> – <time itemprop="datePublished" datetime="2013-06-07T12:39:04+00:00">{{ review.updated_time }}</time>
-                                            {% if request.user.is_authenticated %}
-                                                <a href="#" id="show-hide-{{ review.pk }}" onclick="show_comment({{ review.pk }}); return false;">  comment</a>
-                                            {% endif %}
+                                            <p class="meta">                                                
+                                                <strong itemprop="author">                                                    
+                                                    <a href="{% url 'books:history' review.user_profile.user.username %}">{{ review.user_profile.user.username }}</a>
+                                                </strong> – <time itemprop="datePublished" datetime="2013-06-07T12:39:04+00:00">{{ review.updated_time }}</time>
+
+                                                <span class="starRating">
+                                                    <input readonly type="radio" name="rating" value="5" {% if review.rating == 5 %}checked {% endif %}>
+                                                    <label for="rating5">5</label>
+                                                    <input readonly type="radio" name="rating" value="4" {% if review.rating == 4 %}checked {% endif %}>
+                                                    <label for="rating4">4</label>
+                                                    <input readonly type="radio" name="rating" value="3" {% if review.rating == 3 %}checked {% endif %}>
+                                                    <label for="rating3">3</label>
+                                                    <input readonly type="radio" name="rating" value="2" {% if review.rating == 2 %}checked {% endif %}>
+                                                    <label for="rating2">2</label>
+                                                    <input readonly type="radio" name="rating" value="1" {% if review.rating == 1 %}checked {% endif %}>
+                                                    <label for="rating1">1</label>
+                                                </span>
+
+                                                {% if request.user.is_authenticated %}
+                                                    <a href="#" id="show-hide-{{ review.pk }}" onclick="show_comment({{ review.pk }}); return false;">  comment</a>
+                                                {% endif %}
                                             </p>
                                             <div itemprop="description" class="description">
                                                 <p>{{ review.content }}</p>

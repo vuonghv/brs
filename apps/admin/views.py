@@ -236,22 +236,23 @@ class RequestedBookUpdateView(BaseView, UpdateView):
     """docstring for RequestedBookDetailView"""
     model = RequestedBook
     template_name = 'admin/requested_book_update.html'
-    fields = ['title', 'description', 'status', 'categories']
-    
-    def get_success_url(self):
-        return reverse_lazy('admin:list_requested_book')
+    fields = ['title', 'description', 'status', 'categories']    
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(RequestedBookUpdateView, self).get_context_data(**kwargs)
         info = {
-            'title': 'Update Requested Book',
-            'sidebar': ['requested_book',],
+            'info': {
+                'title': 'Update Requested Book',
+                'sidebar': ['requested_book']
+            },
             'list_category': Category.objects.all(), 
             'list_status': RequestedBook.STATUS_CHOICES,
         }
         context.update(info)
         return context
 
+    def get_success_url(self):
+        return reverse_lazy('admin:list_requested_book')
 
 ############################################################################
 ############################################################################

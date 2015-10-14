@@ -33,6 +33,17 @@
                         <div class="box-body">
                             {% csrf_token %}
 
+                            <div class="form-group {% if form.categories.errors %} has-error {% endif %}">
+                                <label>Category</label>
+                                <select class="form-control select2" name="{{ form.categories.name }}" multiple="multiple" data-placeholder="Select category" style="width: 100%;">                                    
+                                    {% for category in list_category  %}
+                                        <option {% if category.id in form.categories.value %} selected="selected" {% endif %} value="{{ category.id }}">{{ category.name }}</option>
+                                        }
+                                    {% endfor %}
+                                </select>
+                                <span class="help-block">{{ form.categories.errors }}</span>
+                            </div>
+                            
                             <div class="form-group {% if form.title.errors %} has-error {% endif %}">
                                 <label>Title</label>
                                 <input id="id_title" name="{{ form.title.name }}" type="text" class="form-control" value="{{ form.title.value|default_if_none:"" }}" placeholder="Enter title">
@@ -53,18 +64,6 @@
                                     {% endfor %}
                                 </select>
                             </div>
-
-                            <div class="form-group {% if form.categories.errors %} has-error {% endif %}">
-                                <label>Category</label>
-                                <select class="form-control select2" name="{{ form.categories.name }}" multiple="multiple" data-placeholder="Select category" style="width: 100%;">                                    
-                                    {% for category in list_category  %}
-                                        <option {% if category.id in form.categories.value %} selected="selected" {% endif %} value="{{ category.id }}">{{ category.name }}</option>
-                                        }
-                                    {% endfor %}
-                                </select>
-                                <span class="help-block">{{ form.categories.errors }}</span>
-                            </div>
-
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">

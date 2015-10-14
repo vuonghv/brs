@@ -36,9 +36,9 @@
                                 <tr>
                                     <td>{{ item.user.id }}.</td>
                                     <td>
-                                        <a href="/admin/user/detail?id={{ item.user.id }}">
-                                            <span>{{ item.user.username }}</span>
-                                        </a>
+                                        <span>{{ item.user.username }}</span>
+                                        <!-- <a href="/admin/user/detail?id={{ item.user.id }}">
+                                        </a> -->
                                     </td>
                                     <td>{{ item.user.email }}</td>
                                     <td>{{ item.user.date_joined|date:'d/m/Y' }}</td>

@@ -3,7 +3,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from apps.categories.models import Category
-from apps.books.models import Book
+from apps.books.models import Book, UserProfileBook
+from apps.reviews.models import Review
 
 class BaseView(ContextMixin):
     """docstring for BaseView"""
@@ -12,8 +13,8 @@ class BaseView(ContextMixin):
         context = super(BaseView, self).get_context_data(**kwargs)
         info = {
             'list_book_recommendations': Book.objects.all()[0:5],
-            'list_top_review': Book.objects.all()[0:5],
-            'list_category': Category.objects.all()            
+            'list_top_review': Review.objects.order_by('-rating', '-updated_time')[0:5],
+            'list_category': Category.objects.all()
         }
         context.update(info)
         return context

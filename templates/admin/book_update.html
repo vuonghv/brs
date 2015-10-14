@@ -68,6 +68,12 @@
                                 <span class="help-block">{{ form.pages.errors }}</span>
                             </div>
 
+                            <div class="form-group {% if form.cover.errors %} has-error {% endif %}">
+                                <label>Cover image</label>
+                                <input name="{{ form.cover.name }}" type="file"/>
+                                <span class="help-block">{{ form.cover.errors }}</span>
+                            </div>
+
                             <div class="form-group {% if form.publish_date.errors %} has-error {% endif %}">
                                 <label>Publish Date:</label>
                                 <div class="input-group">
