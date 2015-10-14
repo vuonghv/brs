@@ -60,4 +60,4 @@ target/
 *.swp
 
 db.sqlite3
-media/
+/media/
