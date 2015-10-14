@@ -22,6 +22,9 @@ from django.conf import settings
 urlpatterns = [
     #url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.HomePageView.as_view(), name='home'),
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes': settings.DEBUG}),
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes': settings.DEBUG}),
+    
     url(r'^admin/', include('apps.admin.urls', namespace='admin')),
     url(r'^users/', include('apps.users.urls', namespace='users')),
     url(r'^categories/', include('apps.categories.urls', namespace='categories')),
@@ -29,4 +32,4 @@ urlpatterns = [
     url(r'^requests/', include('apps.requestbooks.urls', namespace='requests')),
     url(r'^reviews/', include('apps.reviews.urls', namespace='reviews')),
     url(r'^comments/', include('apps.comments.urls', namespace='comments')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

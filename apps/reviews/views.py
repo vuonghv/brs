@@ -3,25 +3,22 @@ from django.views.generic import (
         ListView, DetailView, TemplateView, CreateView, FormView
 )
 from django.views.generic.detail import SingleObjectMixin
-from django.db.models import Q
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
 from apps.core.views import BaseView
 from apps.books.models import Book   
 from apps.reviews.models import Review
 from apps.reviews.forms import ReviewBookForm
+from apps.core.views import LoginRequiredMixin
 
 
-class CreateReviewView(BaseView, SingleObjectMixin, FormView):
+class CreateReviewView(LoginRequiredMixin, SingleObjectMixin, FormView):
     model = Book
-    template_name = 'books/index.html'
     form_class = ReviewBookForm
 
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return HttpResponseRedirect(self.get_success_url())
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -41,3 +38,6 @@ class CreateReviewView(BaseView, SingleObjectMixin, FormView):
         form.instance.user_profile = self.request.user.profile
         self.review = form.save()
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return HttpResponseRedirect(self.get_success_url())

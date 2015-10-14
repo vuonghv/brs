@@ -2,6 +2,7 @@ from django.views.generic.detail import ContextMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg, Count
+from django.views.decorators.gzip import gzip_page
 
 from apps.categories.models import Category
 from apps.books.models import Book, UserProfileBook
@@ -10,6 +11,11 @@ from apps.reviews.models import Review
 class BaseView(ContextMixin):
     """docstring for BaseView"""
     model = Book
+
+    @method_decorator(gzip_page)
+    def dispatch(self, request, *args, **kwargs):
+        return super(BaseView, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(BaseView, self).get_context_data(**kwargs)
         info = {
