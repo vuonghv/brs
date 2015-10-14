@@ -45,14 +45,14 @@ class DetaiBookView(BaseView, DetailView):
         info = {
             'info': {
                 'title': self.object.title
-            },
-            'favourite': self.object.favourites.filter(user=self.request.user).exists(),
+            }            
         }
         context.update(info)
         context['reviews'] = Review.objects.filter(
                                 book=self.object
                                 ).order_by('-updated_time')
         if self.request.user.is_authenticated():
+            context['favourite'] = self.object.favourites.filter(user=self.request.user).exists()
             context['status_review'] = Review.objects.filter(
                                     book=self.object,
                                     user_profile=self.request.user.profile).exists()
