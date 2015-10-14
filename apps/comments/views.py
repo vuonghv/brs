@@ -21,7 +21,7 @@ class CommentReviewView(LoginRequiredMixin, SingleObjectMixin, FormView):
     def get_success_url(self):
         return reverse_lazy('books:detail',
                     kwargs={'pk': self.object.book.pk,
-                            'slug': self.object.book.slug})
+                            'slug': self.object.book.slug}) + '#info-comment-' + self.comment.pk
     
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -35,7 +35,7 @@ class CommentReviewView(LoginRequiredMixin, SingleObjectMixin, FormView):
     def form_valid(self, form):
         form.instance.user_profile = self.request.user.profile
         form.instance.review = self.object
-        form.save()
+        self.comment = form.save()
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -54,7 +54,7 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
     def get_success_url(self):
         return reverse_lazy('books:detail',
                 kwargs={'pk': self.object.review.book.pk,
-                        'slug': self.object.review.book.slug})
+                        'slug': self.object.review.book.slug}) + '#reviews'
 
     def get(self, request, *args, **kwargs):
         return HttpResponseRedirect(self.get_success_url())
@@ -68,7 +68,7 @@ class CommentUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse_lazy('books:detail',
                 kwargs={'pk': self.object.review.book.pk,
-                        'slug': self.object.review.book.slug})
+                        'slug': self.object.review.book.slug}) + '#info-comment-' + str(self.object.pk)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()

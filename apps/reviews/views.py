@@ -34,10 +34,10 @@ class CreateReviewView(BaseView, SingleObjectMixin, FormView):
     def get_success_url(self):
         return reverse_lazy('books:detail',
                             kwargs={'pk': self.object.pk,
-                                    'slug': self.object.slug})
+                                    'slug': self.object.slug}) + '#info-reviews-' + str(self.review.pk)
 
     def form_valid(self, form):
         form.instance.book = self.object
         form.instance.user_profile = self.request.user.profile
-        form.save()
+        self.review = form.save()
         return super().form_valid(form)
