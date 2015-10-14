@@ -92,17 +92,8 @@
                                                     <a href="{% url 'books:history' review.user_profile.user.username %}">{{ review.user_profile.user.username }}</a>
                                                 </strong> – <time itemprop="datePublished" datetime="2013-06-07T12:39:04+00:00">{{ review.updated_time }}</time>
 
-                                                <span class="starRating">
-                                                    <input readonly type="radio" name="rating" value="5" {% if review.rating == 5 %}checked {% endif %}>
-                                                    <label for="rating5">5</label>
-                                                    <input readonly type="radio" name="rating" value="4" {% if review.rating == 4 %}checked {% endif %}>
-                                                    <label for="rating4">4</label>
-                                                    <input readonly type="radio" name="rating" value="3" {% if review.rating == 3 %}checked {% endif %}>
-                                                    <label for="rating3">3</label>
-                                                    <input readonly type="radio" name="rating" value="2" {% if review.rating == 2 %}checked {% endif %}>
-                                                    <label for="rating2">2</label>
-                                                    <input readonly type="radio" name="rating" value="1" {% if review.rating == 1 %}checked {% endif %}>
-                                                    <label for="rating1">1</label>
+                                                <span class="starRatingShow">
+                                                    - Rating: <strong class="rating">{{ review.rating }}</strong> / 5
                                                 </span>
 
                                                 {% if request.user.is_authenticated %}
