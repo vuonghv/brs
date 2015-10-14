@@ -17,10 +17,11 @@ Project training how to use django
 	* python manage.py migrate
 4. Create superuser
 	* python manage.py createsuperuser (user login admin)
-5. Dumpdata and loaddata
+5. Copy file and folder in folder data_test to folder root.
+6. Dumpdata and loaddata
 	* python manage.py dumpdata > [name.json]
 	* python manage.py loaddata [name.json]
-6. Run
+7. Run
 	* python manage.py runserver [port] (default: 8000)
 
 ## Task Admin
