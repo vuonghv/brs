@@ -34,7 +34,7 @@
             <article id="book-{{ user_profile_book.book.id }}" class="blog-non-single-post theme-post-entry post type-post status-publish format-standard has-post-thumbnail hentry category-general tag-tips tag-vacation">
                 <div class="blog-post-img img-loading">
                     <a href="/books/{{ user_profile_book.book.id }}-{{ user_profile_book.book.slug }}">
-                        <img src="{% static "upload/aiseomemkhithayembuonz1FYYcqAwx.jpg" %}" alt="{{ user_profile_book.book.title }}" />
+                        <img src="{{ user_profile_book.book.get_cover_url }}" alt="{{ user_profile_book.book.title }}" />
                     </a>
                 </div>
                 <div class="post-content">
