@@ -26,7 +26,7 @@
             {% for book in list_book_recommendations %}
                 <div class="lp-wrapper">
                     <a href="/books/{{ book.id }}-{{ book.slug }}">
-                        <img src="{% static "upload/miengdocthanhdoiI8Dam9thHn.jpg" %}" alt="" class="alignleft img-frame" width="55">
+                        <img src="{{ book.get_cover_url }}" alt="Image cover" class="alignleft img-frame" width="55">
                     </a>
                     <div class="lp-info-wrapper">
                         <span class="lp-title"><a href="/books/{{ book.id }}-{{ book.slug }}">{{ book.title }}</a> <small style="display:block;">Author: {{ book.author }}</small></span>
@@ -44,8 +44,8 @@
         <div class="sidebar-latest-posts">
             {% for book in list_top_review %}
                 <div class="lp-wrapper">
-                    <a href="/books/{{ book.id }}-{{ book.slug }}">
-                        <img src="{% static "upload/miengdocthanhdoiI8Dam9thHn.jpg" %}" alt="" class="alignleft img-frame" width="55">
+                    <a href="{% url 'books:detail' book.pk book.slug %}">
+                        <img src="{{ book.get_cover_url }}" alt="Image cover" class="alignleft img-frame" width="55">
                     </a>
                     <div class="lp-info-wrapper">
                         <span class="lp-title"><a href="/books/{{ book.id }}-{{ book.slug }}">{{ book.title }}</a> <small style="display:block;">Author: {{ book.author }}</small></span>

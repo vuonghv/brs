@@ -8,7 +8,7 @@
     <div class="content-box">
         <div class="product ">
             <div class="images">
-                <img src="{% static "upload/depnhatchinhlayeuemw5NKwrtfg3.jpg" %}" class="attachment-shop_single wp-post-image" alt="" title="" />
+                <img src="{{ object.get_cover_url }}" class="attachment-shop_single wp-post-image" alt="{{ object.title }}" title="" />
             </div>
             <div class="summary entry-summary">
                 <h1 itemprop="name" class="product_title entry-title">{{ object.title }}</h1>

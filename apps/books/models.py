@@ -16,10 +16,15 @@ class Book(models.Model):
     categories = models.ManyToManyField(Category, db_table='category_book', related_name='books')
     favourites = models.ManyToManyField(UserProfile, db_table='favourites', related_name='liked_books')
     user_profile = models.ManyToManyField(UserProfile, through='UserProfileBook', related_name='book')
-    cover = models.ImageField(upload_to=settings.BOOK_DIR, max_length=255, default='', blank=True)
+    cover = models.ImageField(upload_to=settings.BOOK_DIR, max_length=255, default='', blank=False)
 
     class Meta:
         db_table = 'book'
+
+    def delete(self, using=None):
+        super().delete(using)
+        if self.cover:
+            self.cover.delete()
 
     def get_rating(self):
         reviews = Review.objects.filter(book=self)        
@@ -30,6 +35,12 @@ class Book(models.Model):
         for review in reviews:
             rating += review.rating
         return round(rating / total)
+
+    def get_cover_url(self):
+        if self.cover:
+            return self.cover.url
+        return ''
+
 
 class UserProfileBook(models.Model):
     READING = 1
