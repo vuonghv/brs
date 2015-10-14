@@ -44,7 +44,8 @@ class DetaiBookView(BaseView, DetailView):
         info = {
             'info': {
                 'title': self.object.title
-            }
+            },
+            'favourite': self.object.favourites.filter(user=self.request.user).exists(),
         }
         context.update(info)
         context['reviews'] = Review.objects.filter(
@@ -77,7 +78,7 @@ class RecommendationsBookView(BaseView, ListView):
     template_name = 'books/index.html'
 
     def get_queryset(self):
-        return Book.objects.order_by('-id', 'favourites')
+        return Book.objects.order_by('-favourites', '-id')
 
     def get_context_data(self, **kwargs):
         context = super(RecommendationsBookView, self).get_context_data(**kwargs)

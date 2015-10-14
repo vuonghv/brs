@@ -41,7 +41,7 @@
                         {% endif %}
                     </p>
                     <p>
-                        {% if object.favourites.all|length > 0 %}                            
+                        {% if favourite %}                            
                             <form id='favorite_form' method="POST" action="{% url 'books:remove-favorite' object.id %}">
                                 {% csrf_token %}
                                 <span>Favorite:</span> <i class="fa fa-heart"></i>
