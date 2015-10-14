@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.views.generic.detail import SingleObjectMixin
+from django.db.models import Count
 
 from apps.books.forms import *
 from apps.core.views import BaseView
@@ -78,7 +79,9 @@ class RecommendationsBookView(BaseView, ListView):
     template_name = 'books/index.html'
 
     def get_queryset(self):
-        return Book.objects.order_by('-favourites', '-id')
+        queryset = Book.objects.annotate(Count('favourites')
+                            ).order_by('-favourites__count')[0:5]
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super(RecommendationsBookView, self).get_context_data(**kwargs)
