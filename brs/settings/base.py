@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     #'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,8 +50,8 @@ INSTALLED_APPS = (
     'apps.categories',
     'apps.comments',
     'apps.users',
-    'apps.requestbooks'
-)
+    'apps.requestbooks',
+]
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
