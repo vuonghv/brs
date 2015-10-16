@@ -1,6 +1,5 @@
 import dj_database_url
 from brs.settings.base import *
-from brs import custom_storages   
 
 DEBUG = False
 
