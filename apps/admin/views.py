@@ -17,16 +17,12 @@ from apps.books.models import Book
 from apps.requestbooks.models import RequestedBook
 from apps.users.models import UserProfile
 
-class BaseView(View):
-    """docstring for BaseView"""
+class AdminRequiredMixin(object):
+    """docstring for AdminRequiredMixin"""
     @method_decorator(staff_member_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(BaseView, self).dispatch(request, *args, **kwargs)        
+        return super().dispatch(request, *args, **kwargs)        
 
-############################################################################
-############################################################################
-############################################################################
-# Login
 
 class LoginView(FormView):
     form_class = AdminAuthenticationForm
@@ -47,12 +43,8 @@ class LoginView(FormView):
         login(self.request, admin)
         return super().form_valid(form)
 
-############################################################################
-############################################################################
-############################################################################
-# Dashboard
 
-class DashboardView(BaseView, TemplateView):
+class DashboardView(AdminRequiredMixin, TemplateView):
     template_name = 'admin/dashboard_index.html'
 
     def get_context_data(self, **kwargs):
@@ -64,12 +56,9 @@ class DashboardView(BaseView, TemplateView):
         context['info'] = info
         return context
 
-############################################################################
-############################################################################
-############################################################################
-# Category
+# Categories Management
 
-class CategoryView(BaseView, ListView):
+class CategoryView(AdminRequiredMixin, ListView):
     """docstring for CategoryView"""
     context_object_name = 'list_category'
     template_name = 'admin/category_index.html'    
@@ -86,7 +75,7 @@ class CategoryView(BaseView, ListView):
         context['info'] = info
         return context
 
-class CategoryCreateView(BaseView, CreateView):
+class CategoryCreateView(AdminRequiredMixin, CreateView):
     """docstring for CategoryCreateView"""
     form_class = forms.CategoryForm    
     template_name = 'admin/category_create.html'
@@ -103,7 +92,7 @@ class CategoryCreateView(BaseView, CreateView):
     def get_success_url(self):
         return reverse('admin:list_category')
 
-class CategoryUpdateView(BaseView, UpdateView):
+class CategoryUpdateView(AdminRequiredMixin, UpdateView):
     """docstring for CategoryUpdateView"""
     model = Category
     form_class = forms.CategoryForm    
@@ -121,7 +110,7 @@ class CategoryUpdateView(BaseView, UpdateView):
     def get_success_url(self):
         return reverse('admin:list_category')
 
-class CategoryDeleteView(BaseView, DeleteView):
+class CategoryDeleteView(AdminRequiredMixin, DeleteView):
     """docstring for CategoryDeleteView"""
     model = Category
 
@@ -131,12 +120,9 @@ class CategoryDeleteView(BaseView, DeleteView):
     def get_success_url(self):
         return reverse('admin:list_category')
 
-############################################################################
-############################################################################
-############################################################################
-# Book
+# Books Management
 
-class BookView(BaseView, ListView):
+class BookView(AdminRequiredMixin, ListView):
     """docstring for BookView"""
     context_object_name = 'list_book'
     template_name = 'admin/book_index.html'    
@@ -153,7 +139,7 @@ class BookView(BaseView, ListView):
         context['info'] = info
         return context
 
-class BookCreateView(BaseView, CreateView):
+class BookCreateView(AdminRequiredMixin, CreateView):
     """docstring for BookCreateView"""
     form_class = forms.BookForm    
     template_name = 'admin/book_create.html'
@@ -171,7 +157,7 @@ class BookCreateView(BaseView, CreateView):
     def get_success_url(self):
         return reverse('admin:list_book')
 
-class BookUpdateView(BaseView, UpdateView):
+class BookUpdateView(AdminRequiredMixin, UpdateView):
     """docstring for BookUpdateView"""
     model = Book
     form_class = forms.BookForm    
@@ -190,7 +176,7 @@ class BookUpdateView(BaseView, UpdateView):
     def get_success_url(self):
         return reverse('admin:list_book')
 
-class BookDeleteView(BaseView, DeleteView):
+class BookDeleteView(AdminRequiredMixin, DeleteView):
     """docstring for BookDeleteView"""
     model = Book
 
@@ -200,12 +186,9 @@ class BookDeleteView(BaseView, DeleteView):
     def get_success_url(self):
         return reverse('admin:list_book')
 
-############################################################################
-############################################################################
-############################################################################
-# Requested Book
+# Requested Books Management
 
-class RequestedBookView(BaseView, ListView):
+class RequestedBookView(AdminRequiredMixin, ListView):
     """docstring for RequestedBookView"""
     context_object_name = 'list_requested_book'
     template_name = 'admin/requested_book_index.html'
@@ -222,7 +205,7 @@ class RequestedBookView(BaseView, ListView):
         context['info'] = info
         return context
 
-class RequestedBookDeleteView(BaseView, DeleteView):
+class RequestedBookDeleteView(AdminRequiredMixin, DeleteView):
     """docstring for RequestedBookDeleteView"""
     model = RequestedBook
 
@@ -232,7 +215,7 @@ class RequestedBookDeleteView(BaseView, DeleteView):
     def get_success_url(self):
         return reverse('admin:list_requested_book')
 
-class RequestedBookUpdateView(BaseView, UpdateView):
+class RequestedBookUpdateView(AdminRequiredMixin, UpdateView):
     """docstring for RequestedBookDetailView"""
     model = RequestedBook
     template_name = 'admin/requested_book_update.html'
@@ -254,12 +237,9 @@ class RequestedBookUpdateView(BaseView, UpdateView):
     def get_success_url(self):
         return reverse_lazy('admin:list_requested_book')
 
-############################################################################
-############################################################################
-############################################################################
-# User
+# Users Management
 
-class UserProfileView(BaseView, ListView):
+class UserProfileView(AdminRequiredMixin, ListView):
     """docstring for UserProfileView"""
     context_object_name = 'list_user'
     template_name = 'admin/user_profile_index.html'
@@ -276,7 +256,7 @@ class UserProfileView(BaseView, ListView):
         context['info'] = info
         return context
 
-class UserProfileDeleteView(BaseView, DeleteView):
+class UserProfileDeleteView(AdminRequiredMixin, DeleteView):
     """docstring for UserProfileDeleteView"""
     model = UserProfile
 
@@ -289,7 +269,7 @@ class UserProfileDeleteView(BaseView, DeleteView):
     def get_success_url(self):
         return reverse('admin:list_user')
 
-class UserProfileDetailView(BaseView, DetailView):
+class UserProfileDetailView(AdminRequiredMixin, DetailView):
     """docstring for UserProfileDetailView"""
     def __init__(self, arg):
         super(UserProfileDetailView, self).__init__()
