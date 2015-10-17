@@ -213,7 +213,10 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#read').on('change', function() {
-                $('#read_form').submit();
+                val = $('#read').val()
+                if (val == 1 || val == 2) {
+                    $('#read_form').submit();
+                }
             });
             $('#favorite_form').on('click', function() {
                 $('#favorite_form').submit();
