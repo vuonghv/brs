@@ -263,9 +263,6 @@ class UserProfileDeleteView(AdminRequiredMixin, DeleteView):
     def get(self, request, *args, **kwargs):
         return self.delete(request, *args, **kwargs)
 
-    # def form_valid(self, form):
-    #     pass        
-
     def get_success_url(self):
         return reverse('admin:list_user')
 

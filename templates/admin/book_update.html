@@ -33,14 +33,15 @@
                         <div class="box-body">
                             {% csrf_token %}
 
+                            {% if form.non_field_errors %}
+                            <div class="form-group has-error">
+                                {{ form.non_field_errors }}
+                            </div>
+                            {% endif %}
+
                             <div class="form-group {% if form.categories.errors %} has-error {% endif %}">
-                                <label>Category</label>
-                                <select class="form-control select2" name="{{ form.categories.name }}" multiple="multiple" data-placeholder="Select category" style="width: 100%;">                                    
-                                    {% for category in list_category  %}
-                                        <option {% if category.id in form.categories.value %} selected="selected" {% endif %} value="{{ category.id }}">{{ category.name }}</option>
-                                        }
-                                    {% endfor %}
-                                </select>
+                                {{ form.categories.label_tag }}
+                                {{ form.categories }}
                                 <span class="help-block">{{ form.categories.errors }}</span>
                             </div>
 
@@ -69,8 +70,9 @@
                             </div>
 
                             <div class="form-group {% if form.cover.errors %} has-error {% endif %}">
-                                <label>Cover image</label>
-                                <input name="{{ form.cover.name }}" type="file"/>
+                                {{ form.cover.label_tag }}
+                                <br/>
+                                {{ form.cover }}
                                 <span class="help-block">{{ form.cover.errors }}</span>
                             </div>
 
@@ -90,6 +92,7 @@
                                 <textarea class="form-control" name="{{ form.description.name }}" placeholder="Enter description">{{ form.description.value|default_if_none:"" }}</textarea>
                             </div>
                         </div>
+
                         <!-- /.box-body -->
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary pull-right">Save</button>

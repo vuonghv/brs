@@ -22,3 +22,10 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = ('title', 'description', 'slug', 'categories',
                     'pages', 'author', 'publish_date', 'cover')
+
+        widgets = {
+            'categories': forms.widgets.SelectMultiple(
+                attrs={'class': 'form-control select2',
+                        'style': 'width: 100%;',
+                        'multiple': "multiple"}),
+        }
