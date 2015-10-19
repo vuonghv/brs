@@ -33,4 +33,6 @@ urlpatterns = [
     url(r'^requests/', include('apps.requestbooks.urls', namespace='requests')),
     url(r'^reviews/', include('apps.reviews.urls', namespace='reviews')),
     url(r'^comments/', include('apps.comments.urls', namespace='comments')),
+
+    url(r'^accounts/', include('allauth.urls')),
 ]

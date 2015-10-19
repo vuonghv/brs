@@ -40,8 +40,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # The Django sites framework is required
     'django.contrib.sites',
 
     # Project's apps
@@ -54,14 +52,24 @@ INSTALLED_APPS = (
     'apps.users',
     'apps.requestbooks',
 
+    # Third party apps
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    # ... include the providers you want to enable:
     'allauth.socialaccount.providers.facebook',
 )
 
 SITE_ID = 1
+
+# auth and allauth settings
+LOGIN_REDIRECT_URL = '/'
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_PROVIDERS =  {
+    'facebook': {
+        'SCOPE': ['email', 'public_profile'],
+        'METHOD': 'js_sdk',
+    }
+}
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
@@ -94,22 +102,12 @@ TEMPLATES = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    # Needed to login by username in Django admin, regardless of `allauth`
+    # Needed to login by username in Django admin, regardless of 'allauth'
     'django.contrib.auth.backends.ModelBackend',
 
-    # `allauth` specific authentication methods, such as login by e-mail
+    # 'allauth' specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 )
-
-LOGIN_REDIRECT_URL = '/'
-SOCIALACCOUNT_QUERY_EMAIL = True
-
-SOCIALACCOUNT_PROVIDERS = {
-    'facebook': {
-        'SCOPE': ['email', 'public_profile', 'user_friends'],
-        'METHOD': 'js_sdk'  # instead of 'oauth2'
-    }
-}
 
 WSGI_APPLICATION = 'brs.wsgi.application'
 
