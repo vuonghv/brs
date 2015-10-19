@@ -77,12 +77,18 @@
                         <div class="pex-woo-cart-holder">
                             <div class="pex-woo-cart">
                                 <ul class="cart_list product_list_widget ">
-                                    <li class="mini_cart_item">
-                                        <a href="http://pexetothemes.com/demos/story_wp/cart/?remove_item=1113d7a76ffceca1bb350bfe145467c6&amp;_wpnonce=1dd4775f2c" class="remove" title="Remove this item" data-product_id="1952" data-product_sku="">×</a>                                                    <a href="http://pexetothemes.com/demos/story_wp/product/flying-ninja/">
-                                        <img src="//pexetothemes.com/demos/story_wp/wp-content/uploads/2013/06/poster_2_up-120x120.jpg" class="attachment-shop_thumbnail wp-post-image" alt="poster_2_up" height="120" width="120">Flying Ninja&nbsp;                           </a>
-                                        <span class="quantity">1 × <span class="amount">£12.00</span></span>                    
-                                    </li>
+                                    {% for book in list_cart %}
+                                        <li class="mini_cart_item">
+                                            <a href="" class="remove" title="Remove this item" data-product_id="1952" data-product_sku="">×</a>
+
+                                            <a href="">
+                                                    <img src="//pexetothemes.com/demos/story_wp/wp-content/uploads/2013/06/poster_2_up-120x120.jpg" class="attachment-shop_thumbnail wp-post-image" alt="poster_2_up" height="120" width="120">{{ book.title }}&nbsp;
+                                                </a>
+                                            <span class="quantity">{{ request.session.cart[book.pk].quantity }} × <span class="amount">{{ book.price }}</span></span>                    
+                                        </li>
+                                    {% endfor %}
                                 </ul>
+
                                 <!-- end product list -->
                                 <p class="total"><strong>Subtotal:</strong> <span class="amount">£12.00</span></p>
                                 <p class="buttons">
