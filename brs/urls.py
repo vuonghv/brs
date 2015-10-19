@@ -22,6 +22,7 @@ from django.conf import settings
 urlpatterns = [
     #url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.HomePageView.as_view(), name='home'),
+    url(r'^accounts/', include('allauth.urls')),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes': settings.DEBUG}),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes': settings.DEBUG}),
     

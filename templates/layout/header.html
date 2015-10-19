@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load socialaccount %}
+{% providers_media_js %}
 
 <div class="header-wrapper">
     <header id="header">
@@ -55,6 +57,9 @@
                                     </li>
                                     <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
                                         <a href="/users/signup">Signup</a>
+                                    </li>
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
+                                        <a href="{% provider_login_url "facebook" method="js_sdk" %}">Facebook Connect</a>
                                     </li>
                                 </ul>
                             </li>
