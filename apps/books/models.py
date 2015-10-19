@@ -17,6 +17,7 @@ class Book(models.Model):
     favourites = models.ManyToManyField(UserProfile, db_table='favourites', related_name='liked_books')
     user_profile = models.ManyToManyField(UserProfile, through='UserProfileBook', related_name='book')
     cover = models.ImageField(upload_to=settings.BOOK_DIR, max_length=255, default='', blank=False)
+    price = models.FloatField(null=False, blank=False, default=0.0)
 
     class Meta:
         db_table = 'book'
