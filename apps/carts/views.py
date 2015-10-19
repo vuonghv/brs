@@ -1,7 +1,8 @@
-from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
 
 from apps.core.views import BaseView
 from apps.carts import utils

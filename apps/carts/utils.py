@@ -15,5 +15,5 @@ def get_cart(request):
 
 def get_books(request):
     cart = get_cart(request)
-    books = Book.objects.filter(id in cart.keys())
+    books = Book.objects.filter(id__in=cart.keys())
     return books
