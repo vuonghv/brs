@@ -61,10 +61,12 @@
                         <span style="width:100%">Rating: <strong class="rating">{{ object.get_rating }}</strong> out of 5</span>
                     </div>
 
-                    <form class="cart" method="post" enctype="multipart/form-data">
+                    <form class="cart" method="post" action="{% url 'carts:add' %}">
+                        {% csrf_token %}
                         <div class="quantity">
                             <input step="1" min="1" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" type="number">
                         </div>
+                        <input type="hidden" name="book" value="{{ object.pk }}" />
                         <button type="submit" class="single_add_to_cart_button button alt">Add to cart</button>
                     </form>
                 </div>

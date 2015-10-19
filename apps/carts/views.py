@@ -7,6 +7,7 @@ from django.views.generic.edit import FormView
 from apps.core.views import BaseView
 from apps.carts import utils
 from apps.carts.forms import BookItem
+from apps.books.models import Book
 
 
 class ViewCart(BaseView, TemplateView):
@@ -24,10 +25,18 @@ class AddBookToCart(FormView):
         book_id = form.cleaned_data['book']
         quantity = form.cleaned_data['quantity']
         exist = cart.get(book_id, False)
+
         if exist:
             cart[book_id] += quantity
+            print('EXIST: {} => {}'.format(book_id, cart[book_id]))
         else:
-            cart[book_id] = quantity
+            cart.update({book_id: quantity})
+            print('NON-EXIST: {} => {}'.format(book_id, cart[book_id]))
+        
+        print('{} => {}'.format(book_id, cart[book_id]))
+        
+        # Need for update session database
+        self.request.session.modified = True
         
         book = get_object_or_404(Book, id=book_id)
         return HttpResponseRedirect(reverse('books:detail',
