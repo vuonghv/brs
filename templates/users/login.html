@@ -1,4 +1,6 @@
 {% extends 'layout/base.html' %}
+{% load socialaccount %}
+{% providers_media_js %}
 
 {% block 'css' %}
 {% endblock %}
@@ -38,6 +40,12 @@
             
             <div class="contact-loader"></div>
             <div class="clear"></div>
+            <br/>
+            <div>
+                <a href="{% provider_login_url "facebook" method="js_sdk" %}">
+                    <img src="https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-xaf1/t39.2178-6/851579_209602122530903_1060396115_n.png">
+                </a>
+            </div>
         </form>
     </div>
 {% endblock %}
