@@ -160,3 +160,5 @@ MEDIA_URL = '/media/'
 LOGIN_URL = reverse_lazy('users:login')
 
 BOOK_DIR = 'books'
+
+CART = 'CART'
