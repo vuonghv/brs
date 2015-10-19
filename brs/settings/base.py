@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'apps.comments',
     'apps.users',
     'apps.requestbooks',
+    'apps.carts',
 
     # Third party apps
     'allauth',
