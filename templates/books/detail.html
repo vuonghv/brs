@@ -60,6 +60,13 @@
                     <div class="star-rating" title="Rated 5.00 out of 5">
                         <span style="width:100%">Rating: <strong class="rating">{{ object.get_rating }}</strong> out of 5</span>
                     </div>
+
+                    <form class="cart" method="post" enctype="multipart/form-data">
+                        <div class="quantity">
+                            <input step="1" min="1" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" type="number">
+                        </div>
+                        <button type="submit" class="single_add_to_cart_button button alt">Add to cart</button>
+                    </form>
                 </div>
                 <div class="product_meta">
                     <p><span>Publish: {{ object.publish_date }}</span></p>
@@ -69,7 +76,7 @@
                         {% endfor %}
                     </span>
                     <p><span>Pages: {{ object.pages }}</span></p>                    
-                </div>
+                </div>                
             </div>
             <!-- .summary -->
             <div class="woocommerce-tabs wc-tabs-wrapper">

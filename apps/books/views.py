@@ -21,6 +21,7 @@ class HomePageView(BaseView, ListView):
     template_name = 'books/index.html'
     model = Book
     context_object_name = 'list_book'
+    paginate_by = 6
 
     def get_queryset(self):
         return Book.objects.order_by('-id')

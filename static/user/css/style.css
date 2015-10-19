@@ -9265,3 +9265,28 @@ button, .button , input[type=\"submit\"], input[type=\"button\"], #submit, .left
 .description {
  margin-left: 80px;  
 }
+
+.quantity {
+  float: left;
+  width: 35px;
+}
+
+.single_add_to_cart_button {
+  font-size: 10px;
+  margin: 0px;
+  cursor: pointer;
+  position: relative;
+  font-family: inherit;
+  overflow: visible;
+  padding: 7px 12px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #FFF;
+  border-radius: 2px;
+  left: auto;
+  background: none repeat scroll 0% 0% #252525;
+  white-space: nowrap;
+  display: inline-block;
+  line-height: 16px;
+  margin-left: 30px;
+}
