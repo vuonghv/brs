@@ -54,6 +54,11 @@
                                         <a href="/users/login">Login</a>
                                     </li>
                                     <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
+                                        {% load socialaccount %}
+                                        {% providers_media_js %}
+                                        <a href="{% provider_login_url "facebook" method="js_sdk" %}">Facebook Login</a>
+                                    </li>
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
                                         <a href="/users/signup">Signup</a>
                                     </li>
                                 </ul>
