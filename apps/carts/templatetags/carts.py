@@ -31,3 +31,12 @@ def get_total_price(context):
     except Exception:
         total_price = 0
     return total_price
+
+@register.assignment_tag
+def get_book(item_id):
+    try:
+        book = Book.objects.get(id=item_id)    
+    except Exception:
+        return False    
+    return book
+

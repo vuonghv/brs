@@ -13,15 +13,14 @@ from apps.carts.forms import BookItemForm, BookForm
 from apps.books.models import Book
 
 
-class ViewCart(BaseView, TemplateView, FormView):
+class ViewCart(BaseView, FormView):
     template_name = 'carts/index.html'
     form_class = formset_factory(BookItemForm)
 
     def get_initial(self):
         cart = utils.get_cart(self.request)
-        initial = [{book: quantity} for book, quantity in cart.items()]
+        initial = [{'book': book, 'quantity': quantity} for book, quantity in cart.items()]
         return initial
-
 
 class AddBookToCart(FormView):
     form_class = BookItemForm

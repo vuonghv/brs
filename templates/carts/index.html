@@ -10,6 +10,9 @@
         <div class="woocommerce">
             <div class="woocommerce-message">Cart updated.</div>
             <form action="http://pexetothemes.com/demos/story_wp/cart/" method="post">
+                {% csrf_token %}
+
+                {{ form }}
                 <table class="shop_table cart" cellspacing="0">
                     <thead>
                         <tr>
@@ -22,29 +25,39 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for book in list_cart %}
+
+
+                        {% for field in form %}
                             <tr class="cart_item">
+                                {% get_book field.book.value as book %}
+                                <input type="hidden" name="form-{{ forloop.counter0 }}-{{ field.book.name }}" value="{{ field.book.value }}" />
+
                                 <td class="product-remove">
-                                    <a href="#" class="remove" title="Remove this item" data-product_id="1952" data-product_sku="">×</a>                    
+                                    <a href="#" class="remove" title="Remove this item" data-product_id="1952" data-product_sku="">×</a>
                                 </td>
+
                                 <td class="product-thumbnail">
-                                    <a href="{% url 'books:detail' book.id book.slug %}">
+                                    <a href="/books/{{ book.id }}-{{ book.slug }}">
                                         <img src="{{ book.get_cover_url }}" class="attachment-shop_thumbnail wp-post-image" alt="poster_2_up" height="120" width="120">
-                                    </a>                 
+                                    </a>
                                 </td>
+
                                 <td class="product-name">
-                                    <a href="{% url 'books:detail' book.id book.slug %}">{{ book.title|truncatechars:'20' }} </a>
+                                    <a href="/books/{{ book.id }}-{{ book.slug }}">{{ book.title|truncatechars:'20' }} </a>
                                 </td>
+
                                 <td class="product-price">
-                                    <span class="amount">${{ book.price }}</span>                  
+                                    <span class="amount">${{ book.price }}</span>
                                 </td>
+
                                 <td class="product-quantity">
                                     <div class="quantity">
-                                        <input step="1" min="0" value="{% get_quantity book.id %}" title="Qty" class="input-text qty text" size="4" type="number">
+                                        <input step="1" min="0" value="{{ field.quantity.value }}" title="Qty" class="input-text qty text" size="4" type="number">
                                     </div>
                                 </td>
+
                                 <td class="product-subtotal">
-                                    <span class="amount">{% get_one_book_total_price book.id %}</span>                  
+                                    <span class="amount">{% get_one_book_total_price field.book.value %}</span>
                                 </td>
                             </tr>
                         {% endfor %}
