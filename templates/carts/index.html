@@ -14,8 +14,6 @@
                 {% endfor %}
             {% endif %}
 
-            <!-- {{ form }} -->
-
             <form action="" method="POST">
                 {% csrf_token %}
 
@@ -40,7 +38,7 @@
                                 <td class="product-remove">
                                     <form id="form-{{ field.book.value }}" method="POST" action="{% url 'carts:remove' %}">
                                         {% csrf_token %}
-                                        <input name="book" type="hidden" value="{{ field.book.value }}">
+                                        <input id="book-{{ field.book.value }}" name="book" type="hidden" value="{{ field.book.value }}">
                                         <a href="#" onclick="document.forms['form-{{ field.book.value }}'].submit(); return false;" class="remove" title="Remove this item">×</a>
                                     </form>
                                 </td>
@@ -93,9 +91,11 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="wc-proceed-to-checkout">
-                        <a href="#" class="checkout-button button alt wc-forward">Proceed to Checkout</a>
-                    </div>
+                    {% if list_cart|length > 0 %}
+                        <div class="wc-proceed-to-checkout">
+                            <a href="{% url 'carts:checkout' %}" class="checkout-button button alt wc-forward">Proceed to Checkout</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
