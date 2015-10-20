@@ -1,0 +1,49 @@
+{% extends 'layout/base.html' %}
+{% load staticfiles %}
+{% load carts %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}
+    <div class="content-box">
+        <div class="woocommerce">
+            <table class="shop_table cart" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="product-remove">Create Date</th>
+                        <th class="product-thumbnail">Phone</th>
+                        <th class="product-name">Address</th>
+                        <th class="product-price">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in list_order %}
+                        <tr class="cart_item">
+                            <td class="product-name">
+                                <a href="{% url 'carts:detail' order.id %}">{{ order.created_date|date:'d/m/y' }} </a>
+                            </td>
+                            
+                            <td class="product-name">
+                                {{ order.phone }}
+                            </td>
+                            
+                            <td class="product-name">
+                                {{ order.shipping_address }}
+                            </td>                            
+                            
+                            <td class="product-name">
+                                {{ order.status }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>            
+        </div>
+        <div class="clear"></div>
+    </div>
+{% endblock %}
+
+{% block 'js' %}
+    
+{% endblock %}

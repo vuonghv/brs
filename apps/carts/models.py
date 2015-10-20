@@ -19,10 +19,12 @@ class Cart(models.Model):
     status = models.SmallIntegerField(choices=STATUS_CHOICES)
     created_date = models.DateTimeField(auto_now_add=True)
     phone = models.CharField(max_length=255)
-    shipping_address = models.CharField(max_length=300)
-
+    shipping_address = models.CharField(max_length=300)    
 
 class Item(models.Model):
     product = models.ForeignKey(Book, related_name='items')
     cart = models.ForeignKey(Cart, related_name='items')
     quantity = models.PositiveIntegerField()
+
+    def get_price(self):
+        return self.product.price * self.quantity
