@@ -7,7 +7,7 @@ def get_cart(request):
     """
     Get cart session or create an empty cart if not exist.
     """
-    cart = request.session.get(settings.CART, False)
+    cart = request.session.get(settings.CART, {})
     if not cart:
         request.session[settings.CART] = {}
         cart = request.session[settings.CART]

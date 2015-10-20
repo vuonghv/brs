@@ -24,16 +24,12 @@ class AddBookToCart(FormView):
         cart = utils.get_cart(self.request)
         book_id = form.cleaned_data['book']
         quantity = form.cleaned_data['quantity']
-        exist = cart.get(book_id, False)
+        exist = cart.get(str(book_id))
 
-        if exist:
-            cart[book_id] += quantity
-            print('EXIST: {} => {}'.format(book_id, cart[book_id]))
+        if exist is not None:
+            cart[str(book_id)] += quantity
         else:
-            cart.update({book_id: quantity})
-            print('NON-EXIST: {} => {}'.format(book_id, cart[book_id]))
-        
-        print('{} => {}'.format(book_id, cart[book_id]))
+            cart[str(book_id)] = quantity
         
         # Need for update session database
         self.request.session.modified = True
