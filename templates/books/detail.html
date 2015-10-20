@@ -6,6 +6,11 @@
 
 {% block 'content' %}
     <div class="content-box">
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="{{ msg.tags }}">{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
         <div class="product ">
             <div class="images">
                 <img src="{{ object.get_cover_url }}" class="attachment-shop_single wp-post-image" alt="{{ object.title }}" title="" />
@@ -71,6 +76,7 @@
                     </form>
                 </div>
                 <div class="product_meta">
+                    <p><span>Price: ${{ object.price }}</span></p>
                     <p><span>Publish: {{ object.publish_date }}</span></p>
                     <span class="posted_in">Category:
                         {% for cate in object.categories.all %}
