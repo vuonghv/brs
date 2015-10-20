@@ -13,14 +13,26 @@ from apps.carts.forms import BookItemForm, BookForm
 from apps.books.models import Book
 
 
-class ViewCart(BaseView, TemplateView, FormView):
+class ViewCart(BaseView, FormView):
     template_name = 'carts/index.html'
-    form_class = formset_factory(BookItemForm)
+    form_class = formset_factory(BookItemForm, extra=0)
+    success_url = reverse_lazy('carts:view')
 
     def get_initial(self):
         cart = utils.get_cart(self.request)
-        initial = [{book: quantity} for book, quantity in cart.items()]
+        initial = [{'book': k, 'quantity': v} for k, v in cart.items()]
         return initial
+
+    def form_valid(self, form):
+        cart = utils.get_cart(self.request)
+        formset = form
+        for form in formset:
+            book_id = form.cleaned_data['book']
+            quantity = form.cleaned_data['quantity']
+            cart.update({str(book_id): quantity})
+
+        self.request.session.modified = True
+        return HttpResponseRedirect(self.success_url)
 
 
 class AddBookToCart(FormView):
