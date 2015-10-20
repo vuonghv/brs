@@ -6,6 +6,14 @@
 
 {% block 'content' %}
     <div class="content-box">
+        {% if messages %}
+            <div class="woocommerce">
+                
+            {% for msg in messages %}
+            <div class="{{ msg.tags }}"><a class="button wc-forward alt" href="{% url 'carts:view' %}">VIEW CART</a>{{ msg }}</div>
+            {% endfor %}
+            </div>
+        {% endif %}
         <div class="product ">
             <div class="images">
                 <img src="{{ object.get_cover_url }}" class="attachment-shop_single wp-post-image" alt="{{ object.title }}" title="" />
@@ -60,8 +68,18 @@
                     <div class="star-rating" title="Rated 5.00 out of 5">
                         <span style="width:100%">Rating: <strong class="rating">{{ object.get_rating }}</strong> out of 5</span>
                     </div>
+
+                    <form class="cart" method="post" action="{% url 'carts:add' %}">
+                        {% csrf_token %}
+                        <div class="quantity">
+                            <input step="1" min="1" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" type="number">
+                        </div>
+                        <input type="hidden" name="book" value="{{ object.pk }}" />
+                        <button type="submit" class="single_add_to_cart_button button alt">Add to cart</button>
+                    </form>
                 </div>
                 <div class="product_meta">
+                    <p><span>Price: ${{ object.price }}</span></p>
                     <p><span>Publish: {{ object.publish_date }}</span></p>
                     <span class="posted_in">Category:
                         {% for cate in object.categories.all %}
@@ -69,7 +87,7 @@
                         {% endfor %}
                     </span>
                     <p><span>Pages: {{ object.pages }}</span></p>                    
-                </div>
+                </div>                
             </div>
             <!-- .summary -->
             <div class="woocommerce-tabs wc-tabs-wrapper">
@@ -213,7 +231,10 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#read').on('change', function() {
-                $('#read_form').submit();
+                val = $('#read').val()
+                if (val == 1 || val == 2) {
+                    $('#read_form').submit();
+                }
             });
             $('#favorite_form').on('click', function() {
                 $('#favorite_form').submit();

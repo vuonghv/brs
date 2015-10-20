@@ -22,6 +22,7 @@ from django.conf import settings
 urlpatterns = [
     #url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.HomePageView.as_view(), name='home'),
+    url(r'^accounts/', include('allauth.urls')),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes': settings.DEBUG}),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes': settings.DEBUG}),
     
@@ -32,4 +33,7 @@ urlpatterns = [
     url(r'^requests/', include('apps.requestbooks.urls', namespace='requests')),
     url(r'^reviews/', include('apps.reviews.urls', namespace='reviews')),
     url(r'^comments/', include('apps.comments.urls', namespace='comments')),
+    url(r'^carts/', include('apps.carts.urls', namespace='carts')),
+
+    url(r'^accounts/', include('allauth.urls')),
 ]

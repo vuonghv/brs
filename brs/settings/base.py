@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # Project's apps
     'apps.core',
@@ -51,7 +52,26 @@ INSTALLED_APPS = [
     'apps.comments',
     'apps.users',
     'apps.requestbooks',
+    'apps.carts',
+
+    # Third party apps
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
 ]
+
+SITE_ID = 1
+
+# auth and allauth settings
+LOGIN_REDIRECT_URL = '/'
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_PROVIDERS =  {
+    'facebook': {
+        'SCOPE': ['email', 'public_profile'],
+        'METHOD': 'js_sdk',
+    }
+}
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
@@ -82,6 +102,14 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of 'allauth'
+    'django.contrib.auth.backends.ModelBackend',
+
+    # 'allauth' specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 WSGI_APPLICATION = 'brs.wsgi.application'
 
@@ -122,15 +150,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-MEDIA_URL = '/media/'
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
+
 LOGIN_URL = reverse_lazy('users:login')
 
-
 BOOK_DIR = 'books'
+
+CART = 'CART'

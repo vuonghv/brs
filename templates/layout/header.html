@@ -1,4 +1,7 @@
 {% load staticfiles %}
+{% load socialaccount %}
+{% load carts %}
+{% providers_media_js %}
 
 <div class="header-wrapper">
     <header id="header">
@@ -23,11 +26,11 @@
                                 {% endfor %}
                             </ul>
                         </li>
-                        <li class="menu-item "><a href="/books/recommendations">Recommendations</a></li>
+                        <li class="menu-item "><a href="{% url 'books:recommendations' %}">Recommendations</a></li>
 
                         {% if request.user.is_authenticated %}
                             <li class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-1342">
-                                <a href="/users/login">{{ request.user.username }}<span class="drop-arrow"></span></a>
+                                <a href="#">{{ request.user.username }}<span class="drop-arrow"></span></a>
                                 <ul style="left: 0px; display: none; opacity: 1;" class="sub-menu">
                                     <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
                                         <a href="{% url 'users:followers' user.pk %}">Followers</a>
@@ -36,66 +39,93 @@
                                         <a href="{% url 'users:following' user.pk %}">Following</a>
                                     </li>
                                     <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
-                                        <a href="/books/history/{{ request.user.username }}">My Books</a>
+                                        <a href="{% url 'books:history' user.username %}">My Books</a>
                                     </li>
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
+                                        <a href="{% url 'carts:order' %}">My Order</a>
+                                    </li>                                    
                                     <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
                                         <a href="{% url 'requests:index' %}">Request</a>
                                     </li>
                                     <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
-                                        <a href="/users/logout">Logout</a>
+                                        <a href="{% url 'users:logout' %}">Logout</a>
                                     </li>
                                 </ul>
                             </li>
                         {% else %}
                             <li class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-1342">
-                                <a href="/users/login">Login<span class="drop-arrow"></span></a>
+                                <a href="{% url 'users:login' %}">Login<span class="drop-arrow"></span></a>
                                 <ul style="left: 0px; display: none; opacity: 1;" class="sub-menu">
                                     <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
-                                        <a href="/users/login">Login</a>
+                                        <a href="{% url 'users:login' %}">Login</a>
                                     </li>
                                     <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
-                                        <a href="/users/signup">Signup</a>
+                                        <a href="{% url 'users:signup' %}">Signup</a>
+                                    </li>
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1343">
+                                        <a href="{% provider_login_url "facebook" method="js_sdk" %}">
+                                            <img src="https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-xaf1/t39.2178-6/851579_209602122530903_1060396115_n.png">
+                                        </a>
                                     </li>
                                 </ul>
                             </li>
                         {% endif %}
                     </ul>
-                </div>
+                </div>            
+
                 <div class="header-buttons">
-                    <div class="header-search">
-                        <div class="search-wrapper" style="display: none; opacity: 0;">
-                            <form role="search" method="GET" class="searchform" action="{% url 'books:search' %}">
-                                <input type="text" name="s" class="search-input placeholder" placeholder="Search">
-                                <input type="submit" class="search-button">
-                            </form>
+                    {% if list_cart|length > 0 %}
+                        <div class="pex-woo-cart-btn-wrap">
+                            <div class="pex-woo-cart-btn btn-visible" style="display: block;">
+                                <div class="pex-woo-cart-num" data-num="1">{{ list_cart|length }}</div>
+                            </div>
+                            <div class="pex-woo-cart-holder">
+                                <div class="pex-woo-cart">
+                                    <ul class="cart_list product_list_widget ">
+                                        {% for book in list_cart %}
+                                            <li class="mini_cart_item">
+                                                <form id="form-{{ book.id }}" method="POST" action="{% url 'carts:remove' %}">
+                                                    {% csrf_token %}
+                                                    <input name="book" type="hidden" value="{{ book.id }}">
+                                                    <a href="#" onclick="document.forms['form-{{ book.id }}'].submit(); return false;" class="remove" title="Remove this item">×</a>
+                                                </form>
+
+                                                <a href="{% url 'books:detail' book.id book.slug %}">
+                                                        <img src="{{ book.get_cover_url }}" class="attachment-shop_thumbnail wp-post-image" alt="poster_2_up" height="120" width="120">{{ book.title|truncatechars:'20' }}&nbsp;
+                                                    </a>
+                                                    <span class="quantity2">{% get_quantity book.id %} × <span class="amount">{{ book.price }}</span></span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+
+                                    <!-- end product list -->
+                                    <p class="total"><strong>Subtotal:</strong> <span class="amount">${% get_total_price %}</span></p>
+                                    <p class="buttons">
+                                        <a href="{% url 'carts:view' %}" class="button wc-forward">View Cart</a>
+                                        <a href="{% url 'carts:checkout' %}" class="button checkout wc-forward">Checkout</a>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <a href="#" class="header-search-btn">Search</a>
-                    </div>
-                    <!--<div class="social-profiles">
+                    {% endif %}
+                    <!-- <div class="social-profiles">
                         <ul class="social-icons">
                             <li>
-                                <a href="#" target="_blank" title="Pexeto on Facebook">
+                                <a href="http://www.facebook.com/pages/Pexeto/154921334549933" target="_blank" title="Pexeto on Facebook">
                                     <div>
-                                        <img src="imgs/facebook.png" alt="">
+                                        <img src="http://pexetothemes.com/demos/story_wp/wp-content/themes/thestory/images/icons_white/facebook.png" alt="">
                                     </div>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" target="_blank" title="Follow us on Twitter">
+                                <a href="https://twitter.com/pexeto" target="_blank" title="Follow us on Twitter">
                                     <div>
-                                        <img src="imgs/twitter.png" alt="">
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" target="_blank" title="Pexeto on Google+">
-                                    <div>
-                                        <img src="imgs/googleplus.png" alt="">
+                                        <img src="http://pexetothemes.com/demos/story_wp/wp-content/themes/thestory/images/icons_white/twitter.png" alt="">
                                     </div>
                                 </a>
                             </li>
                         </ul>
-                    </div>-->
+                    </div> -->
                 </div>
             </nav>
             <div class="clear"></div>

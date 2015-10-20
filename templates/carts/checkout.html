@@ -1,0 +1,97 @@
+{% extends 'layout/base.html' %}
+{% load staticfiles %}
+{% load carts %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}
+    <div class="content-box">
+        <div class="woocommerce">
+            <form name="checkout" method="POST" class="checkout woocommerce-checkout" action="#" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <ul class="woocommerce-error">
+                        {% for err in form.non_field_errors %}
+                            <li><strong>{{ err }}</strong></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <div class="col2-set" id="customer_details">
+                    <div class="col-1">
+                        <div class="woocommerce-billing-fields">
+                            <h3>Billing Details</h3>
+                            <p class="form-row form-row form-row-first validate-required" id="billing_first_name_field">
+                                <label for="billing_first_name" class="">Phone <abbr class="required" title="required">*</abbr></label>
+                                <input class="input-text" name="phone" id="billing_first_name" placeholder="Enter Phone" value="{{ form.phone.value|default:'' }}" type="text">
+                                {% if form.phone.errors %}
+                                <font color="red">
+                                    <ul>
+                                        {% for error in form.phone.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </font>
+                                {% endif %}
+                            </p>
+
+                            <p class="form-row form-row form-row-first validate-required" id="billing_first_name_field">
+                                <label for="billing_first_name" class="">Shipping Address <abbr class="required" title="required">*</abbr></label>
+                                <input class="input-text" name="shipping_address" placeholder="Enter Address" value="{{ form.shipping_address.value|default:'' }}" type="text">
+                                {% if form.shipping_address.errors %}
+                                <font color="red">
+                                    <ul>
+                                        {% for error in form.shipping_address.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </font>
+                                {% endif %}
+                            </p>                            
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <h3 id="order_review_heading">Your order</h3>
+            <div id="order_review" class="woocommerce-checkout-review-order">
+                <table class="shop_table woocommerce-checkout-review-order-table">
+                    <thead>
+                        <tr>
+                            <th class="product-name">Product</th>
+                            <th class="product-total">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in list_cart %}
+                            <tr class="cart_item">
+                                <td class="product-name">
+                                    {{ book.title|truncatechars:'80' }}&nbsp;<strong class="product-quantity">× {% get_quantity book.id %}</strong>                                                  
+                                </td>
+                                <td class="product-total">
+                                    <span class="amount">${% get_one_book_total_price book.id %}</span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>                            
+                        <tr class="order-total">
+                            <th>Total</th>
+                            <td><strong><span class="amount">${% get_total_price %}</span></strong> </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>            
+        </div>
+
+        {% if list_cart|length > 0 %}
+            <a href="#" onclick="document.forms['checkout'].submit(); return false;" class="button alt" style="float: right;" name="woocommerce_checkout_place_order">Place holder</a>
+        {% endif %}
+
+        <div class="clear"></div>
+    </div>
+{% endblock %}
+
+{% block 'js' %}
+    
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'layout/base.html' %}
+{% load staticfiles %}
+{% load carts %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}
+    <div class="content-box">
+        <div class="woocommerce">
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="{{ msg.tags }}">{{ msg }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form action="" method="POST">
+                {% csrf_token %}
+
+                <table class="shop_table cart" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th class="product-remove">&nbsp;</th>
+                            <th class="product-thumbnail">&nbsp;</th>
+                            <th class="product-name">Product</th>
+                            <th class="product-price">Price</th>
+                            <th class="product-quantity">Quantity</th>
+                            <th class="product-subtotal">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{ form.management_form }}
+                        {% for field in form %}
+                            <tr class="cart_item">
+                                {% get_book field.book.value as book %}
+                                <input type="hidden" name="form-{{ forloop.counter0 }}-{{ field.book.name }}" value="{{ field.book.value }}" />
+
+                                <td class="product-remove">
+                                    <form id="form-{{ field.book.value }}" method="POST" action="{% url 'carts:remove' %}">
+                                        {% csrf_token %}
+                                        <input id="book-{{ field.book.value }}" name="book" type="hidden" value="{{ field.book.value }}">
+                                        <a href="#" onclick="document.forms['form-{{ field.book.value }}'].submit(); return false;" class="remove" title="Remove this item">×</a>
+                                    </form>
+                                </td>
+
+                                <td class="product-thumbnail">
+                                    <a href="/books/{{ book.id }}-{{ book.slug }}">
+                                        <img src="{{ book.get_cover_url }}" class="attachment-shop_thumbnail wp-post-image" alt="poster_2_up" height="120" width="120">
+                                    </a>
+                                </td>
+
+                                <td class="product-name">
+                                    <a href="/books/{{ book.id }}-{{ book.slug }}">{{ book.title|truncatechars:'20' }} </a>
+                                </td>
+
+                                <td class="product-price">
+                                    <span class="amount">${{ book.price }}</span>
+                                </td>
+
+                                <td class="product-quantity">
+                                    <div class="quantity">
+                                        <input name="form-{{ forloop.counter0 }}-{{ field.quantity.name }}" step="1" min="0" value="{{ field.quantity.value }}" title="Qty" class="input-text qty text" size="4" type="number">
+                                    </div>
+                                </td>
+
+                                <td class="product-subtotal">
+                                    <span class="amount">{% get_one_book_total_price field.book.value %}</span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan="6" class="actions">
+                                <form id="empty-cart" style="display: None;" method="POST" action="{% url 'carts:clear' %}">
+                                    {% csrf_token %}
+                                </form>
+                                <a href="#" onclick="document.forms['empty-cart'].submit(); return false;" class="button" title="Empty you cart">Empty Cart</a>
+                                <input style="float: right;" class="button" name="update_cart" value="Update Cart" type="submit">                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <div class="cart-collaterals">
+                <div class="cart_totals ">
+                    <h2>Cart Totals</h2>
+                    <table cellspacing="0">
+                        <tbody>
+                            <tr class="order-total">
+                                <th>Total</th>
+                                <td><strong><span class="amount">${% get_total_price %}</span></strong> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {% if list_cart|length > 0 %}
+                        <div class="wc-proceed-to-checkout">
+                            <a href="{% url 'carts:checkout' %}" class="checkout-button button alt wc-forward">Proceed to Checkout</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+{% endblock %}
+
+{% block 'js' %}
+    
+{% endblock %}
