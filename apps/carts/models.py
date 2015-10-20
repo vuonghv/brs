@@ -16,7 +16,7 @@ class Cart(models.Model):
     )
 
     user_profile = models.ForeignKey(UserProfile, related_name='carts')
-    status = models.SmallIntegerField(choices=STATUS_CHOICES)
+    status = models.SmallIntegerField(choices=STATUS_CHOICES, default=WAITING)
     created_date = models.DateTimeField(auto_now_add=True)
     phone = models.CharField(max_length=255)
     shipping_address = models.CharField(max_length=300)

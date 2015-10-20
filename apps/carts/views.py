@@ -13,7 +13,8 @@ from django.contrib.auth.decorators import login_required
 
 from apps.core.views import BaseView
 from apps.carts import utils
-from apps.carts.forms import BookItemForm, BookForm
+from apps.carts.forms import BookItemForm, BookForm, CartForm
+from apps.carts.models import Item, Cart
 from apps.books.models import Book
 
 
@@ -127,9 +128,10 @@ class ClearCart(View):
         request.session.modified = True
         return HttpResponseRedirect(reverse('carts:view'))
 
-class CheckOutView(BaseView, TemplateView):
+class CheckOutView(BaseView, FormView):
     """docstring for CheckOutView"""
     template_name = "carts/checkout.html"
+    form_class = CartForm
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -144,3 +146,26 @@ class CheckOutView(BaseView, TemplateView):
         }
         context.update(info)
         return context
+
+    def form_valid(self, form):
+        cart = utils.get_cart(self.request)
+        form.instance.user_profile = self.request.user.profile
+        self.object = form.save()
+
+        for key, value in cart.items():
+            book = Book.objects.get(pk=int(key))
+            item = Item.objects.create(product=book, quantity=value,
+                                        cart=self.object)
+            item.save()
+        
+
+        cart.clear()
+        self.request.session.modified = True
+
+        messages.success(self.request, "You checked out successfully.",
+                            extra_tags='woocommerce-message')
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy('carts:detail', kwargs={'pk': self.object.pk})

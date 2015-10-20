@@ -9,18 +9,19 @@
     <div class="content-box">
         <div class="woocommerce">
             <form name="checkout" method="POST" class="checkout woocommerce-checkout" action="#" enctype="multipart/form-data">
+                {% csrf_token %}
                 <div class="col2-set" id="customer_details">
                     <div class="col-1">
                         <div class="woocommerce-billing-fields">
                             <h3>Billing Details</h3>
                             <p class="form-row form-row form-row-first validate-required" id="billing_first_name_field">
                                 <label for="billing_first_name" class="">Phone <abbr class="required" title="required">*</abbr></label>
-                                <input class="input-text" name="billing_first_name" id="billing_first_name" placeholder="Enter Phone" value="" type="text">
+                                <input class="input-text" name="phone" id="billing_first_name" placeholder="Enter Phone" value="" type="text">
                             </p>
 
                             <p class="form-row form-row form-row-first validate-required" id="billing_first_name_field">
                                 <label for="billing_first_name" class="">Shipping Address <abbr class="required" title="required">*</abbr></label>
-                                <input class="input-text" name="billing_first_name" placeholder="Enter Address" value="" type="text">
+                                <input class="input-text" name="shipping_address" placeholder="Enter Address" value="" type="text">
                             </p>                            
                         </div>
                     </div>
