@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView, View
 from django.views.generic.edit import FormView
 from django.forms.formsets import formset_factory
+from django.contrib import messages
 
 from apps.core.views import BaseView
 from apps.carts import utils
@@ -32,6 +33,8 @@ class ViewCart(BaseView, FormView):
             cart.update({str(book_id): quantity})
 
         self.request.session.modified = True
+        messages.success(self.request, "Cart is updated successfully!",
+                            extra_tags='woocommerce-message')
         return HttpResponseRedirect(self.success_url)
 
 
@@ -54,8 +57,12 @@ class AddBookToCart(FormView):
         
         # Need for update session database
         self.request.session.modified = True
-        
+
         book = get_object_or_404(Book, id=book_id)
+        messages.success(self.request,
+                    '"{}" has been added to your cart.'.format(book.title),
+                    extra_tags='woocommerce-message')
+        
         return HttpResponseRedirect(reverse('books:detail',
                             kwargs={'pk': book_id, 'slug': book.slug}))
 
