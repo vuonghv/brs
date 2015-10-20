@@ -3,7 +3,7 @@ from django.http import (
 )
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
-from django.views.generic.base import TemplateView, View
+from django.views.generic import TemplateView, View, ListView, DetailView
 from django.views.generic.edit import FormView
 from django.forms.formsets import formset_factory
 from django.contrib import messages
@@ -16,7 +16,7 @@ from apps.carts import utils
 from apps.carts.forms import BookItemForm, BookForm, CartForm
 from apps.carts.models import Item, Cart
 from apps.books.models import Book
-
+from apps.carts.models import Cart, Item
 
 class ViewCart(BaseView, FormView):
     template_name = 'carts/index.html'
@@ -116,7 +116,6 @@ class RemoveBookFromCart(FormView):
                     extra_tags='woocommerce-message')
         return HttpResponseRedirect(reverse('carts:view'))
 
-
 class ClearCart(View):
     
     def get(self, request, *args, **kwargs):
@@ -169,3 +168,46 @@ class CheckOutView(BaseView, FormView):
 
     def get_success_url(self):
         return reverse_lazy('carts:detail', kwargs={'pk': self.object.pk})
+
+class OrderView(BaseView, ListView):
+    """docstring for OrderView"""
+    template_name = "carts/order.html"
+    context_object_name = 'list_order'
+    model = Cart
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(OrderView, self).dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return Cart.objects.filter(user_profile=self.request.user.profile)
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderView, self).get_context_data(**kwargs)
+        info = {
+            'info': {
+                'title': 'Order - Book Review System'
+            }
+        }
+        context.update(info)
+        return context
+
+class OrderDetailView(BaseView, DetailView):
+    """docstring for OrderDetailView"""
+    model = Cart
+    template_name = "carts/detail.html"
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(OrderDetailView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderDetailView, self).get_context_data(**kwargs)
+        info = {
+            'info': {
+                'title': 'Order Detail - Book Review System'
+            },
+            'list_order_detail': Item.objects.filter(cart=self.object, cart__user_profile=self.request.user.profile)
+        }
+        context.update(info)
+        return context

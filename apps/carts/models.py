@@ -21,8 +21,20 @@ class Cart(models.Model):
     phone = models.CharField(max_length=255)
     shipping_address = models.CharField(max_length=300)
 
+    def get_total_price(self):
+        try:
+            total_price = 0
+            list = self.items.all()
+            for item in list:
+                total_price += item.quantity * item.product.price            
+        except Exception:
+            return 0
+        return total_price
 
 class Item(models.Model):
     product = models.ForeignKey(Book, related_name='items')
     cart = models.ForeignKey(Cart, related_name='items')
     quantity = models.PositiveIntegerField()
+
+    def get_price(self):
+        return self.product.price * self.quantity
