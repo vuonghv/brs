@@ -7,6 +7,14 @@
 
 {% block 'content' %}
     <div class="content-box">
+        {% if messages %}
+            <div class="woocommerce">
+                
+            {% for msg in messages %}
+            <div class="{{ msg.tags }}">{{ msg }}</div>
+            {% endfor %}
+            </div>
+        {% endif %}
         <h2 class="page-heading">
             Detail Order Book            
         </h2>
