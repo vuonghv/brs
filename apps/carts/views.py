@@ -123,7 +123,7 @@ class ClearCart(View):
 
     def post(self, request, *args, **kwargs):
         cart = utils.get_cart(request)
-        del cart
+        cart.clear()
         request.session.modified = True
         return HttpResponseRedirect(reverse('carts:view'))
 
@@ -144,4 +144,3 @@ class CheckOutView(BaseView, TemplateView):
         }
         context.update(info)
         return context
-        
