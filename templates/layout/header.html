@@ -99,7 +99,7 @@
                                     <p class="total"><strong>Subtotal:</strong> <span class="amount">${% get_total_price %}</span></p>
                                     <p class="buttons">
                                         <a href="{% url 'carts:view' %}" class="button wc-forward">View Cart</a>
-                                        <a href="#" class="button checkout wc-forward">Checkout</a>
+                                        <a href="{% url 'carts:checkout' %}" class="button checkout wc-forward">Checkout</a>
                                     </p>
                                 </div>
                             </div>

@@ -8,4 +8,5 @@ urlpatterns = [
         url(r'^remove/$', views.RemoveBookFromCart.as_view(), name='remove'),
         url(r'^update/$', views.UpdateBookToCart.as_view(), name='update'),
         url(r'^clear/$', views.ClearCart.as_view(), name='clear'),
+        url(r'^checkout/$', views.CheckOutView.as_view(), name='checkout'),
 ]
