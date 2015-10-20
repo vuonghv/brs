@@ -72,6 +72,10 @@
                         {% endfor %}
                         <tr>
                             <td colspan="6" class="actions">
+                                <form id="empty-cart" style="display: None;" method="POST" action="{% url 'carts:clear' %}">
+                                    {% csrf_token %}
+                                </form>
+                                <a href="#" onclick="document.forms['empty-cart'].submit(); return false;" class="button" title="Empty you cart">Empty Cart</a>
                                 <input style="float: right;" class="button" name="update_cart" value="Update Cart" type="submit">                                
                             </td>
                         </tr>

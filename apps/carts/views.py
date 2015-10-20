@@ -74,7 +74,7 @@ class UpdateBookToCart(FormView):
 
     def form_valid(self, form):
         cart = utils.get_cart(self.request)
-        book_id = form.cleanded_data['book']
+        book_id = form.cleaned_data['book']
         quantity = form.cleaned_data['quantity']
         cart[str(book_id)] = quantity
 
@@ -92,14 +92,16 @@ class RemoveBookFromCart(FormView):
 
     def form_valid(self, form):
         cart = utils.get_cart(self.request)
-        book_id = form.cleanded_data['book']
-        if hasattr(cart, str(book_id)):
+        book_id = form.cleaned_data['book']
+        if str(book_id) in cart.keys():
             del cart[str(book_id)]
 
         self.request.session.modified = True
         book = get_object_or_404(Book, id=book_id)
-        return HttpResponseRedirect(reverse('books:detail',
-                            kwargs={'pk': book_id, 'slug': book.slug}))
+        messages.success(self.request,
+                    '"{}" has been removed from your cart.'.format(book.title),
+                    extra_tags='woocommerce-message')
+        return HttpResponseRedirect(reverse('carts:view'))
 
 
 class ClearCart(View):
