@@ -81,7 +81,11 @@
                                     <ul class="cart_list product_list_widget ">
                                         {% for book in list_cart %}
                                             <li class="mini_cart_item">
-                                                <a href="" class="remove" title="Remove this item" data-product_id="1952" data-product_sku="">×</a>
+                                                <form id="form-{{ book.id }}" method="POST" action="{% url 'carts:remove' %}">
+                                                    {% csrf_token %}
+                                                    <input name="book" type="hidden" value="{{ book.id }}">
+                                                    <a href="#" onclick="document.forms['form-{{ book.id }}'].submit(); return false;" class="remove" title="Remove this item">×</a>
+                                                </form>
 
                                                 <a href="{% url 'books:detail' book.id book.slug %}">
                                                         <img src="{{ book.get_cover_url }}" class="attachment-shop_thumbnail wp-post-image" alt="poster_2_up" height="120" width="120">{{ book.title|truncatechars:'20' }}&nbsp;

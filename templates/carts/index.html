@@ -38,7 +38,11 @@
                                 <input type="hidden" name="form-{{ forloop.counter0 }}-{{ field.book.name }}" value="{{ field.book.value }}" />
 
                                 <td class="product-remove">
-                                    <a href="#" class="remove" title="Remove this item" data-product_id="1952" data-product_sku="">×</a>
+                                    <form id="form-{{ field.book.value }}" method="POST" action="{% url 'carts:remove' %}">
+                                        {% csrf_token %}
+                                        <input name="book" type="hidden" value="{{ field.book.value }}">
+                                        <a href="#" onclick="document.forms['form-{{ field.book.value }}'].submit(); return false;" class="remove" title="Remove this item">×</a>
+                                    </form>
                                 </td>
 
                                 <td class="product-thumbnail">
