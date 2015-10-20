@@ -3,9 +3,9 @@ from django.http import (
 )
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, View
 from django.views.generic.edit import FormView
-from django.http.response import 
+from django.forms.formsets import formset_factory
 
 from apps.core.views import BaseView
 from apps.carts import utils
@@ -13,8 +13,14 @@ from apps.carts.forms import BookItemForm, BookForm
 from apps.books.models import Book
 
 
-class ViewCart(BaseView, TemplateView):
+class ViewCart(BaseView, TemplateView, FormView):
     template_name = 'carts/index.html'
+    form_class = formset_factory(BookItemForm)
+
+    def get_initial(self):
+        cart = utils.get_cart(self.request)
+        initial = [{book: quantity} for book, quantity in cart.items()]
+        return initial
 
 
 class AddBookToCart(FormView):
@@ -76,3 +82,15 @@ class RemoveBookFromCart(FormView):
         book = get_object_or_404(Book, id=book_id)
         return HttpResponseRedirect(reverse('books:detail',
                             kwargs={'pk': book_id, 'slug': book.slug}))
+
+
+class ClearCart(View):
+    
+    def get(self, request, *args, **kwargs):
+        return HttpResponseBadRequest()
+
+    def post(self, request, *args, **kwargs):
+        cart = utils.get_cart(request)
+        del cart
+        request.session.modified = True
+        return HttpResponseRedirect(reverse('carts:view'))
