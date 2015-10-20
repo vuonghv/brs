@@ -71,34 +71,36 @@
                 </div>            
 
                 <div class="header-buttons">
-                    <div class="pex-woo-cart-btn-wrap">
-                        <div class="pex-woo-cart-btn btn-visible" style="display: block;">
-                            <div class="pex-woo-cart-num" data-num="1">1</div>
-                        </div>
-                        <div class="pex-woo-cart-holder">
-                            <div class="pex-woo-cart">
-                                <ul class="cart_list product_list_widget ">
-                                    {% for book in list_cart %}
-                                        <li class="mini_cart_item">
-                                            <a href="" class="remove" title="Remove this item" data-product_id="1952" data-product_sku="">×</a>
+                    {% if list_cart|length > 0 %}
+                        <div class="pex-woo-cart-btn-wrap">
+                            <div class="pex-woo-cart-btn btn-visible" style="display: block;">
+                                <div class="pex-woo-cart-num" data-num="1">{{ list_cart|length }}</div>
+                            </div>
+                            <div class="pex-woo-cart-holder">
+                                <div class="pex-woo-cart">
+                                    <ul class="cart_list product_list_widget ">
+                                        {% for book in list_cart %}
+                                            <li class="mini_cart_item">
+                                                <a href="" class="remove" title="Remove this item" data-product_id="1952" data-product_sku="">×</a>
 
-                                            <a href="">
-                                                    <img src="//pexetothemes.com/demos/story_wp/wp-content/uploads/2013/06/poster_2_up-120x120.jpg" class="attachment-shop_thumbnail wp-post-image" alt="poster_2_up" height="120" width="120">{{ book.title }}&nbsp;
-                                                </a>
-                                                <span class="quantity">{% get_quantity book.id %} × <span class="amount">{{ book.price }}</span>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
+                                                <a href="{% url 'books:detail' book.id book.slug %}">
+                                                        <img src="{{ book.get_cover_url }}" class="attachment-shop_thumbnail wp-post-image" alt="poster_2_up" height="120" width="120">{{ book.title|truncatechars:'20' }}&nbsp;
+                                                    </a>
+                                                    <span class="quantity2">{% get_quantity book.id %} × <span class="amount">{{ book.price }}</span></span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
 
-                                <!-- end product list -->
-                                <p class="total"><strong>Subtotal:</strong> <span class="amount">£12.00</span></p>
-                                <p class="buttons">
-                                    <a href="http://pexetothemes.com/demos/story_wp/cart/" class="button wc-forward">View Cart</a>
-                                    <a href="http://pexetothemes.com/demos/story_wp/checkout/" class="button checkout wc-forward">Checkout</a>
-                                </p>
+                                    <!-- end product list -->
+                                    <p class="total"><strong>Subtotal:</strong> <span class="amount">${% get_total_price %}</span></p>
+                                    <p class="buttons">
+                                        <a href="{% url 'carts:view' %}" class="button wc-forward">View Cart</a>
+                                        <a href="#" class="button checkout wc-forward">Checkout</a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                     <!-- <div class="social-profiles">
                         <ul class="social-icons">
                             <li>
