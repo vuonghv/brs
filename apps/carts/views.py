@@ -13,7 +13,8 @@ from django.contrib.auth.decorators import login_required
 
 from apps.core.views import BaseView
 from apps.carts import utils
-from apps.carts.forms import BookItemForm, BookForm
+from apps.carts.forms import BookItemForm, BookForm, CartForm
+from apps.carts.models import Item, Cart
 from apps.books.models import Book
 from apps.carts.models import Cart, Item
 
@@ -126,9 +127,10 @@ class ClearCart(View):
         request.session.modified = True
         return HttpResponseRedirect(reverse('carts:view'))
 
-class CheckOutView(BaseView, TemplateView):
+class CheckOutView(BaseView, FormView):
     """docstring for CheckOutView"""
     template_name = "carts/checkout.html"
+    form_class = CartForm
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -143,6 +145,29 @@ class CheckOutView(BaseView, TemplateView):
         }
         context.update(info)
         return context
+
+    def form_valid(self, form):
+        cart = utils.get_cart(self.request)
+        form.instance.user_profile = self.request.user.profile
+        self.object = form.save()
+
+        for key, value in cart.items():
+            book = Book.objects.get(pk=int(key))
+            item = Item.objects.create(product=book, quantity=value,
+                                        cart=self.object)
+            item.save()
+        
+
+        cart.clear()
+        self.request.session.modified = True
+
+        messages.success(self.request, "You checked out successfully.",
+                            extra_tags='woocommerce-message')
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy('carts:detail', kwargs={'pk': self.object.pk})
 
 class OrderView(BaseView, ListView):
     """docstring for OrderView"""
@@ -167,28 +192,22 @@ class OrderView(BaseView, ListView):
         context.update(info)
         return context
 
-class OrderDetailView(BaseView, ListView):
+class OrderDetailView(BaseView, DetailView):
     """docstring for OrderDetailView"""
     model = Cart
-    context_object_name = "list_order_detail"
     template_name = "carts/detail.html"
     
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(OrderDetailView, self).dispatch(request, *args, **kwargs)
 
-    def get_queryset(self):
-        return Item.objects.filter(cart=self.object, cart__user_profile=self.request.user.profile)
-
     def get_context_data(self, **kwargs):
         context = super(OrderDetailView, self).get_context_data(**kwargs)
         info = {
             'info': {
                 'title': 'Order Detail - Book Review System'
-            }
+            },
+            'list_order_detail': Item.objects.filter(cart=self.object, cart__user_profile=self.request.user.profile)
         }
         context.update(info)
         return context
-        
-
-
