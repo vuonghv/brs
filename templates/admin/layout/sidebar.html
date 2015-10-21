@@ -41,6 +41,11 @@
                 <i class="fa fa-user"></i> <span>User</span>
                 </a>
             </li>
+            <li class="{% if 'order' in info.sidebar %} active {% endif %}">
+                <a href="/admin/order">
+                <i class="fa fa-shopping-cart"></i> <span>Order</span>
+                </a>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->

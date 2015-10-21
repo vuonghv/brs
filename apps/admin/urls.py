@@ -52,4 +52,9 @@ urlpatterns = [
     url(r'^user/delete/(?P<pk>[0-9]+)/$',
         views.UserProfileDeleteView.as_view(),
         name='delete_user'),
+
+    url(r'^order/$', views.OrderView.as_view(), name='list_order'),
+    url(r'^order/update/(?P<pk>[0-9]+)/$', views.OrderUpdateView.as_view(), name='update_order'),
+    url(r'^order/detail/(?P<pk>[0-9]+)/$', views.OrderDetailView.as_view(), name='list_order_detail'),
+    url(r'^order/delete/(?P<pk>[0-9]+)/$', views.OrderDeleteView.as_view(), name='delete_order'),
 ]
