@@ -21,7 +21,7 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ('title', 'description', 'slug', 'categories',
-                    'pages', 'author', 'publish_date', 'cover')
+                    'pages', 'author', 'publish_date', 'cover', 'price')
 
         widgets = {
             'categories': forms.widgets.SelectMultiple(
