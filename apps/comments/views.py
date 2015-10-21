@@ -3,11 +3,13 @@ from django.views.generic.edit import FormView, DeleteView, UpdateView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseRedirect
+from django.conf import settings
 
 from apps.reviews.models import Review
 from apps.comments.models import Comment
 from apps.reviews.models import Review
 from apps.comments.forms import CommentReviewForm
+from apps.comments.tasks import send_comment_mail
 from apps.core.views import LoginRequiredMixin
 
 
@@ -28,6 +30,19 @@ class CommentReviewView(LoginRequiredMixin, SingleObjectMixin, FormView):
         form.instance.user_profile = self.request.user.profile
         form.instance.review = self.object
         self.comment = form.save()
+        
+        # send email to review owner
+        review = self.object
+        if review.user_profile.user.email:
+            url = reverse_lazy('books:detail',
+                    kwargs={'pk': review.book.pk, 'slug': review.book.slug})
+            subject = '[BRS] Comment on Reiview'
+            message = 'Someone has commented on your review.\
+                    Please check {}'.format(url)
+            to_list = [review.user_profile.user.email,]
+            from_email = settings.EMAIL_HOST_USER
+            send_comment_mail.delay(subject, message, from_email, to_list)
+
         return super().form_valid(form)
 
     def get_success_url(self):
