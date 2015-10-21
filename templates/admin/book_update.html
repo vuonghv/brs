@@ -69,6 +69,12 @@
                                 <span class="help-block">{{ form.pages.errors }}</span>
                             </div>
 
+                            <div class="form-group {% if form.price.errors %} has-error {% endif %}">
+                                <label>Price</label>
+                                <input name="{{ form.price.name }}" type="input" class="form-control" value="{{ form.price.value|default:'' }}" placeholder="Enter price of book">
+                                <span class="help-block">{{ form.price.errors }}</span>
+                            </div>
+
                             <div class="form-group {% if form.cover.errors %} has-error {% endif %}">
                                 {{ form.cover.label_tag }}
                                 <br/>
