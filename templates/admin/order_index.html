@@ -7,12 +7,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Book
+            Order
             <small>List</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Book</li>
+            <li class="active">Order</li>
         </ol>
     </section>
     <!-- Main content -->
@@ -20,38 +20,35 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-danger">
-                    <div class="box-header with-border">
-                        <div class="pull-right">
-                            <a class="btn btn-xs btn-warning" href="/admin/book/create">New Book</a>
-                        </div>
-                    </div>
-                    <!-- /.box-header -->
                     <div class="box-body">
                         <table class="table table-bordered">
                             <tr>
                                 <th style="width: 10px">#</th>
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th>Number Of Pages</th>
-                                <th>Publish Date</th>
-                                <th>Price</th>
-                                <th>Rating</th>
+                                <th>User</th>
+                                <th>Date Create</th>
+                                <th>Phone</th>
+                                <th>Total Price</th>
+                                <th>Shipping Address</th>
+                                <th>Status</th>
                                 <th class="text-center" style="width: 200px">Action</th>
                             </tr>
-                            {% for item in list_book %}
+                            {% for item in list_order %}
                                 <tr>
                                     <td>{{ item.id }}.</td>
-                                    <td>{{ item.title }}</td>
-                                    <td>{{ item.author }}</td>
-                                    <td>{{ item.pages }}</td>
-                                    <td>{{ item.publish_date }}</td>
-                                    <td>${{ item.price }}</td>
-                                    <td>{{ item.get_rating }}</td>
+                                    <td>{{ item.user_profile.user.username }}</td>
+                                    <td>{{ item.created_date|date:'d/m/y H:i:s' }}</td>
+                                    <td>{{ item.phone }}</td>
+                                    <td>${{ item.get_total_price }}</td>
+                                    <td>{{ item.shipping_address }}</td>
+                                    <td>{{ item.get_status_display }}</td>
                                     <td class="text-center">                                        
-                                        <a href="/admin/book/update/{{ item.id }}">
-                                            <span class="badge">Update</span>
+                                        <a href="/admin/order/detail/{{ item.id }}">
+                                            <span class="badge">Detail</span>
                                         </a>
-                                        <a href="#" data-href="/admin/book/delete/{{ item.id }}" data-toggle="modal" data-target="#confirm-delete">
+                                        <a href="/admin/order/update/{{ item.id }}">
+                                            <span class="badge bg-yellow">Update</span>
+                                        </a>
+                                        <a href="#" data-href="/admin/order/delete/{{ item.id }}" data-toggle="modal" data-target="#confirm-delete">
                                             <span class="badge bg-red">Delete</span>
                                         </a>
                                     </td>
