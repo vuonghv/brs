@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
-    'captcha'
+    'captcha',
     'djcelery',
     'kombu.transport.django',
 ]
