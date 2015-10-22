@@ -32,16 +32,13 @@ class CommentReviewView(LoginRequiredMixin, SingleObjectMixin, FormView):
         self.comment = form.save()
         
         # send email to review owner
-        review = self.object
-        if review.user_profile.user.email:
-            url = reverse_lazy('books:detail',
-                    kwargs={'pk': review.book.pk, 'slug': review.book.slug})
-            subject = '[BRS] Comment on Reiview'
-            message = 'Someone has commented on your review.\
-                    Please check {}'.format(url)
-            to_list = [review.user_profile.user.email,]
-            from_email = settings.EMAIL_HOST_USER
-            send_comment_mail.delay(subject, message, from_email, to_list)
+        path = '{}#info-comment-{}'.format(
+                    reverse('books:detail',
+                            kwargs={'pk': self.object.book.pk,
+                            'slug': self.object.book.slug}),
+                    self.comment.pk)
+        url = self.request.build_absolute_uri(path)
+        send_comment_mail.delay(url, self.object.pk)
 
         return super().form_valid(form)
 
