@@ -16,6 +16,7 @@ from apps.categories.models import Category
 from apps.books.models import Book
 from apps.requestbooks.models import RequestedBook
 from apps.users.models import UserProfile
+from apps.carts.models import Cart, Item
 
 class AdminRequiredMixin(object):
     """docstring for AdminRequiredMixin"""
@@ -271,3 +272,62 @@ class UserProfileDetailView(AdminRequiredMixin, DetailView):
     def __init__(self, arg):
         super(UserProfileDetailView, self).__init__()
         self.arg = arg
+
+# Order Management
+class OrderView(AdminRequiredMixin, ListView):
+    """docstring for OrderView"""
+    model = Cart
+    context_object_name = "list_order"
+    template_name = "admin/order_index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderView, self).get_context_data(**kwargs)
+        info = {
+            'title': 'Order - Book Review System',
+            'sidebar': ['order']
+        }
+        context['info'] = info
+        return context
+
+class OrderDetailView(AdminRequiredMixin, DetailView):
+    """docstring for OrderDetailView"""
+    model = Cart
+    template_name = "admin/order_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderDetailView, self).get_context_data(**kwargs)
+        info = {
+            'title': 'Order Detail - Book Review System',
+            'sidebar': ['order']
+        }
+        context['info'] = info
+        context['list_order_detail'] = Item.objects.filter(cart=self.object)
+        return context
+
+class OrderUpdateView(AdminRequiredMixin, UpdateView):
+    """docstring for OrderUpdateView"""
+    model = Cart
+    template_name = "admin/order_update.html"
+    form_class = forms.OrderForm
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderUpdateView, self).get_context_data(**kwargs)
+        info = {
+            'title': 'Update Order - Book Review System',
+            'sidebar': ['order']
+        }
+        context['info'] = info
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('admin:list_order')
+
+class OrderDeleteView(AdminRequiredMixin, DeleteView):
+    """docstring for OrderDeleteView"""
+    model = Cart
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('admin:list_order')
