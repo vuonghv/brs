@@ -1,0 +1,93 @@
+{% extends 'layout/base.html' %}
+{% load staticfiles %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}        
+    <div class="content-box">
+        {% if messages %}
+            <div class="info-box sent-message">                
+                {% for msg in messages %}
+                    <div class="{{ msg.tags }}">{{ msg }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" id="submit-form" class="pexeto-contact-form">
+            {% csrf_token %}
+            <div class="error-box error-message">{{ form.errors }}</div>
+            <div class="info-box sent-message"></div>
+            
+            <div class="contact-form-input contact-input-wrapper">
+                <label class="contact-label">Name<span class="mandatory">*</span></label>
+                <input name="fullname" value="{{ form.fullname.value|default_if_none:'' }}" class="required" type="text">
+                {% if form.fullname.errors %}
+                    <font color="red">
+                        <ul>
+                            {% for error in form.fullname.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </font>
+                {% endif %}
+            </div>
+
+            <div class="contact-form-input contact-input-wrapper">
+                <label class="contact-label">E-mail address<span class="mandatory">*</span></label>
+                <input name="email" value="{{ form.email.value|default_if_none:'' }}" class="required email" type="text">
+                {% if form.email.errors %}
+                    <font color="red">
+                        <ul>
+                            {% for error in form.email.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </font>
+                {% endif %}
+            </div>
+
+            <div class="contact-form-textarea contact-input-wrapper">
+                <label class="contact-label">Your message<span class="mandatory">*</span></label>
+                <textarea name="message" class="required">{{ form.message.value|default_if_none:'' }}</textarea>
+                {% if form.message.errors %}
+                    <font color="red">
+                        <ul>
+                            {% for error in form.message.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </font>
+                {% endif %}
+            </div>
+            
+            <div class="">
+                {{ form.captcha }}
+
+                {% if form.captcha.errors %}
+                    <font color="red">
+                        <ul>
+                            {% for error in form.captcha.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </font>
+                {% endif %}
+            </div>
+
+            <a onclick="document.forms['submit-form'].submit(); return false;" href="#" class="button send-button">
+                <span>Send Message</span>
+            </a>
+            
+            <div class="clear"></div>
+        </form>
+    </div>
+    <div class="clear"></div>
+{% endblock %}
+
+{% block 'js' %}
+    <script type="text/javascript">
+        $(document).ready(function() {            
+        });        
+    </script>
+{% endblock %}

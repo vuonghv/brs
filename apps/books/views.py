@@ -200,3 +200,5 @@ class UpdateReadBookView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('books:detail', kwargs={'pk': self.object.book.id, 'slug': self.object.book.slug})
+
+        
