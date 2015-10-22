@@ -4,11 +4,6 @@ from django import forms
 from apps.categories.models import *
 from apps.books.models import *
 
-class LoginForm(forms.ModelForm):
-    """docstring for LoginForm"""
-    class Meta:
-        model = User
-        fields = ['username', 'password']
 
 class CategoryForm(forms.ModelForm):
         """docstring for CategoryForm"""
