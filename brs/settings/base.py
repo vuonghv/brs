@@ -58,6 +58,8 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
+
+    'captcha'
 )
 
 SITE_ID = 1
@@ -162,3 +164,17 @@ LOGIN_URL = reverse_lazy('users:login')
 BOOK_DIR = 'books'
 
 CART = 'CART'
+
+#################################################
+RECAPTCHA_PUBLIC_KEY = '6Lc3Vw8TAAAAAGXlR5pu9NYdWKRIGAFR9D6HFw7z'
+RECAPTCHA_PRIVATE_KEY = '6Lc3Vw8TAAAAAAgE51VQSHMfDnStwsQJBly_pEz0'
+NOCAPTCHA = True
+RECAPTCHA_USE_SSL = True
+
+#################################################
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'brs.framgia@gmail.com'
+EMAIL_HOST_PASSWORD = "1111qqqq@Q"
+EMAIL_PORT = 587
