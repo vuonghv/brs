@@ -58,4 +58,4 @@ Project training how to use django
 
 ## License
 
-Framgia VN
+MIT
